@@ -1,0 +1,7 @@
+##-> Allows clients on the internal network to use the traceroute tool
+##-> to determine routing information and hints to the firewall.
+##-> Since this is only in a very few cases useful you usually do not
+##-> want this direction for traceroute.
+##-> Since traceroute can be used to explore your network (and this
+##-> information can be used to intrude your network) you should
+##-> be careful with enabling it.

@@ -935,8 +935,8 @@ sub write_basics {
 
    print SCRIPT "$ipchains -A input -i $_[1] -s 68.0.0.0/6 -j DENY\n",
                 "$ipchains -A input -i $_[1] -s 72.0.0.0/5 -j DENY\n",
-                "$ipchains -A input -i $_[1] -s 80.0.0.0/3 -j DENY\n",
-                "$ipchains -A input -i $_[1] -s 112.0.0.0/4 -j DENY\n",
+                "$ipchains -A input -i $_[1] -s 80.0.0.0/4 -j DENY\n",
+                "$ipchains -A input -i $_[1] -s 96.0.0.0/3 -j DENY\n",
                 "$ipchains -A input -i $_[1] -s 220.0.0.0/6 -j DENY\n",
                 "\n# Basic ICMP packages are needed for running a network\n",
                 "$ipchains -A input -i $_[1] -p icmp --icmp-type source-quench -d $_[2] -j ACCEPT\n",

@@ -1,0 +1,6 @@
+##-> Allows clients on the external network to use the traceroute tool
+##-> to determine routing information and hints about hosts on your
+##-> inside network.
+##-> Since traceroute can be used to explore your network (and this
+##-> information can be used to intrude your network) you should
+##-> be careful with enabling it.

@@ -1,0 +1,17 @@
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 32769:65535 -d @EXTNET@ 33434:33523 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ -d @INTNET@ -p icmp --icmp-type time-exceeded -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ -d @INTNET@ -p icmp --icmp-type destination-unreachable -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ -d @INTNET@ -p icmp --icmp-type time-exceeded -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ -d @INTNET@ -p icmp --icmp-type destination-unreachable -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ -d @INTNET@ -p icmp --icmp-type time-exceeded -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ -d @INTNET@ -p icmp --icmp-type destination-unreachable -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @INTIP@ -d @INTNET@ -p icmp --icmp-type time-exceeded -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @INTIP@ -d @INTNET@ -p icmp --icmp-type destination-unreachable -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @INTNET@ 32769:65535 -d @EXTNET@ 33434:33523 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @EXTDEV@ -s @INTNET@ 32769:65535 -d @EXTNET@ 33434:33523 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @INTDEV@ -s @EXTNET@ -d @INTNET@ -p icmp --icmp-type time-exceeded -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @INTDEV@ -s @EXTNET@ -d @INTNET@ -p icmp --icmp-type destination-unreachable -j ACCEPT
+##MASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ -d @EXTIP@ -p icmp --icmp-type time-exceeded -j ACCEPT
+##MASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ -d @EXTIP@ -p icmp --icmp-type destination-unreachable -j ACCEPT
+##MASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 32769:65535 -d @EXTNET@ 33434:33523 -p udp -j ACCEPT
+##MASQ: @IPCHAINS@ -A forward -s @INTNET@ 32769:65535 -d @EXTNET@ 33434:33523 -p udp -j MASQ

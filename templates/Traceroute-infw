@@ -1,0 +1,3 @@
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 32769:65535 -d @INTIP@ 33434:33523 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ -d @INTNET@ -p icmp --icmp-type time-exceeded -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ -d @INTNET@ -p icmp --icmp-type destination-unreachable -j ACCEPT

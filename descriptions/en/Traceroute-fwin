@@ -1,0 +1,5 @@
+##-> Allows use the traceroute tool on the firewall to
+##-> determine routing information on the internal network.
+##-> Since traceroute can be used to explore your network (and this
+##-> information can be used to intrude your network) you should
+##-> be careful with enabling it.

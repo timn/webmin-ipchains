@@ -212,6 +212,12 @@
                that means has either to learn German or to find a good
                vocabulary ;) in the internationalization stuff
              - New templates for NNTP and Proxy
+ 26.11.2000  - Critical Bug Fix. Some subnets were blocked that should not
+               be blocked (for example the one that freshmeat.net is in,
+               big Oops ;)
+             - Added the template for Traceroute. Traceroute is a really
+               Bad Program (TM)
+ 
 
  
  To do
@@ -220,7 +226,7 @@
  - bastion host support in newbie and template mode
  - add more protocols
  - write help files
-   And I though OK, that's it, more for the iptables module ;)
+   And I thought OK, that's it, more for the iptables module ;)
 
 
 ### END of CHANGES ###.

@@ -2,3 +2,9 @@
 @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 111 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1:1023 -d @INTIP@ 2049 -p udp -j ACCEPT
 @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 2049 -d @INTNET@ 1:1023 -p udp -j ACCEPT
+# Allow connections to mountd
+PORTS=`rpcinfo -p | grep mountd | awk '{ print $4 }'`
+for p in $PORTS; do
+  @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1:1023 -d @INTIP@ $p -p udp -j ACCEPT
+  @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ $p -d @INTNET@ 1:1023 -p udp -j ACCEPT
+done
