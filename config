@@ -1,0 +1,7 @@
+scriptfile=
+bootloc=/etc/rc.d/init.d
+scriptinterpreter=
+ipchains_path=
+proto_file=
+hostsfile=
+netifaces=

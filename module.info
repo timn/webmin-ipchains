@@ -1,0 +1,6 @@
+name=ipchains
+desc=IPchains Firewalling
+desc_de=IPchains Firewall
+category=net
+os_support=redhat-linux debian-linux slackware-linux suse-linux open-linux
+depends=0.78

@@ -1,0 +1,208 @@
+
+lang=en
+author=Tim Niemueller <tim@niemueller.de>
+homepage=http://www.niemueller.de
+copyright=(C) 2000 by Tim Niemueller <tim@niemueller.de>
+license=GPL
+
+config_link=Check <A HREF=/config.cgi?ipchains>Module Configuration</A>
+
+input=Input
+output=Output
+forward=Forward
+
+index_title=IPchains Firewalling
+index_standard=Standard Chains
+index_standpol=Standard Policy
+index_userdef=User-defined Chains
+index_noudef=No user defined chains found
+index_chaincreate=Create a new Chain
+index_createbut=Create
+index_list=List Hosts/Nets
+index_listbut=  List  
+index_scripts=Scripts
+index_scriptsman=Manage
+index_return=webmin index
+
+lib_err_nosupport=Either the proc filesystem or IPchains is not supported by your kernel.
+lib_err_ipchains=File $1 does not exist or is not executable. $2
+lib_err_sfcm=You have not entered a script file. It is needed because all rules will be written with the appropriate directives into this script file. $1
+lib_err_sfmiss=The script file $1 you entered in the <A HREF=../config.cgi?ipchains>module configuration</A> does not exist. Use the <A HREF="script_manager.cgi">Script Manager</A> to create a plain script. After you created it come back and all works properly. This is a normal configuration step and not an real error, but one step ahead to a working IPchains Module installation!
+lib_icmptsel=ICMP-Type Selection
+lib_err_protomis=Cannot find protocol file. $1
+lib_err_netmod=You have choosen to use the Network Configuration Module to get all you network interfaces. But this module is not available on your system. Either it is not installed or your system is not supported. So just enter all interfaces in the <A HREF=/config.cgi?ipchains>module configuration</A> as a comma-separated list (for example "eth0, eth1, ippp0, lo").
+lib_err_syn=Syntax error (Type $1) in line $2
+lib_err_host=Host file $1 does not exist
+lib_err_create=Cannot create file $1
+
+editrule_title_edit=Edit Rule
+editrule_title_create=Create Rule
+editrule_source=Source
+editrule_dest=Destination
+editrule_proto=Protocol
+editrule_iface=Interface
+editrule_hostnet=Host/Net
+editrule_target=Target
+editrule_port=Port
+editrule_flags=Flags
+editrule_icmptype=ICMP Type (ignored if not icmp above)
+editrule_tos=TOS
+editrule_syn=SYN-Bit
+editrule_insyn=Inverse SYN-Bit
+editrule_frag=Fragment
+editrule_infrag=Inverse Fragment
+editrule_log=Log Packet
+editrule_reset=Reset
+editrule_save=Save Rule
+editrule_insert=Insert Rule
+editrule_append=Append Rule
+editrule_return=edit chain <I>'$1'</I>
+
+changepol_title=Change Policy
+changepol_err_builtin=Standard policy can only be changed for built-in chains
+changepol_pol=Standard policy for chain <I>'$1'</I>
+changepol_save=Save Policy
+changepol_return=edit chain <I>'$1'</I>
+
+savepol_err_nochain=No chain to edit!
+savepol_err_masq=MASQ-policy can only be set for forward-chain
+
+createchain_err_nochain=No chain to create!
+createchain_err_acl=You are not allowed to create chains.
+
+sman_title=Script Manager
+sman_header=Manage your Script
+sman_confpath=Path entered in Configuration is 
+sman_create=Create script</A>
+sman_createdesc=Choose this option, to create a plain script file. If there is already a script with the given name, it will be overwritten without any confirmation.
+sman_exist=The script file does <I>exist</I>
+sman_notexist=The script file does <I>not exist</I>
+sman_bootup=Make Bootup Entry
+sman_bootupdesc=This will make an entry for your script in your RC. This will start the script on every bootup in runlevels 2, 3 and 5. Therefore the script must reside in $1. If it is not the case you cannot make an entry to start it on every bootup, but you have to manually start it every time.
+sman_rembootup=Delete Bootup Entry
+sman_rembootupdesc=This will prevent the file from being executed on system startup or shutdown.
+sman_delete=Delete script file
+sman_deletedesc=Click this link if you want to delete the file containing all calls for ipchains. The file can not be recovered! Deletion is permanent!
+sman_err_what=What should I do?
+sman_err_exists=The script file already exists. Do you really want to rewrite it? This will erase the complete configuration set up in this file!
+sman_rewrite=Yes, rewrite script file
+sman_smanret=Script Manager
+sman_err_write=Failed to write script file!
+sman_err_nofile=There is no file named $1
+sman_err_unkcom=Unknown command
+sman_err_init=The init module is needed for this task.
+sman_err_bootloc=The script must reside in $1 to make it executable.
+sman_err_init1=Bootup entry does already exist.
+sman_err_init2=No bootup entry for script file found.
+sman_createsucc=Creation of script was successful.
+sman_bootupsucc=Creation of bootup entry was successful.
+sman_rembootupsucc=Deletion of bootup entry was successful.
+sman_deletesucc=Deletion of script file was successful.
+sman_msg_exec=Script file not executable.. Changing. Now executable.
+sman_msg_rem=Bootup entry exists.. Removed.
+sman_err_acl_rewrite=The script does already exist and you have not the right to re-write it.
+sman_err_acl_delete=You are not allowed to delete the script file.
+sman_err_acl_bootup=You are not allowed to edit bootup settings.
+
+echain_title=Edit Chain
+echain_err_acl=You are not allowed to edit chains.
+echain_standpol=Standard Policy
+echain_spchange=Change
+echain_source=Source
+echain_port=Port
+echain_dest=Destination
+echain_proto=Protocol
+echain_iface=Interface
+echain_syn=S
+echain_frag=F
+echain_log=L
+echain_tos=TOS
+echain_type=T
+echain_target=Target
+echain_action=Action
+echain_norules=No rules found for this chain.
+echain_edit=Edit
+echain_delete=Delete
+echain_clone=Clone
+echain_delchain=Delete Chain
+echain_crule=Create a new rule
+echain_return=module index
+
+delchain_err_nochain=No chain to delete!
+delchain_err_notfound=No chain '$1' found
+delchain_err_acl=You are not allowed to delete chains.
+
+delhost_err_nohost=No host to delete!
+delhost_err_acl=You are not allowed to delete hosts.
+
+delrule_err_norule=No rule to delete!
+delrule_err_nochain=No chain to edit!
+
+ehost_err_nohost=No host given to edit
+ehost_err_nodb=Host dbase not found.
+ehost_err_notfound=No host '$1' found.
+ehost_err_acl=You are not allowed to edit hosts.
+ehost_title=Edit Host
+ehost_header=Edit Host/Network
+ehost_names=Names
+ehost_ip=IP
+ehost_save=Save
+ehost_return=host list
+
+selhost_title=Select Host..
+
+lhosts_title=List Hosts
+lhosts_etc=Hosts from /etc/hosts
+lhosts_names=Name(s)
+lhosts_edit=Edit
+lhosts_delete=Delete
+lhosts_nud=No user defined hosts found
+lhosts_add=Add a new Host/Network
+lhosts_ip=IP
+lhosts_names2=Names
+lhosts_but_create=Create
+lhosts_usrdef=User-defined Hosts/Nets
+lhosts_return=module index
+
+shost_err_invip=Not a valid IP
+shost_err_invnetmask=Not a valid Netmask
+shost_err_invname=Not a valid Name
+shost_err_nohost=No such host
+shost_err_acl=You are not allowed to edit hosts
+shost_err_acl2=You are not allowed to create hosts
+
+srule_err_nochain=No chain to edit!
+srule_err_nosaddr=No source address given!
+srule_err_nodaddr=No destination address to edit!
+srule_err_servport=If you define a service as port you must choose TCP or UDP protocol!
+srule_err_syn=You can only set SYN-Bit OR Inverse SYN-Bit or none of them, not both!
+srule_err_synfrag=SYN not allowed together with Fragment!
+srule_err_fragport=Ports not allowed with Fragment!
+srule_err_frag=You can only set Fragmet OR Inverse Fragment or none of them, not both!
+srule_err_port=You have choosen port, but entered no one
+srule_err_selfjump=Chain cannot jump to herself
+srule_err_masqfw=MASQ-policy can only be set for forward-chain. There is (at least) one chain pointing to your chain which is not the forward chain ($1)
+srule_err_masqinout=MASQ-policy is not allowed for input and output standard chains
+srule_err_masqjump=The chain you want to jump to has a MASQ-Policy in (at least) one rule. Only the forward chain may have a jump to MASQ or a jump to a chain containing a MASQ-jump. This rule cannot be saved
+srule_err_red=REDIRECT-(Port)-policy can only be set for input-chain
+srule_err_acl=You are not allowed to create rules.
+srule_err_acl2=You are not allowed to edit rules.
+
+schooser_title=Select Service..
+
+delrule_err_norule=No rule to delete!
+delrule_err_nochain=No chain to edit!
+delrule_err_acl=You are not allowed to delete rules.
+
+acl_cchains=User allowed to create chains?
+acl_echains=User allowed to edit chains?
+acl_dchains=User allowed to delete chains?
+acl_crules=User allowed to create rules?
+acl_erules=User allowed to edit rules?
+acl_drules=User allowed to delete rules?
+acl_chosts=User allowed to create hosts?
+acl_ehosts=User allowed to edit hosts?
+acl_dhosts=User allowed to delete hosts?
+acl_bootup=User allowed to make script bootable (and to remove it from bootup)?
+acl_rewrite=User allowed to rewrite script?
+acl_delete=User allowed to delete script?

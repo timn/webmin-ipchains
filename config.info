@@ -1,0 +1,7 @@
+scriptfile=Path to Shell Script,0
+bootloc=Location of bootup and shutdown scripts,0
+scriptinterpreter=Script interpreter,3,Default (/bin/sh)
+ipchains_path=Path to ipchains,3,Default (/sbin/ipchains)
+proto_file=Path to protocols file,3,Default (/etc/protocols)
+hostsfile=Path to your hosts file,3,Default (/etc/hosts)
+netifaces=Network Interfaces (comma-separated list),3,Use Network Configuration Module for detecting

@@ -1,0 +1,74 @@
+
+    IPchains Firewalling Webmin Module - CHANGES
+    Copyright (C) 1999 by Tim Niemueller
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    Created  : 20.09.1999
+
+
+
+ This file describes the changes made to the IPchains Firewalling Webmin Module.
+ (Version history).
+
+
+ Changes
+ ==============================================================================
+ 30.10.1999  - Added support for SYN-Bit and Fragment
+ (0.74.1)    - Added support for ICMP-type, get types from "ipchains -h icmp"
+             - Protocol field is now a list, content is generated
+               by parsing /etc/protocols
+             - Type Of Service (TOS) is now supported
+             - Module can now handle a list of often used hosts and you
+               now can select hosts comfortable via a file-chooser-like window
+             - Port can now be defined as service from /etc/services,
+               comfortable access via popup window
+             - Script manager now accessible through index
+ 15.11.1999  - You may not INPUT and APPEND a rule instead of only appending
+ (0.74.2)    - Fixed bug in save_policy.cgi, it now uses $ipchains_path to
+               save the new rule instead of using $config{'ipchains_path'}
+             - You do not need to deliver Source and Destination Address any
+               more for ICMP Protocol (as it is often not use in conjunction
+               with --icmptype
+             - You may now choose MASQ as Target in any user defined chain,
+               the script controls if there's any non-forward chain that points
+               to the appropriate chain (on adding a MASQ-Target to the chain
+               and if the user tries to add a jump target to the appropriate
+               chain from any other chain)
+             - Fixed some minor errors in rm_jump() and find_chain_struct()
+             - Did several changes to get all functions supporting -I Insertion
+             - Added entry for Caldera OpenLinux in module.info
+             - Now uses foreign_calls to net-module for getting a list of
+               active interfaces (easier and more comfortable way)
+ 16.11.1999  - Wrote a short help to edit_chains.cgi
+ (0.74.2)    - I have no school today ;)
+ 10.03.2000  - Added the promised Script Manager features, it can now make
+ (0.78.1)      the a bootup script, create and delete it and remove boot entry
+             - It is now possible to clone existing rules. So it is easier to
+               write new rules
+             - Logging flag (-l) is now supported
+             - Changed the "Edit Chain" page. New rule creation is now on
+               another page. Changed the layout of the creation mask.
+             - Fixed $ipchains bug
+             - Fixed change_policy bug, now rewrites these rules correctly
+             - Added ACL features
+ 13.03.2000  - Fixed bug in change_policy.cgi
+ (0.78.2)    - Fixed bug in ipchains-lib.pl (missing $cl in error message for
+               missing script file)
+
+
+ To do
+ ==============================================================================
+ - Import actual system settings
+
+
+
+### END of CHANGES ###.
