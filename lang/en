@@ -110,6 +110,7 @@ sman_err_acl_delete=You are not allowed to delete the script file.
 sman_err_acl_bootup=You are not allowed to edit bootup settings.
 sman_exec_err=It seems that there occured an error:
 sman_exec_ok=Script executed successfully.
+sman_err_procneeded=This feature needs the "Running Processes" Module. Check if it is installed and your OS supported.
 
 echain_title=Edit Chain
 echain_err_acl=You are not allowed to edit chains.

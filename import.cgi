@@ -87,7 +87,7 @@ if ($in{'confirmed'}) {
       print SCRIPT "$ipchains -A $chain";
 
       $icmp_type=undef;
-      if ($proto = 1) {
+      if ($proto == 1) {
         for (keys %icmptypes) {
           if (($icmptypes{$_}->[0] eq $srcports) &&
               ($icmptypes{$_}->[1] eq $destports)) {

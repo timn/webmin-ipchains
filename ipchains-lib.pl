@@ -21,7 +21,7 @@ $|=1;
 &init_config("ipchains");
 %access=&get_module_acl;
 $cl=$text{'config_link'};
-$version="0.80.2";
+$version="0.80.3";
 
 $ipchains=($config{'ipchains_path'}) ? $config{'ipchains_path'} : "/sbin/ipchains";
 

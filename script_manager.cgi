@@ -127,6 +127,7 @@ sub doit {
     $msg="$text{'sman_msg_exec'}<BR>";
    }
 
+   &foreign_check("proc") || &error($text{'sman_err_procneeded'});
    &foreign_require("proc", "proc-lib.pl");
 
    $got = &foreign_call("proc", "safe_process_exec", $config{'scriptfile'},

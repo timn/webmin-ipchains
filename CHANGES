@@ -105,6 +105,10 @@
              - Removed bug in find_param_2, it added ! as a value if it was
                the negation of a following line argument
                (example: -s 192.168.1.1/32 ! -y).
+ 14.07.2000  - Removed critical bug in import.cgi. I forgot a =, so that I
+               didn't compare but set the proto value. So the protocol was
+               always ICMP. Big fault. Thanks to Manuel Carrasco from
+               Lucent Technologies for reporting this.
  
  To do
  ==============================================================================
