@@ -27,7 +27,7 @@ if (!$config{'hostsfile'}) { $hostsfile="/etc/hosts" } else { $hostsfile=$config
 @etchosts=&get_hosts($hostsfile);
 @userhosts=&get_hosts("$module_config_directory/hosts.db");
 
-&header($text{'lhosts_title'}, undef, undef, 1, undef, undef,
+&header($text{'lhosts_title'}, undef, undef, undef, undef, undef,
         "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A><BR><A HREF=http://www.niemueller.de>Home://page</A>");
 
 

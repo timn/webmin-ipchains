@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #
 #    IPchains Firewalling Webmin Module
-#    Copyright (C) 1999 by Tim Niemueller
+#    Copyright (C) 1999-2000 by Tim Niemueller <tim@niemueller.de>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -13,26 +13,22 @@
 #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 #    GNU General Public License for more details.
 
-#
-# Created  : 10.10.1999
-#
+#    Created  : 10.10.1999
 
-
-#######################
-#    Configuration    #
-#######################
 
 require "./ipchains-lib.pl";
 
-@lines=&read_script;
-$l=&parse_line($lines[$in{'rule'}]);
-if (!$l) { &error("No such rule found") }
+if ($in{'rule'} ne "") {
+  @lines=&read_script;
+  $l=&parse_line($lines[$in{'rule'}]);
+  if (!$l) { &error("No such rule found") }
+}
 
 $chainrules=&find_chain_struct($in{'chain'}, \@ps);
 
-my $title=($in{'rule'}) ? $text{'editrule_title_edit'} : $text{'editrule_title_create'};
+my $title=($in{'rule'} ne "") ? $text{'editrule_title_edit'} : $text{'editrule_title_create'};
 
-&header($title, undef, undef, 1, undef, undef,
+&header($title, undef, undef, undef, undef, undef,
         "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A><BR><A HREF=http://www.niemueller.de>Home://page</A>");
 
 print "<BR><HR>";

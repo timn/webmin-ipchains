@@ -1,6 +1,6 @@
 #!/usr/bin/perl
-# host_chooser.cgi
-# This CGI generated the HTML for choosing a host.
+# service_chooser.cgi
+# This CGI generated the HTML for choosing a service.
 # Created 29.10.1999
 
 require './ipchains-lib.pl';

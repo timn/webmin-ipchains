@@ -87,11 +87,8 @@ if ($in{'target'} eq "port" && $in{'chain'} ne "input") {
 
 $lines=&read_file_lines($config{'scriptfile'});
 
-if ($in{'append'}) {
- $newline="$ipchains -A $in{'chain'}";
-} else {
- $newline="$ipchains -I $in{'chain'} 1";
-}
+$newline="$ipchains -A $in{'chain'}";
+
 if ($in{'source'}) {
   $newline .= " -s";
   $newline .= ($in{'sneg'}) ? " !" : "";
@@ -137,7 +134,27 @@ if ($in{'rule'}) {
  $lines->[$in{'rule'}]=$newline;
 } else {
  # we are creating a new rule
- push(@{$lines}, $newline);
+ if ($in{'append'}) {
+   push(@{$lines}, $newline);
+ } else {
+
+   @ps=&parse_script();
+   $chainrules=&find_chain_struct($in{'chain'}, \@ps);
+
+   $line="";
+   $tmp=&find_arg('-A', $chainrules->[0]);
+   $tmp && ($line=$tmp->{'line'});
+   ($line ne "") || &error($text{'echain_err_line'});
+
+   $temp=$newline;
+   for (my $i = int($line); $i<@{$lines}; $i++) {
+     $temp2 = $lines->[$i];
+     $lines->[$i] = $temp;
+     $temp=$temp2;
+   }
+   push(@{$lines}, $temp);
+
+ }
 }
 
 &flush_file_lines;

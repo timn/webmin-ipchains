@@ -1,6 +1,6 @@
 
     IPchains Firewalling Webmin Module - CHANGES
-    Copyright (C) 1999 by Tim Niemueller
+    Copyright (C) 1999-2000 by Tim Niemueller
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -78,10 +78,37 @@
  (0.80.1)      --icmptype as I wrote. An older special patched version used
                this style, but it seems that all distros are nowadays using
                the new format
+ 30.06.2000  - Added "Execute Script" in Script Manager
+ (0.80.2)
+ 03.07.2000  - Added move_rule.cgi, you can now move rules up and down in the
+               file.
+             - Changed the way Append and Insert are handled in save_rule.
+               Therefore I removed the support for the -I insert flag. It
+               generally appends new rules. But with insert the module now
+               places the line for this rule at the beginning of this chain.
+               So it is easier to maintain the rules. The -I flag is just a
+               solution if you forgot a rule on manual setup, but when editing
+               a file it makes is just more complex and it is not really needed
+               Because you can now move rules up and down this is the best
+               thing I can to I think.
+ 11.07.2000  - Added chinese translation patch. Thanks to Leo Liang (from
+               Turbo Linux China) for this patch.
+             - Configuration now only available on index as in standard mods
+             - Smaller CleanUps.
+ 12.07.2000  - Added import.cgi to import current system settings. Getting
+               info directly from /proc. Indication works fine, now I have to
+               implement the correct rule creation (in the script). But now I
+               have first to sleep a little bit (it's 3:00 am ;).
+             - It's done. Now you can import current system settings into a
+               script. Works fine with all supported arguments (including
+               their negation of course). Some hours of sleep are wonderful ;)
+             - Removed bug in find_param_2, it added ! as a value if it was
+               the negation of a following line argument
+               (example: -s 192.168.1.1/32 ! -y).
  
  To do
  ==============================================================================
- - Import actual system settings
+ - iptables support (maybe a new module).
 
 
 

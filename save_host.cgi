@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #
 #    IPchains Firewalling Webmin Module
-#    Copyright (C) 1999 by Tim Niemueller
+#    Copyright (C) 1999-2000 by Tim Niemueller
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -15,12 +15,8 @@
 
 #    Created  : 29.10.1999
 
-
-#######################
-#    Configuration    #
-#######################
-
 require "./ipchains-lib.pl";
+
 
 if ($in{'host'}) {
  if (! $access{'ehosts'}) { &error($text{'shost_err_acl'}) }
@@ -51,4 +47,4 @@ if ($in{'host'}) {
 
 redirect("list_hosts.cgi");
 
-### END of save_rule.cgi ###.
+### END of save_host.cgi ###.

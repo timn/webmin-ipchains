@@ -25,6 +25,6 @@ $lines=&read_file_lines($config{'scriptfile'});
 splice(@{$lines}, $in{'rule'}, 1);
 &flush_file_lines;
 
-redirect("edit_chain.cgi?chain=$in{'chain'}");
+&redirect("edit_chain.cgi?chain=$in{'chain'}");
 
 ### END of delete_rule.cgi ###.

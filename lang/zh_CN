@@ -1,0 +1,207 @@
+
+lang=zh_CN
+author=Tim Niemueller <tim@niemueller.de>
+homepage=http://www.niemueller.de
+copyright=(C) 2000 by Tim Niemueller <tim@niemueller.de>
+license=GPL
+
+config_link=检查<A HREF=/config.cgi?ipchains>模块配置</A>
+
+input=输入
+output=输出
+forward=转发
+
+index_title=IPchains防火墙
+index_standard=标准链
+index_standpol=标准策略
+index_userdef=用户定义链
+index_noudef=找不到用户定义链
+index_chaincreate=建立一个新链
+index_name=名称
+index_createbut=建立
+index_list=列出主机/网络
+index_listbut=  列表  
+index_scripts=脚本
+index_scriptsman=管理
+index_return=webmin索引
+
+lib_err_nosupport=你的内核不支持proc文件系统或IPchains.
+lib_err_ipchains=文件 $1 不存在或是不可执行的. $2
+lib_err_sfcm=你没有指定一个脚本文件. 这是必须的, 因为所有规则将以合适的指令写入这个文件中. $1
+lib_err_sfmiss=你在<A HREF=../config.cgi?ipchains>模块配置</A>中指定的脚本文件 $1 不存在. 使用<A HREF="script_manager.cgi">脚本管理</A>来新建一个脚本. 在建立它之后将会返回并可继续进行余下工作. 这只是IPchains模块安装后的一个正常的配置过程而不是错误!
+lib_icmptsel=ICMP类型选项
+lib_err_protomis=没有找到协议(protocol)文件. $1
+lib_err_netmod=你选择了通过网络配置模块来获取所有网络接口. 但这个模块不存在于你的系统之中. 可能此模块未被安装或者它不支持你的系统. 因此请在<A HREF=/config.cgi?ipchains>模块配置</A>中输入所有网络接口, 用逗号分隔 (例如 "eth0, eth1, ippp0, lo").
+lib_err_syn=$2行语法错误 (类型 $1)
+lib_err_host=主机文件 $1 不存在
+lib_err_create=无法建立文件 $1
+
+editrule_title_edit=编辑规则
+editrule_title_create=新建规则
+editrule_source=源
+editrule_dest=目标
+editrule_proto=协议
+editrule_iface=接口
+editrule_hostnet=主机/网络
+editrule_target=规则目标
+editrule_port=端口
+editrule_flags=标志
+editrule_icmptype=ICMP类型 (假若上面不是icmp忽略此项)
+editrule_tos=TOS
+editrule_syn=SYN位
+editrule_insyn=非(Inverse)SYN位
+editrule_frag=分段(Fragment)
+editrule_infrag=非分段(Inverse Fragment)
+editrule_log=记录包(日志)
+editrule_reset=复位
+editrule_save=保存规则
+editrule_insert=插入规则
+editrule_append=添加规则
+editrule_return=编辑<I>'$1'</I>链
+
+changepol_title=更改策略
+changepol_err_builtin=只有内置链才能改变标准策略
+changepol_pol=<I>'$1'</I>链的标准策略
+changepol_save=保存策略
+changepol_return=编辑<I>'$1'</I>链
+
+savepol_err_nochain=没有链要被编辑!
+savepol_err_masq=MASQ策略仅能用于转发链
+
+createchain_err_nochain=没有链要被建立!
+createchain_err_acl=你不允许建立链.
+
+sman_title=脚本管理
+sman_header=管理你的脚本
+sman_confpath=在配置中指定的路径是 
+sman_create=新建脚本</A>
+sman_createdesc=选择此选项, 建立一个新的脚本文件. 如果已经有指定名称的脚本存在, 将会在没有任何提示的情况下被覆盖.
+sman_exist=脚本文件<I>已经存在</I>
+sman_notexist=脚本文件<I>不存在</I>
+sman_bootup=建立启动入口
+sman_bootupdesc=这将在RC中为你的脚本建立一个入口, 每次启动到运行级2,3和5时就会运行脚本. 因此脚本必须存放在 $1. 假如不是这样就无法在启动时自动运行, 你只能每次都手工运行它.
+sman_rembootup=删除启动入口
+sman_rembootupdesc=这将取消在系统启动或关闭时自动执行脚本.
+sman_delete=删除脚本文件
+sman_deletedesc=如果你要删除保存着所有ipchains调用的文件, 点击这个链接. 删除是永久性的, 不可能被恢复!
+sman_err_what=我该做些什么?
+sman_err_exists=脚本文件已经存在. 你确实希望覆盖它吗? 这将会删除文件里的所有配置!
+sman_rewrite=是, 重写脚本文件
+sman_smanret=脚本管理
+sman_err_write=无法写脚本文件!
+sman_err_nofile=没有文件 $1
+sman_err_unkcom=未知命令
+sman_err_init=这个任务需要初始化模块.
+sman_err_bootloc=脚本必须存放在 $1 才能使它可运行.
+sman_err_init1=启动入口已经存在.
+sman_err_init2=没有脚本文件的启动入口.
+sman_createsucc=成功建立脚本.
+sman_bootupsucc=成功建立启动入口.
+sman_rembootupsucc=成功删除启动入口.
+sman_deletesucc=成功删除脚本.
+sman_msg_exec=脚本文件不可执行.. 正在改变. 现在可以执行了.
+sman_msg_rem=启动入口存在.. 已删除.
+sman_err_acl_rewrite=脚本已存在, 你无权重写.
+sman_err_acl_delete=你无权删除脚本文件.
+sman_err_acl_bootup=你无权编辑启动选项.
+
+echain_title=编辑链
+echain_err_acl=你无权编辑链.
+echain_standpol=标准策略
+echain_spchange=修改
+echain_source=源
+echain_port=端口
+echain_dest=目标
+echain_proto=协议
+echain_iface=接口
+echain_syn=SYN
+echain_frag=标志
+echain_log=日志
+echain_tos=TOS
+echain_type=类型
+echain_target=规则目标
+echain_action=动作
+echain_norules=这个链没有规则.
+echain_edit=编辑
+echain_delete=删除
+echain_clone=克隆
+echain_delchain=删除链
+echain_crule=建立新规则
+echain_return=模块索引
+
+delchain_err_nochain=没有要删除的链!
+delchain_err_notfound=找不到'$1'链
+delchain_err_acl=你无权删除链.
+
+delhost_err_nohost=没有要删除的主机!
+delhost_err_acl=你无权删除主机.
+
+delrule_err_norule=没有要删除的规则!
+delrule_err_nochain=没有要编辑的链!
+
+ehost_err_nohost=没有指定要编辑的主机
+ehost_err_nodb=找不到主机数据库.
+ehost_err_notfound=找不到主机'$1'.
+ehost_err_acl=你无权编辑主机列表.
+ehost_title=编辑主机列表
+ehost_header=编辑主机/网络
+ehost_names=名称
+ehost_ip=IP
+ehost_save=保存
+ehost_return=主机列表
+
+selhost_title=选择主机..
+
+lhosts_title=主机列表
+lhosts_etc=/etc/hosts 中列出的主机
+lhosts_names=名称
+lhosts_edit=编辑
+lhosts_delete=删除
+lhosts_nud=没有用户定义的主机
+lhosts_add=新增一个主机/网络
+lhosts_ip=IP
+lhosts_names2=名称
+lhosts_but_create=新建
+lhosts_usrdef=用户定义主机/网络
+lhosts_return=模块索引
+
+shost_err_invip=不是有效的IP
+shost_err_invnetmask=不是有效的子网掩码
+shost_err_invname=不是有效的名称
+shost_err_nohost=没有此主机
+shost_err_acl=你无权编辑主机
+shost_err_acl2=你无权新建主机
+
+srule_err_nochain=没有要编辑的链!
+srule_err_servport=如果你通过端口来声明一个服务, 你必须选择TCP或UDP协议!
+srule_err_syn=你仅能设置'SYN位'或'非SYN位'或者都不设置, 不能两者都设置!
+srule_err_synfrag='SYN'不允许与'分段(Fragment)'同时使用!
+srule_err_fragport=端口不允许与'分段(Fragment)'同时使用!
+srule_err_frag=你仅能设置'分段'或'非分段'或者都不设置, 不能两者都设置!
+srule_err_port=你选择了端口, 但没有输入
+srule_err_selfjump=链不能跳转到它自己
+srule_err_masqfw=MASQ策略仅能用于转发链. 这里至少有一个链指向你的链, 但它不是转发链 ($1)
+srule_err_masqinout=MASQ策略不能用于输入和输出标准链
+srule_err_masqjump=你要跳转到的链至少有一条规则使用MASQ策略. 只有转发链可以有一个跳转到MASQ或跳转到一个包含MASQ跳转的链. 这条规则无法保存
+srule_err_red=REDIRECT-(端口)策略仅能用于输入链
+srule_err_acl=你无权新建规则.
+srule_err_acl2=你无权编辑规则.
+
+schooser_title=选择服务..
+
+delrule_err_norule=没有要编辑的规则!
+delrule_err_nochain=没有要编辑的链!
+delrule_err_acl=你无权删除规则.
+
+acl_cchains=是否允许建立新链?
+acl_echains=是否允许编辑链?
+acl_dchains=是否允许删除链?
+acl_crules=是否允许建立规则?
+acl_erules=是否允许编辑规则?
+acl_drules=是否允许删除规则?
+acl_chosts=是否允许新增主机(hosts)?
+acl_ehosts=是否允许编辑主机(hosts)?
+acl_dhosts=是否允许删除主机(hosts)?
+acl_bootup=是否允许设置脚本启动(和取消启动)?
+acl_rewrite=是否允许重写脚本?
+acl_delete=是否允许删除脚本?

@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 #
 #    IPchains Firewalling Webmin Module
-#    Copyright (C) 1999 by Tim Niemueller
+#    Copyright (C) 1999-2000 by Tim Niemueller <tim@niemueller.de>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -50,4 +50,4 @@ if ($in{'line'}) {
 
 redirect("edit_chain.cgi?chain=$in{'chain'}");
 
-### END of save_rule.cgi ###.
+### END of save_policy.cgi ###.

@@ -1,0 +1,7 @@
+scriptfile=脚本(Shell Script)的路径,0
+bootloc=启动和关机脚本的位置,0
+scriptinterpreter=脚本(Script)解释器,3,缺省 (/bin/sh)
+ipchains_path=ipchains的路径,3,缺省 (/sbin/ipchains)
+proto_file=协议文件的路径,3,缺省 (/etc/protocols)
+hostsfile=主机文件的路径,3,缺省 (/etc/hosts)
+netifaces=网络接口 (用逗号分隔列出),3,通过网络配置模块来检测

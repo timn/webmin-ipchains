@@ -28,7 +28,7 @@ $lines=&read_file_lines("$module_config_directory/hosts.db");
 if (!$$lines[$in{'host'}]) { &error(&text('ehost_err_notfound', $in{'host'})) }
 %host=&parse_host_line($$lines[$in{'host'}]);
 
-&header($text{'ehost_title'}, undef, undef, 1, undef, undef,
+&header($text{'ehost_title'}, undef, undef, undef, undef, undef,
         "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A><BR><A HREF=http://www.niemueller.de>Home://page</A>");
 
 print <<EOM;

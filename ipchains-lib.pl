@@ -1,6 +1,6 @@
 #
 #    IPchains Firewalling Webmin Module Library
-#    Copyright (C) 1999 by Tim Niemueller
+#    Copyright (C) 1999-2000 by Tim Niemueller <tim@niemueller.de>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -14,11 +14,6 @@
 
 #    Created  : 20.09.1999
 
-
-#######################
-#    Configuration    #
-#######################
-
 do '../web-lib.pl';
 $|=1;
 
@@ -26,11 +21,12 @@ $|=1;
 &init_config("ipchains");
 %access=&get_module_acl;
 $cl=$text{'config_link'};
-$version="0.80.1";
+$version="0.80.2";
 
 $ipchains=($config{'ipchains_path'}) ? $config{'ipchains_path'} : "/sbin/ipchains";
 
 if (!-e "/proc/net/ip_fwchains") { &error($text{'lib_err_nosupport'}) }
+if (!-e "/proc/net/ip_fwnames") { &error($text{'lib_err_nosupport'}) }
 if (!-x $ipchains) { &error(&text('lib_err_ipchains', $ipchains, $cl)) }
 if (! $config{'scriptfile'}) { &error(&text('lib_err_sfcm', $cl)) }
 
@@ -40,8 +36,8 @@ if ((!-e "$config{'scriptfile'}") && ($ENV{'SCRIPT_NAME'} ne "/ipchains/script_m
 
 # Argument with 0, 1 or 2 following words (! is not a word)
 @aw0=("-1", "-y", "-f", "-b", "-l");
-@aw1=("-N", "-X", "-F", "-j", "-m", "-p", "-i", "-A", "--icmp-type");
-@aw2=("-D", "-I", "-R", "-P", "-d", "-s", "-t");
+@aw1=("-N", "-X", "-F", "-j", "-m", "-p", "-i", "-A", "-I", "--icmp-type");
+@aw2=("-D", "-R", "-P", "-d", "-s", "-t");
 
 %tos=("0x00" => "Not Set",
       "0x10" => "Minimum Delay",
@@ -323,14 +319,14 @@ sub find_param_2 {
    $rv{'neg1'}=1;
    $rv{'value1'}=$params->[$m+2];
 
-   if ($params->[$m+3] eq "!") {
+   if (($params->[$m+3] eq "!") && ($params->[$m+4] !~ /^-/)) {
     if ($params->[$m+4] =~ /^-/) { &error(&text('lib_err_syn', "2", $line)) }
     $rv{'neg2'}=1;
     $rv{'value2'}=$params->[$m+4];
    } else {
     if (($params->[$m+3] =~ /^-/) && ($param ne "-s") && ($param ne "-d")) { &error(&text('lib_err_syn', "3", $line)) }
     $rv{'neg2'}=0;
-    if ($params->[$m+3] =~ /^-/) { $rv{'value2'}="" }
+    if (($params->[$m+3] =~ /^-/) || ($params->[$m+2] =~ /^!/)) { $rv{'value2'}=undef }
     else { $rv{'value2'}=$params->[$m+3] }
    }
 
@@ -338,14 +334,18 @@ sub find_param_2 {
 
    $rv{'neg'}=0;
    $rv{'value1'}=$params->[$m+1];
-   if ($params->[$m+2] eq "!") {
+   # next lines checks if the second argument is negated and if so check, if this
+   # ! negation is really for the next argument or for the next line argument
+   # example: -s 192.168.1.0/32 ! -y would not be our problem, because -y is
+   # not the negated second value but the negated next line argument
+   if (($params->[$m+2] eq "!") && ($params->[$m+3] !~ /^-/)) {
     $rv{'neg2'}=1;
     if (($params->[$m+3] =~ /^-/)) { &error(&text('lib_err_syn', "4", $line)) }
     $rv{'value2'}=$params->[$m+3];
    } else {
     $rv{'neg2'}=0;
     if ($params->[$m+2] =~ /^-/ && ($param ne "-s") && ($param ne "-d")) { &error(&text('lib_err_syn', "5", $line)) }
-     if ($params->[$m+2] =~ /^-/) { $rv{'value2'}="" }
+     if (($params->[$m+2] =~ /^-/) || ($params->[$m+2] =~ /^!/)) { $rv{'value2'}=undef }
      else { $rv{'value2'}=$params->[$m+2] }
    }
   }

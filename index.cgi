@@ -109,7 +109,7 @@ print <<EOM;
      <TD>
      <TABLE BORDER=0>
       <TR>
-       <TD><B>Name:</B></TD>
+       <TD><B>$text{'index_name'}:</B></TD>
        <TD><INPUT TYPE=text NAME="chain" SIZE=20></TD>
        <TD ALIGN=right><INPUT TYPE=submit VALUE="$text{'index_createbut'}"></TD>
       </TR>
@@ -159,6 +159,28 @@ print <<EOM;
    </FORM>
 
   </TD>
+
+  <TD VALIGN=top>
+
+   <FORM ACTION=import.cgi METHOD=get>
+   <TABLE BORDER=1 CELLSPACING=0 CELLPADDING=2 $cb>
+    <TR $tb>
+     <TH>$text{'index_settings'}</TD>
+    </TR>
+    <TR $cb>
+     <TD ALIGN=center>
+     <TABLE BORDER=0>
+      <TR>
+       <TD ALIGN=center> <INPUT TYPE=submit VALUE="$text{'index_import'}"></TD>
+      </TR>
+     </TABLE>
+     </TD>
+    </TR>
+   </TABLE>
+   </FORM>
+
+  </TD>
+
 
  </TR>
 </TABLE>
