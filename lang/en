@@ -172,8 +172,6 @@ shost_err_acl=You are not allowed to edit hosts
 shost_err_acl2=You are not allowed to create hosts
 
 srule_err_nochain=No chain to edit!
-srule_err_nosaddr=No source address given!
-srule_err_nodaddr=No destination address to edit!
 srule_err_servport=If you define a service as port you must choose TCP or UDP protocol!
 srule_err_syn=You can only set SYN-Bit OR Inverse SYN-Bit or none of them, not both!
 srule_err_synfrag=SYN not allowed together with Fragment!

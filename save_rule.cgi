@@ -23,14 +23,15 @@ if ($in{'rule'}) {
  if (! $access{'crules'}) { &error($text{'srule_err_acl'}) }
 }
 
+
 if ($in{'chain'} eq "") { &error($text{'srule_err_nochain'}) }
-if (! $in{'source'} && ! $in{'dest'} && ($in{'proto'} ne 'icmp')) { &error($text{'srule_err_noaddr'}) }
 if ((&indexof($in{'sport'}, &get_services_list()) >= 0) && $in{'proto'} !~ /^(tcp|udp)$/i) {
  &error($text{'srule_err_servport'});
 }
 if ((&indexof($in{'dport'}, &get_services_list()) >= 0) && $in{'proto'} !~ /^(tcp|udp)$/i) {
  &error($text{'srule_err_servport'});
 }
+
 if ($in{'syn'} && $in{'insyn'}) { &error($text{'srule_err_syn'}) }
 if (($in{'syn'} || $in{'insyn'}) && ($in{'frag'} || $in{'infrag'})) { &error($text{'srule_err_synfrag'}) }
 if (($in{'frag'} || $in{'infrag'}) && ($in{'dport'} || $in{'sport'})) { &error($text{'srule_err_fragport'}) }
@@ -111,7 +112,7 @@ if ($in{'proto'}) {
  $newline .= " $in{'proto'}";
 }
 
-$newline .= (($in{'proto'} eq "icmp") && $in{'icmptype'}) ? " --icmptype $in{'icmptype'}" : "";
+$newline .= (($in{'proto'} eq "icmp") && $in{'icmptype'}) ? " --icmp-type $in{'icmptype'}" : "";
 
 if ($in{'dev'}) {
  $newline .= " -i";

@@ -37,7 +37,7 @@
                save the new rule instead of using $config{'ipchains_path'}
              - You do not need to deliver Source and Destination Address any
                more for ICMP Protocol (as it is often not use in conjunction
-               with --icmptype
+               with --icmp-type
              - You may now choose MASQ as Target in any user defined chain,
                the script controls if there's any non-forward chain that points
                to the appropriate chain (on adding a MASQ-Target to the chain
@@ -74,7 +74,11 @@
  22.03.2000  - Fixed a bug in save_host.cgi, again a problem with the ACL code,
  (0.78.5)      I shouldn't do such things after a gaming session...
 
-
+ 08.06.2000  - Fixed bug with ICMP Type option, must be --icmp-type, not
+ (0.80.1)      --icmptype as I wrote. An older special patched version used
+               this style, but it seems that all distros are nowadays using
+               the new format
+ 
  To do
  ==============================================================================
  - Import actual system settings

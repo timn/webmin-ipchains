@@ -26,7 +26,7 @@ $|=1;
 &init_config("ipchains");
 %access=&get_module_acl;
 $cl=$text{'config_link'};
-$version="0.78.5";
+$version="0.80.1";
 
 $ipchains=($config{'ipchains_path'}) ? $config{'ipchains_path'} : "/sbin/ipchains";
 
@@ -40,7 +40,7 @@ if ((!-e "$config{'scriptfile'}") && ($ENV{'SCRIPT_NAME'} ne "/ipchains/script_m
 
 # Argument with 0, 1 or 2 following words (! is not a word)
 @aw0=("-1", "-y", "-f", "-b", "-l");
-@aw1=("-N", "-X", "-F", "-j", "-m", "-p", "-i", "-A", "--icmptype");
+@aw1=("-N", "-X", "-F", "-j", "-m", "-p", "-i", "-A", "--icmp-type");
 @aw2=("-D", "-I", "-R", "-P", "-d", "-s", "-t");
 
 %tos=("0x00" => "Not Set",
@@ -487,7 +487,7 @@ sub rm_jump {
  $tmp=&find_arg('-j', $l);
  $target=($tmp->{'name'}) ? "$tmp->{'value'}" : "&nbsp;";
 
- $tmp=&find_arg('--icmptype', $l);
+ $tmp=&find_arg('--icmp-type', $l);
  if ($tmp->{'neg'}) { $icmptypeneg=" checked" }
  $icmptype=$tmp->{'value'};
 
@@ -540,7 +540,7 @@ if ($in{'proto'}) {
  $newline .= " $proto";
 }
 
-$newline .= (($proto eq "icmp") && $icmptype) ? " --icmptype $icmptype" : "";
+$newline .= (($proto eq "icmp") && $icmptype) ? " --icmp-type $icmptype" : "";
 
 if ($in{'dev'}) {
  $newline .= " -i";

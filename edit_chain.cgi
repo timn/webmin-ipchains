@@ -72,9 +72,11 @@ for ( my $i=0; $i<@{$chainrules}; $i++) {
  $tmp=&find_arg('-s', $l);
  $line=$tmp->{'line'};
  $source=($tmp->{'neg1'}) ? "<B>!</B> $tmp->{'value1'}" : $tmp->{'value1'};
+ $source || ($source = "&nbsp;");
  $sport=($tmp->{'value2'}) ? ($tmp->{'neg2'}) ? "<B>!</B> $tmp->{'value2'}" : $tmp->{'value2'} : "&nbsp;";
  $tmp=&find_arg('-d', $l);
  $dest=($tmp->{'neg1'}) ? "<B>!</B> $tmp->{'value1'}" : $tmp->{'value1'};
+ $dest || ($dest = "&nbsp;");
  $dport=($tmp->{'value2'}) ? ($tmp->{'neg2'}) ? "<B>!</B> $tmp->{'value2'}" : $tmp->{'value2'} : "&nbsp;";
  $tmp=&find_arg('-p', $l);
 
