@@ -1,0 +1,3 @@
+##-> Allows IMAP connections from the firewall to the inside network.
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 1024:65535 -d @INTNET@ 143 -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 143 -d @INTIP@ 1024:65535 ! -y -p tcp -j ACCEPT

@@ -1,0 +1,11 @@
+##-> This allows host in the internal network to lookup hostnames by 
+##-> querying nameservers in the outside network.
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 53 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 53 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 53 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 53 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 53 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @INTDEV@ -s @EXTNET@ 53 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+##MASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 53 -d @EXTIP@ 1024:65535 -p udp -j ACCEPT
+##MASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 53 -p udp -j ACCEPT
+##MASQ: @IPCHAINS@ -A forward -s @INTNET@ 1024:65535 -d @EXTNET@ 53 -p udp -j MASQ

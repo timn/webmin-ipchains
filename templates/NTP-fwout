@@ -1,0 +1,4 @@
+##-> Allows the firewall host to open connections to NTP time servers on the 
+##-> outside network.
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 123 -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 123 -d @EXTIP@ 1024:65535 ! -y -p tcp -j ACCEPT

@@ -1,0 +1,5 @@
+##-> Allows clients on the external network to chat by using the firewall host 
+##-> as the IRC server (IRC server must run of course). It is assumed that 
+##-> the IRC server listens on the often used default port 6667.
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1024:65535 -d @EXTIP@ 6667 -p tcp -j ACCEPT
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 6667 -d @EXTNET@ 1024:65535 ! -y -p tcp -j ACCEPT

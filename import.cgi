@@ -21,7 +21,7 @@ require "./import-lib.pl";
 
 
 
-&header($text{'import_title'}, undef, undef, undef, undef, undef,
+&header($text{'import_title'}, undef, "import", undef, undef, undef,
         "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A><BR><A HREF=http://www.niemueller.de>Home://page</A>");
 print "<BR><HR>\n\n";
 
@@ -46,7 +46,7 @@ if ($in{'confirmed'}) {
      if (($label !~  /input/i) && ($label !~  /forward/i) && ($label !~  /output/i)) {
        print SCRIPT "$ipchains -N $label\n";
      } else {
-       print SCRIPT "$ipchains -P $policy\n";
+       print SCRIPT "$ipchains -P $label $policy\n";
      }
      printf("..%s %s<BR>\n", $label, ($policy ne "-") ? "($policy)" : "");
    }

@@ -1,0 +1,9 @@
+##-> Allows your firewall to connect to NFS servers on the outside network. 
+##-> NFS is a very insecure method of sharing files. Use it only when you 
+##-> exactly know about the risks.
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 111 -p udp -j ACCEPT
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 111 -d @EXTIP@ 1024:65535 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1:1023 -d @EXTNET@ 2049 -p udp -j ACCEPT
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 2049 -d @EXTIP@ 1:1023 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1:1023 -d @EXTNET@ 2049 -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 2049 -d @EXTIP@ 1:1023 -p tcp -j ACCEPT

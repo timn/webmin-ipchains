@@ -1,0 +1,7 @@
+##-> Allows clients on the internal network to access a FTP server running
+##-> on the firewall host. Be careful with this especially in corporate
+##-> networks since passwords are transmitted as clear text.
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ 21 -p tcp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 21 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ 20 ! -y -p tcp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 20 -d @INTNET@ 1024:65535 -p tcp -j ACCEPT

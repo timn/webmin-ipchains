@@ -1,0 +1,11 @@
+##-> Allows to open connections from the firewall to SMB (or CIFS) servers 
+##-> (like Samba or an Windows machine) on the inside network.
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 137 -d @INTBC@ 137 -p udp -j ACCEPT
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 137 -d @INTIP@ 137 -p tcp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 137 -d @INTNET@ 137 -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 137 -d @INTIP@ 137 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 137 -d @INTNET@ 137 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 1024:65535 -d @INTNET@ 138 -p udp -j ACCEPT
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 138 -d @INTIP@ 1024:65535 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 1024:65535 -d @INTNET@ 139 -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 139 -d @INTIP@ 1024:65535 ! -y -p tcp -j ACCEPT

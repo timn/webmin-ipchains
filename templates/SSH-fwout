@@ -1,0 +1,5 @@
+##-> Allows SSH conntections from the firewall host to the outside network.
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 22 -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 22 -d @EXTIP@ 1024:65535 ! -y -p tcp -j ACCEPT
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 513:1023 -d @EXTNET@ 22 -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @EXTDEV@ -p tcp -s @EXTNET@ 22 -d @EXTIP@ 513:1023 ! -y -p tcp -j ACCEPT

@@ -23,7 +23,8 @@ if ($in{'rule'} eq "") { &error($text{'clonerule_err_norule'}) }
 if ($in{'chain'} eq "") { &error($text{'clonerule_err_nochain'}) }
 
 $lines=&read_file_lines($config{'scriptfile'});
-push(@{$lines}, $lines->[$in{'rule'}]);
+my @tmpl=($lines->[$in{'rule'}], $lines->[$in{'rule'}]);
+splice(@{$lines}, $in{'rule'}, 1, @tmpl);
 &flush_file_lines;
 
 redirect("edit_chain.cgi?chain=$in{'chain'}");

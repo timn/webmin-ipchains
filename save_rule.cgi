@@ -17,7 +17,7 @@
 
 require "./ipchains-lib.pl";
 
-if ($in{'rule'}) {
+if (($in{'rule'} ne "") && ($in{'mode'} ne 'insert')) {
  if (! $access{'erules'}) { &error($text{'srule_err_acl2'}) }
 } else {
  if (! $access{'crules'}) { &error($text{'srule_err_acl'}) }
@@ -129,32 +129,18 @@ $newline .= ($in{'tos'} ne "0x00") ? " -t 0x01 $in{'tos'}" : "";
 
 $newline .= ($target) ? " -j $target" : "";
 
-if ($in{'rule'}) {
- # we are changing an existing rule
- $lines->[$in{'rule'}]=$newline;
-} else {
- # we are creating a new rule
- if ($in{'append'}) {
+if ($in{'mode'} eq 'edit') {
+  # we are changing an existing rule
+  $lines->[$in{'rule'}]=$newline;
+} elsif ($in{'mode'} eq 'append') {
+  # we are appending a new rule
    push(@{$lines}, $newline);
- } else {
-
-   @ps=&parse_script();
-   $chainrules=&find_chain_struct($in{'chain'}, \@ps);
-
-   $line="";
-   $tmp=&find_arg('-A', $chainrules->[0]);
-   $tmp && ($line=$tmp->{'line'});
-   ($line ne "") || &error($text{'echain_err_line'});
-
-   $temp=$newline;
-   for (my $i = int($line); $i<@{$lines}; $i++) {
-     $temp2 = $lines->[$i];
-     $lines->[$i] = $temp;
-     $temp=$temp2;
-   }
-   push(@{$lines}, $temp);
-
- }
+} elsif ($in{'mode'} eq 'insert') {
+  # we are inserting a rule after current rule
+  my @tmpl=($lines->[$in{'rule'}], $newline);
+  splice(@{$lines}, $in{'rule'}, 1, @tmpl);
+} else {
+  &error($text{'srule_nomode'});
 }
 
 &flush_file_lines;

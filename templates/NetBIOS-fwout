@@ -1,0 +1,13 @@
+##-> Allows to open connections from the firewall to SMB (or CIFS) servers 
+##-> (like Samba or an Windows machine) on the outside network.
+##-> Use this with extreme caution. Since SMB offers not very good security
+##-> it is usually a risk to run this on the outside network.
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 137 -d @EXTBC@ 137 -p udp -j ACCEPT
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 137 -d @EXTIP@ 137 -p tcp -j ACCEPT
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 137 -d @EXTNET@ 137 -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 137 -d @EXTIP@ 137 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 137 -d @EXTNET@ 137 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 138 -p udp -j ACCEPT
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 138 -d @EXTIP@ 1024:65535 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 139 -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 139 -d @EXTIP@ 1024:65535 ! -y -p tcp -j ACCEPT

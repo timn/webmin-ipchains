@@ -1,0 +1,5 @@
+##-> Allows the firewall host to connect to Webmin Servers on the outside 
+##-> network. It is assumed that Webmin Servers on the outside network run on 
+##-> the same port as the Webmin on the firewall host.
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ @WEBMINPORT@ -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ @WEBMINPORT@ -d @EXTIP@ 1024:65535 ! -y -p tcp -j ACCEPT

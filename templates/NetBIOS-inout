@@ -1,0 +1,25 @@
+##-> Allows clients on the internal network to speak to NetBIOS servers 
+##-> on the outside network. Outside computers will also be able to reach 
+##-> your servers on the internal network.
+##-> Keep in mind that Broadcast packets do NOT pass the firewall. So machines 
+##-> on the inside cannot find servers on the outside without using a WINS 
+##-> server (which can be done with Samba).
+##-> This connection type is NOT supported when using Masquerading!
+##NOMASQ: @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 137 -d @EXTNET@ 137 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 137 -d @INTNET@ 137 -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 138 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 138 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 139 -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 139 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 137 -d @INTNET@ 137 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @INTNET@ 137 -d @EXTNET@ 137 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @EXTDEV@ -s @INTNET@ 137 -d @EXTNET@ 137 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @INTDEV@ -s @EXTNET@ 137 -d @INTNET@ 137 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 138 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 137 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 137 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @INTDEV@ -s @EXTNET@ 137 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 139 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 189 -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 139 -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @INTDEV@ -s @EXTNET@ 139 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT

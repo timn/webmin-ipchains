@@ -1,0 +1,10 @@
+##-> Allows clients on the external network to access a FTP servers running 
+##-> on the firewall host.
+##-> This template allows PASSIVE transfers. To allow passive transfers is 
+##-> very risky as it allows to open connections to all unprivileged ports on
+##-> the outside network. If it is not absolutely needed you should not enable 
+##-> this template. Use Active FTP instead. But some FTP clients (as for 
+##-> example the ones built into webbrowser) do not support active FTP.
+##-> Keep in mind that FTP passwords are transferred as clear text!
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1024:65535 -d @EXTIP@ 1024:65535 -p tcp -j ACCEPT
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 1024:65535 ! -y -p tcp -j ACCEPT

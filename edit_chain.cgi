@@ -40,7 +40,7 @@ $chainrules=&find_chain_struct($in{'chain'}, \@ps);
 
 
 
-&header($text{'echain_title'}, undef, "edit_chain", undef, undef, undef,
+&header($text{'echain_title'}, undef, "echain", undef, undef, undef,
         "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A><BR><A HREF=http://www.niemueller.de>Home://page</A>");
 
 print "<BR><HR>";
@@ -68,7 +68,6 @@ print "<TD ALIGN=right><B>$text{'echain_action'}</B></TD></TR>\n";
 for ( my $i=0; $i<@{$chainrules}; $i++) {
  local($l);
  $l=$chainrules->[$i];
- print "<TR>\n";
 
  $line="";
  $tmp=&find_arg('-A', $l);
@@ -123,23 +122,36 @@ for ( my $i=0; $i<@{$chainrules}; $i++) {
 # $tmp=&find_arg('-I', $l);
 # $writetype.=($tmp->{'name'}) ? "I" : "";
 
- print "<TR $cb><TD>$source</TD>";
- print "<TD $cb>$sport</TD>";
- print "<TD $cb>$dest</TD>";
- print "<TD $cb>$dport</TD>";
- print "<TD $cb>$proto</TD>";
- print "<TD $cb>$dev</TD>";
- print "<TD $cb ALIGN=center><B>$syn</B></TD>";
- print "<TD $cb ALIGN=center><B>$frag</B></TD>";
- print "<TD $cb ALIGN=center><B>$log</B></TD>";
- print "<TD $cb>$tos</TD>";
-# print "<TD $cb ALIGN=center>$writetype</TD>";
- print "<TD $cb>$target</TD>";
- print "<TD $cb ALIGN=right><A HREF=\"edit_rule.cgi?chain=$in{'chain'}&rule=$line\">$text{'echain_edit'}</A>/",
-       "<A HREF=\"delete_rule.cgi?chain=$in{'chain'}&rule=$line\">$text{'echain_delete'}</A>/",
-       "<A HREF=\"clone_rule.cgi?chain=$in{'chain'}&rule=$line\">$text{'echain_clone'}</A>/",
-       "<A HREF=\"move_rule.cgi?chain=$in{'chain'}&dir=up&rule=$line\">$text{'echain_up'}</A>/",
-       "<A HREF=\"move_rule.cgi?chain=$in{'chain'}&dir=down&rule=$line\">$text{'echain_down'}</A>",
+ print "<TR $cb><TD>$source</TD>",
+       "<TD $cb>$sport</TD>",
+       "<TD $cb>$dest</TD>",
+       "<TD $cb>$dport</TD>",
+       "<TD $cb>$proto</TD>",
+       "<TD $cb>$dev</TD>",
+       "<TD $cb ALIGN=center><B>$syn</B></TD>",
+       "<TD $cb ALIGN=center><B>$frag</B></TD>",
+       "<TD $cb ALIGN=center><B>$log</B></TD>",
+       "<TD $cb>$tos</TD>",
+       "<TD $cb>$target</TD>",
+       "<TD $cb ALIGN=right>",
+       "<A HREF=\"edit_rule.cgi?chain=$in{'chain'}&rule=$line\">",
+       "<IMG SRC=\"images/echain.edit.gif\" BORDER=0 ",
+       "ALT=\"$text{'echain_edit'}\"></A> ",
+       "<A HREF=\"delete_rule.cgi?chain=$in{'chain'}&rule=$line\">",
+       "<IMG SRC=\"images/echain.delete.gif\" BORDER=0 ",
+       "ALT=\"$text{'echain_delete'}\"></A> ",
+       "<A HREF=\"clone_rule.cgi?chain=$in{'chain'}&rule=$line\">",
+       "<IMG SRC=\"images/echain.clone.gif\" BORDER=0 ",
+       "ALT=\"$text{'echain_clone'}\"></A> ",
+       "<A HREF=\"edit_rule.cgi?chain=$in{'chain'}&rule=$line&mode=insert\">",
+       "<IMG SRC=\"images/echain.insert.gif\" BORDER=0 ",
+       "ALT=\"$text{'echain_insert'}\"></A> ",
+       "<A HREF=\"move_rule.cgi?chain=$in{'chain'}&dir=up&rule=$line\">",
+       "<IMG SRC=\"images/echain.up.gif\" BORDER=0 ",
+       "ALT=\"$text{'echain_up'}\"></A> ",
+       "<A HREF=\"move_rule.cgi?chain=$in{'chain'}&dir=down&rule=$line\">",
+       "<IMG SRC=\"images/echain.down.gif\" BORDER=0 ",
+       "ALT=\"$text{'echain_down'}\"></A>",
        "</TD></TR>\n";
 }
 

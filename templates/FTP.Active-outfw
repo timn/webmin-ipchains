@@ -1,0 +1,8 @@
+##-> Allows clients on the external network to access a FTP server running
+##-> on the firewall host. Be careful with this since passwords are 
+##-> transmitted as clear text. This makes it especially dangerous for example 
+##-> when connecting over the internet to the firewall host!
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1024:65535 -d @EXTIP@ 21 -p tcp -j ACCEPT
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 21 -d @EXTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1024:65535 -d @EXTIP@ 20 ! -y -p tcp -j ACCEPT
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 20 -d @EXTNET@ 1024:65535 -p tcp -j ACCEPT

@@ -1,0 +1,14 @@
+##-> Allows clients on the external network to access internal FTP servers. 
+##-> This template allows PASSIVE transfers. To allow passive transfers is 
+##-> very risky as it allows to open connections to all unpfivileged ports on
+##-> the outside network. If it is not absolutely needed you should not enable 
+##-> this template. Use Active FTP instead. But some FTP clients (as for 
+##-> example the ones built into webbrowser) do no support active FTP.
+##-> Keep in mind that FTP passwords are transferred as clear text!
+##-> These rules are only enabled if Masquerading is disabled.
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1024:65535 -d @INTNET@ 1024:65535 -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 1024:65535 -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 1024:65535 -d @INTNET@ 1024:65535 -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @INTDEV@ -s @EXTNET@ 1024:65535 -d @INTNET@ 1024:65535 -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 1024:65535 -p tcp -j ACCEPT

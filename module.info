@@ -3,5 +3,5 @@ desc=IPchains Firewalling
 desc_de=IPchains Firewall
 desc_zh_CN=IPchains·À»ðÇ½
 category=net
-os_support=redhat-linux debian-linux slackware-linux suse-linux open-linux corel-linux turbo-linux lfs-linux cobaltl-linux
+os_support=redhat-linux debian-linux slackware-linux suse-linux open-linux corel-linux turbo-linux lfs-linux cobalt-linux rocksolid-linux
 depends=0.80

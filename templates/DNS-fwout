@@ -1,0 +1,4 @@
+##-> Allows the firewall host to use DNS servers on the inside network to 
+##-> resolve names and adresses. 
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 53 -p udp -j ACCEPT
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 53 -d @EXTIP@ 1024:65535 -p udp -j ACCEPT

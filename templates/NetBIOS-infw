@@ -1,0 +1,11 @@
+##-> Allows Windows machines on the inside network to access a Samba Server 
+##-> running on the firewall.
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 137 -d @INTBC@ 137 -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 137 -d @INTIP@ 137 -p tcp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 137 -d @INTNET@ 137 -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 137 -d @INTIP@ 137 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 137 -d @INTNET@ 137 -p udp -j ACCEPT
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ 138 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 138 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ 139 -p tcp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 139 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT

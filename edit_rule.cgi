@@ -18,22 +18,42 @@
 
 require "./ipchains-lib.pl";
 
-if ($in{'rule'} ne "") {
+@ps=&parse_script;
+
+if (($in{'rule'} ne "") && ($in{'mode'} ne 'insert')) {
   @lines=&read_script;
   $l=&parse_line($lines[$in{'rule'}]);
   if (!$l) { &error("No such rule found") }
+  $chainrules=&find_chain_struct($in{'chain'}, \@ps);
 }
 
-$chainrules=&find_chain_struct($in{'chain'}, \@ps);
 
-my $title=($in{'rule'} ne "") ? $text{'editrule_title_edit'} : $text{'editrule_title_create'};
+if ($in{'rule'} ne "") {
+  if ($in{'mode'} eq 'insert') {
+    # Insert a rule
+    $title=$text{'editrule_title_insert'};
+    $desc=&text('editrule_desc_insert', $in{'rule'});
+    $help="erule_insert";
+  } else {
+    # OK, edit an existing rule
+    $title=$text{'editrule_title_edit'};
+    $desc=&text('editrule_desc_edit', $in{'rule'});
+    $help="erule_edit";
+  }
+} else {
+  # Append new rule at end of file
+  $title=$text{'editrule_title_create'};
+  $desc=$text{'editrule_desc_create'};
+  $help="erule_append";
+}
 
-&header($title, undef, undef, undef, undef, undef,
-        "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A><BR><A HREF=http://www.niemueller.de>Home://page</A>");
-
+&header($title, undef, $help, undef, undef, undef,
+        "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A>".
+        "<BR><A HREF=http://www.niemueller.de>Home://page</A>");
 print "<BR><HR>";
 
 
+if (($in{'rule'} ne "") && ($in{'mode'} ne 'insert')) {
  $tmp=&find_arg('-s', $l);
  $line=$tmp->{'line'};
  $source=$tmp->{'value1'};
@@ -91,6 +111,7 @@ print "<BR><HR>";
 
  $tmp=&find_arg('-t', $l);
  $tos=$tmp->{'value2'};
+}
 
  $proto_select=&proto_select($proto);
  $dev_select=&get_iface_select($dev);
@@ -100,17 +121,22 @@ $dhc=&host_chooser_button("dest"); # Destination Host Chooser
 
 print "<FORM ACTION=\"save_rule.cgi\" METHOD=post>";
 
- $tmp=&find_arg('-A', $l);
- if ($tmp->{'name'}) { print "<INPUT TYPE=hidden NAME=\"append\" VALUE=1>" }
- $tmp=&find_arg('-I', $l);
- if ($tmp->{'name'}) { print "<INPUT TYPE=hidden NAME=\"insert\" VALUE=1>" }
+if ($in{'rule'} ne "") {
+  if ($in{'mode'} eq 'insert') {
+    print "<INPUT TYPE=hidden NAME=mode VALUE=insert>";
+  } else {
+    print "<INPUT TYPE=hidden NAME=mode VALUE=edit>";
+  }
+} else {
+  print "<INPUT TYPE=hidden NAME=mode VALUE=append>";
+}
 
 print <<EOM;
 <INPUT TYPE=hidden NAME="chain" VALUE="$in{'chain'}">
 <INPUT TYPE=hidden NAME="rule" VALUE="$in{'rule'}">
 <TABLE BORDER=2 CELLPADDING=2 CELLSPACING=0 $cb>
  <TR>
-  <TD COLSPAN=5 $tb WIDTH=100%><B>$title</B></TD>
+  <TD COLSPAN=5 $tb WIDTH=100%><B>$desc</B></TD>
  </TR>
  <TR>
   <TH><B>$text{'editrule_source'}</B></TH>
@@ -129,7 +155,6 @@ print <<EOM;
   <TD><SELECT NAME="target">
 EOM
 
- @ps=&parse_script;
  $chains=&find_arg_struct('-N', \@ps);
 
  $redport="";
@@ -185,11 +210,17 @@ print <<EOM;
 </TABLE>
 EOM
 
-if ($in{'rule'}) {
- print "<INPUT TYPE=submit NAME=\"save\" VALUE=\" $text{'editrule_save'}\">\n";
+if ($in{'rule'} ne "") {
+  if ($in{'mode'} eq 'insert') {
+    print "<INPUT TYPE=submit NAME=\"insert\" VALUE=\"",
+          " $text{'editrule_insert'} \">\n";
+  } else {
+    print "<INPUT TYPE=submit NAME=\"save\" VALUE=\"",
+    " $text{'editrule_save'}\">\n";
+  }
 } else {
- print "<INPUT TYPE=submit NAME=\"append\" VALUE=\" $text{'editrule_append'} \">\n";
- print "<INPUT TYPE=submit NAME=\"insert\" VALUE=\" $text{'editrule_insert'} \">\n";
+  print "<INPUT TYPE=submit NAME=\"append\" VALUE=\"",
+        " $text{'editrule_append'} \">\n";
 }
 
 

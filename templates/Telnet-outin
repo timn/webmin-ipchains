@@ -1,0 +1,10 @@
+##-> Allows clients on the external network to connect to inside servers. 
+##-> Keep in mind that telnet is very unsecure. Passwords are transmitted 
+##-> as clear text and there are several ways to attack telnet connections 
+##-> or just to "listen" to it.
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1024:65535 -d @INTNET@ 23 -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @INTNET@ 23 -d @EXTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 23 -d @EXTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 1024:65535 -d @INTNET@ 23 -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @INTDEV@ -s @EXTNET@ 1024:65535 -d @INTNET@ 23 -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @EXTDEV@ -s @INTNET@ 23 -d @EXTNET@ 1024:65535 ! -y -p tcp -j ACCEPT

@@ -1,0 +1,4 @@
+##-> Allows the firewall host to connect to SMTO servers on the outside.
+##-> These rules may be useful on a personal firewall.
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 25 -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 25 -d @EXTIP@ 1024:65535 ! -y -p tcp -j ACCEPT

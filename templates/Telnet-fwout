@@ -1,0 +1,5 @@
+##-> Allows the firewall host to open connections to telnet servers on the 
+##-> outside network. Telnet is very (!) unsecure. You should try not to use
+##-> if it is not absolutely needed. Instead use SSH.
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 23 -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 23 -d @EXTIP@ 1024:65535 ! -y -p tcp -j ACCEPT

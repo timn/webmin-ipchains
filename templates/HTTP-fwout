@@ -1,0 +1,3 @@
+##-> Allows HTTP connections from the firewall to the outside network.
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 80 -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 80 -d @EXTIP@ 1024:65535 ! -y -p tcp -j ACCEPT

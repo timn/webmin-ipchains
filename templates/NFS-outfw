@@ -1,0 +1,7 @@
+##-> Allows clients on the external network to access a NFS server running
+##-> on the firewall host. NFS is very unsecure and is NOT recommended to run 
+##-> this service on the firewall machine!
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1024:65535 -d @EXTIP@ 111 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 111 -d @EXTNET@ 1024:65535 ! -y -p udp -j ACCEPT
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1:1023 -d @EXTIP@ 2049 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 2049 -d @EXTNET@ 1:1023 ! -y -p udp -j ACCEPT

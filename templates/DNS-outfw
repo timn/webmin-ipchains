@@ -1,0 +1,4 @@
+##-> Allows clients on the outside network to access a DNS server on the 
+##-> firewall.
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1024:65535 -d @EXTIP@ 53 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 53 -d @EXTNET@ 1024:65535 -p udp -j ACCEPT

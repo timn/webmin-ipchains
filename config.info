@@ -1,5 +1,12 @@
+mode=Operation Mode,1,1-Newbie,2-Template,3-Expert
+fwtype=Type of firewall,1,router-Router,personal-Personal
 scriptfile=Path to Shell Script,0
-bootloc=Location of bootup and shutdown scripts,0
+intdev=NIC for inside network in templates,0
+extdev=NIC for outside network in templates,0
+policy=Default policies in template mode,1,DENY-Deny,REJECT-Reject
+internet=External net is,1,1-Internet (0.0.0.0/0),0-Restricted outside network (depends on settings of external interface)
+extdhcp=Outside interface gets address via DHCP,1,1-Auto Detect (Network Configuration Module needed),2-Yes,3-No
+bootloc=Location of bootup and shutdown scripts,3,From Bootup and Shutdown Module
 scriptinterpreter=Script interpreter,3,Default (/bin/sh)
 ipchains_path=Path to ipchains,3,Default (/sbin/ipchains)
 proto_file=Path to protocols file,3,Default (/etc/protocols)

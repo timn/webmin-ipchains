@@ -1,0 +1,21 @@
+##-> Allows management stations on the inside network to control 
+##-> SNMP server on the outside network. Traps can pass the firewall from 
+##-> outside to inside.
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 161 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 161 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 162 -d @EXTNET@ 1024:65535 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 1024:65535 -d @INTNET@ 162 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 161 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 161 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 161 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @INTDEV@ -s @EXTNET@ 161 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1024:65535 -d @INTNET@ 162 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @INTNET@ 162 -d @EXTNET@ 1024:65535 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @EXTDEV@ -s @INTNET@ 162 -d @EXTNET@ 1024:65535 -p udp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @INTDEV@ -s @EXTNET@ 1024:65535 -d @INTNET@ 162 -p udp -j ACCEPT
+##MASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 161 -d @EXTIP@ 1024:65535 -p udp -j ACCEPT
+##MASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 161 -p udp -j ACCEPT
+##MASQ: @IPCHAINS@ -A forward -s @INTNET@ 1024:65535 -d @EXTNET@ 161 -p udp -j MASQ
+##MASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1024:65535 -d @EXTIP@ 162 -p udp -j ACCEPT
+##MASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 162 -d @EXTNET@ 1024:65535 -p udp -j ACCEPT
+##MASQ: @IPCHAINS@ -A forward -s @INTNET@ 162 -d @EXTNET@ 1024:65535 -p udp -j MASQ

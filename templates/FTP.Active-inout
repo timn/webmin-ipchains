@@ -1,0 +1,28 @@
+##-> Allows clients on the internal network to access external FTP servers 
+##-> via active FTP. This is more secure than passive FTP but is still a risk 
+##-> because FTP passwords are transferred as clear text!
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 21 -p tcp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 21 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 20 ! -y -p tcp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 20 -d @INTNET@ 1024:65535 -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 21 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 21 -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 21 -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @INTDEV@ -s @EXTNET@ 21 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 20 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 20 -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 20 ! -y -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @INTDEV@ -s @EXTNET@ 20 -d @INTNET@ 1024:65535 -p tcp -j ACCEPT
+##MASQ: if [ -e /lib/modules/$(uname -r)/ipv4/ip_masq_ftp.o ]; then
+##MASQ:   if [ -x /sbin/insmod ]; then
+##MASQ:     if ! $(grep -q -s ip_masq_ftp /proc/modules >/dev/null); then
+##MASQ:       /sbin/insmod -q -s ip_masq_ftp
+##MASQ:     fi
+##MASQ:   fi
+##MASQ: fi
+##MASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 21 -d @EXTIP@ 1024:65535 ! -y -p tcp -j ACCEPT
+##MASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 21 -p tcp -j ACCEPT
+##MASQ: @IPCHAINS@ -A forward -s @INTNET@ 1024:65535 -d @EXTNET@ 21 -p tcp -j MASQ
+##MASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 20 -d @EXTIP@ 1024:65535 -p tcp -j ACCEPT
+##MASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 20 ! -y -p tcp -j ACCEPT
+##MASQ: @IPCHAINS@ -A forward -s @INTNET@ 1024:65535 -d @EXTNET@ 20 -p tcp -j MASQ

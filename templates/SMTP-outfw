@@ -1,0 +1,4 @@
+##-> Allows clients on the external network to access a SMTP server (for 
+##-> outgoing mail) on the firewall host
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1024:65535 -d @EXTIP@ 25 -p tcp -j ACCEPT
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 25 -d @EXTNET@ 1024:65535 ! -y -p tcp -j ACCEPT

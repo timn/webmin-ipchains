@@ -1,0 +1,6 @@
+##-> Allows a management station on the internal network to access a SNMP
+##-> daemon running on the firewall host.
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ 161 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 161 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 1024:65535 -d @INTNET@ 162 -p udp -j ACCEPT
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 162 -d @INTIP@ 1024:65535 -p udp -j ACCEPT

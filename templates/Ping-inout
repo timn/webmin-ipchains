@@ -1,0 +1,11 @@
+##-> Allows clients on the internal network to ping other machines on the 
+##-> on the external network.
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ -d @EXTNET@ -p icmp --icmp-type echo-request -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ -d @INTNET@ -p icmp --icmp-type echo-reply -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ -d @INTNET@ -p icmp --icmp-type echo-reply -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @INTNET@ -d @EXTNET@ -p icmp --icmp-type echo-request -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @EXTDEV@ -s @INTNET@ -d @EXTNET@ -p icmp --icmp-type echo-request -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @INTDEV@ -s @EXTNET@ -d @INTNET@ -p icmp --icmp-type echo-reply -j ACCEPT
+##MASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ -d @EXTIP@ -p icmp --icmp-type echo-reply -j ACCEPT
+##MASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ -d @EXTNET@ -p icmp --icmp-type echo-request -j ACCEPT
+##MASQ: @IPCHAINS@ -A forward -s @INTNET@ -d @EXTNET@ -p icmp --icmp-type echo-request -j MASQ

@@ -43,7 +43,7 @@ if ($in{'line'}) {
  $lines->[$line]=$newline;
 } else {
  # we are creating a new rule
- push(@{$lines}, $newline);
+ &insert_line($newline, $lines, \@ps) || push(@{$lines}, $newline);
 }
 
 &flush_file_lines;

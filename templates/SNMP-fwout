@@ -1,0 +1,6 @@
+##-> Allows the firewall host to be a management station which connects to 
+##-> SNMP servers on the external network.
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 161 -p udp -j ACCEPT
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 161 -d @EXTIP@ 1024:65535 -p udp -j ACCEPT
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1024:65535 -d @EXTIP@ 162 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 162 -d @EXTNET@ 1024:65535 -p udp -j ACCEPT

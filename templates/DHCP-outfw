@@ -1,0 +1,5 @@
+##-> Allows DHCP clients in your outside network to retrieve DHCP information 
+##-> from an DHCP server running on your firewall. Relay agents are not
+##-> allowed.
+@IPCHAINS@ -A input -i @EXTDEV@ -s 0.0.0.0 68 -d 255.255.255.255 67 -p udp -j ACCEPT
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 67 -d @EXTNET@ 68 -p udp -j ACCEPT

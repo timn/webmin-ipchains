@@ -1,0 +1,4 @@
+##-> Allows IMAP connections from the firewall to the outside network.
+##-> These rules can be useful for a personal firewall.
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 143 -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 143 -d @EXTIP@ 1024:65535 ! -y -p tcp -j ACCEPT

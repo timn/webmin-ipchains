@@ -1,0 +1,11 @@
+##-> Allows clients on the internal network to fetch emails from POP3 
+##-> mail servers on the external network.
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 110 -p tcp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 110 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 110 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 110 -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @EXTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 110 -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @INTDEV@ -s @EXTNET@ 110 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+##MASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 110 -d @EXTIP@ 1024:65535 ! -y -p tcp -j ACCEPT
+##MASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 110 -p tcp -j ACCEPT
+##MASQ: @IPCHAINS@ -A forward -s @INTNET@ 1024:65535 -d @EXTNET@ 110 -p tcp -j MASQ

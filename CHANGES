@@ -1,18 +1,19 @@
 
-    IPchains Firewalling Webmin Module - CHANGES
-    Copyright (C) 1999-2000 by Tim Niemueller
+ IPchains Firewalling Webmin Module - CHANGES
+ Copyright (C) 1999-2000 by Tim Niemueller <tim@niemueller.de>
+ http://www.niemueller.de/webmin/modules/ipchains/
 
-    This program is free software; you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation; either version 2 of the License, or
-    (at your option) any later version.
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
 
-    Created  : 20.09.1999
+ Created  : 20.09.1999
 
 
 
@@ -109,11 +110,91 @@
                didn't compare but set the proto value. So the protocol was
                always ICMP. Big fault. Thanks to Manuel Carrasco from
                Lucent Technologies for reporting this.
+ 30.08.2000  - Some new major changes in the firewall module. I added now two
+ (0.80.4)      new editing modes: Template and Newbie mode.
+               The template mode offers a matrix of possible options and then
+               creates the rules automatically from your choices. In order to
+               be as versatile as possible I tried to keep IPs out of it. It
+               is defined on a per-interface basis. So that you have two
+               interfaces. One outside and one inside interface.
+               The newbie mode is for the ones who come from the Windoze
+               Coloured-Clicki world. They just decide between three
+               security levels an trust me that I made good choices...
+               So this will make it much more easier. Any templates are
+               welcome, as well as additions and changes that should be made.
+             - It's still the 30th, but a little bit later :) I had a new
+               idea. Two more modes: Maybe someone wants to disable the fire-
+               wall (yes, there ARE stupid people in the world!) or maybe
+               to batten down the hatches on the system (yes, there are also
+               VERY paranoic ones ;). So I just added them. The templates for
+               these modes were easy to write ;) Now I have to build all the
+               protocol templates...
+ 03.09.2000  - I decided to make this the next version since I have done many
+ (0.80.5)      changes to this "double"-version...
+             - I have added a feature to the newbie mode, you can now customize
+               your firewall settings
+             - Added support for masquerading,first templates filled
+             - added new tokens for the templates, INTIP, INTNM, EXTIP and
+               EXTNM. I think you understand what they mean :)
+             - Ran the first test, and it worked, could no longer reach Webmin
+               Forgot to allow it with the firewall rules... So, it is safe :)
+ 09.09.2000  - What I write for this day applies to the last week :)
+             - I worked now the whole weeks on the templates for 19 protocols.
+               I still have to add traceroute, NNTP and Napster ;) I decided
+               to include Quake to have something to play with :) I could not
+               test the rules yet, maybe someone can help me on that.
+             - I changed template_save.cgi. It now checks for double lines in
+               the script (which can happen for example if you have
+               masqueraded HTTP from inside to outside and HTTP from Firewall
+               to outside). It now places a message containing the line number
+               where the rule already appeared.
+             - Added new tokens INTBC, EXTBC, WEBMINPORT
+             - Changed the way Masquerading is handled. You can now define
+               with preceeding ##MASQ: or ##NOMASQ: to define if the rule
+               should only be enabled if Masquerading is enabled (MASQ) or
+               not (NOMASQ). Otherwise they will just be comments in the
+               scriptfile due to the double pound (##)
+             - Rewrote change_level.cgi to reflect the changes done to the
+               template_save.cgi file. It now also removes double lines and
+               gives line references as comment. It also does not handle the
+               masquerading stuff differently.
+ 10.09.2000  - Added icons to the expert mode for the different actions
+               Thanks for that to George Vieira <georgev@cybertech.net.au>
+               who contributed the idea and the icons.
+             - Ugh, maybe someone has a dynamic IP on the outside interface
+               (in fact I have on myself). This was not yet supported by the
+               module. It always set the address to the outside IP the
+               interface had when creating the module...
+               No there is a hack which allows the external interface to be
+               DHCP, I really like awk ;)
+ 15.09.2000  - Added the option to edit the raw file to expert mode (experts
+               like to do that ;)
+             - Refined the parse_line functions, so that now comments and
+               foreign commands are seen and not longer false syntax errors
+             - Changed expert mode startpage a little bit, removed all the
+               tables at the bottom and just added links to the appropriate
+               functions (which they have been in most cases anyway).
+             - Added insert_line function. Changed create_chain.cgi and
+               save_policy.cgi so that -P and -N rules now are inserted in
+               begin of the script. Otherwise errors could happen for example
+               if you used a chain as a jump target before it was defined...
+             - Finally added the option "Execute script" to expert modes
+               start page ;)
+ 17.09.2000  - Added "Insert rule after current" to edit_chain.cgi. This means
+               that insert now depends on the context. So you can insert rules
+               more precisely.
+             - Changed clone_rule.cgi, the cloned rule is now inserted right
+               after the original rule. This makes more sense
+             - Some smaller re-arrangements to met the new requirements
+
  
  To do
  ==============================================================================
  - iptables support (maybe a new module).
-
+ - bastion host support in newbie and template mode
+ - add more protocols
+ - write help files
+   And I though OK, that's it, more for the iptables module ;)
 
 
 ### END of CHANGES ###.

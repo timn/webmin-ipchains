@@ -39,7 +39,7 @@ if ($in{'chain'} eq "input" || $in{'chain'} eq "output" || $in{'chain'} eq "forw
 @pols=("ACCEPT", "REJECT", "DENY", "MASQ", "RETURN");
 
 
-&header($text{'changepol_title'}, undef, undef, undef, undef, undef,
+&header($text{'changepol_title'}, undef, "changepol", undef, undef, undef,
         "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A><BR><A HREF=http://www.niemueller.de>Home://page</A>");
 
 print "<BR><HR>";

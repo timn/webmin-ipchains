@@ -17,21 +17,71 @@
 do '../web-lib.pl';
 $|=1;
 
-
-&init_config("ipchains");
-%access=&get_module_acl;
+&init_config();
+%access=&get_module_acl();
 $cl=$text{'config_link'};
-$version="0.80.3";
+$version="0.80.5";
+$intiface=undef;
+$extiface=undef;
+$bootdir=undef;
+$extdhcp=undef;
 
 $ipchains=($config{'ipchains_path'}) ? $config{'ipchains_path'} : "/sbin/ipchains";
 
 if (!-e "/proc/net/ip_fwchains") { &error($text{'lib_err_nosupport'}) }
 if (!-e "/proc/net/ip_fwnames") { &error($text{'lib_err_nosupport'}) }
 if (!-x $ipchains) { &error(&text('lib_err_ipchains', $ipchains, $cl)) }
-if (! $config{'scriptfile'}) { &error(&text('lib_err_sfcm', $cl)) }
+if ((! $config{'scriptfile'}) &&
+    ($ENV{'SCRIPT_NAME'} !~ /(index\.cgi|ipchains\/|save_config\.cgi)$/)) { &error(&text('lib_err_sfcm', $cl)) }
 
-if ((!-e "$config{'scriptfile'}") && ($ENV{'SCRIPT_NAME'} ne "/ipchains/script_manager.cgi")) {
-  &error(&text('lib_err_sfmiss', $config{'scriptfile'}, $cl));
+if ((!-e "$config{'scriptfile'}") &&
+    ($ENV{'SCRIPT_NAME'} !~ /(script_manager\.cgi|index\.cgi|save_config\.cgi|ipchains\/)$/)) {
+  &error(&text('lib_err_sfmiss', $cl));
+}
+
+
+if ($config{'bootloc'}) {
+  $bootdir=$config{'bootloc'};
+} else {
+  # we try to get the information from the init module
+  my %initconf;
+  &read_env_file("$config_directory/init/config", \%initconf);
+  if ($initconf{'init_dir'}) {
+    $bootdir=$initconf{'init_dir'};
+  } else {
+    &error(&text('lib_noinit', $cl)) if ($ENV{'SCRIPT_NAME'} !~ /(index\.cgi|ipchains\/|save_config\.cgi)$/);
+  }
+}
+
+if ($config{'extdhcp'} == 1) {
+  # we try to figure out if DHCP is used or not by using the net conf mod
+
+  if (&foreign_check('net')) {
+    # OK, net conf mod available otherwise do nothing, extdhcp will be
+    # undef and the questionaire will come up in index.cgi
+
+    &foreign_require('net', 'net-lib.pl');
+    my @boot = &foreign_call('net', 'boot_interfaces');
+    my $b;
+
+    foreach $b (@boot) {
+      if ($b->{'fullname'} eq $config{'extdev'}) {
+        # We found the interface
+        if ($b->{'dhcp'}) {
+          # Oh no, DHCP ;)
+          $extdhcp=1;
+        } else {
+          $extdhcp=0;
+        }
+      }
+    }
+  }
+
+} elsif ($config{'extdhcp'} == 2) {
+  # Manual override, we assume DHCP
+  $extdhcp=1;
+} else {
+  $extdhcp=0;
 }
 
 # Argument with 0, 1 or 2 following words (! is not a word)
@@ -48,8 +98,9 @@ if ((!-e "$config{'scriptfile'}") && ($ENV{'SCRIPT_NAME'} ne "/ipchains/script_m
 @basechains=("input", "output", "forward");
 @policies=("ACCEPT", "DENY", "MASQ", "REJECT", "RETURN");
 
-ReadParse();
-
+&ReadParse();
+$MASQ=$in{'masq'};
+$DESC=undef;
 
 sub tos_select {
  local($rv, $sel);
@@ -151,12 +202,15 @@ sub proto_select {
 return $rv;
 }
 
+# get_iface_select([devicename], [selectname])
+# returns the HTML code for an device selectbox with devicename checked and
+# the box named selectname
 sub get_iface_select {
- local(@act, $rv, $a, $sel);
- $sel=$_[0];
+ my $sel = $_[0];
+ my $selname = ($_[1]) ? $_[1] : "dev";
 
- $rv="<SELECT NAME=\"dev\">\n";
- $rv.="<OPTION VALUE=\"\">Any Device\n";
+ my $rv = "<SELECT NAME=\"$selname\">\n";
+ $rv .= "<OPTION VALUE=\"\">Any Device\n";
 
 
 
@@ -166,12 +220,11 @@ sub get_iface_select {
 
   &foreign_check('net') || &error($text{'lib_err_netmod'});
   &foreign_require('net', 'net-lib.pl');
-  @act = &foreign_call('net', 'active_interfaces');
+  my @act = &foreign_call('net', 'active_interfaces');
   @act = sort { "$a->{'name'}:$a->{'virtual'}" cmp
                 "$b->{'name'}:$b->{'virtual'}" } @act;
-  $rv="<SELECT NAME=\"dev\">\n";
-  $rv.="<OPTION VALUE=\"\">Any Device\n";
  
+  my $a;
   foreach $a (@act) {
    $rv.="<OPTION VALUE=\"$a->{'fullname'}\"";
    $rv.=($a->{'fullname'} eq $sel) ? " SELECTED" : "";
@@ -179,9 +232,9 @@ sub get_iface_select {
   }
  } else {
   # we parse the interfaces from the entered list
-  $a=$config{'netifaces'};
+  my $a=$config{'netifaces'};
   $a=~tr/\s+//;
-  @act=split(/,/, $a);
+  my @act=split(/,/, $a);
   foreach $a (@act) {
    $rv.="<OPTION VALUE=\"$a\"";
    $rv.=($a eq $sel) ? " SELECTED" : "";
@@ -204,35 +257,93 @@ return @lines;
 }
 
 
+# insert_line(line, \lines, \ps)
+# inserts line at the first possible location in \lines from the parsed script
+# \ps. This is either after the last -P rule (which should be right in the
+# beginning of the script for well know reasons) or after the first -X rule
+# (which should have been created when creating the basic script file) and
+# a newline.
+sub insert_line {
+
+  my $l;
+  my $line=undef;
+  my $pols=&find_arg_struct('-P', $_[2]);
+  if (scalar(@{$pols})) {
+    # we have at least one policy rule, so we insert it after the last
+    foreach $l (@{$pols}) {
+      my $c=&find_arg('-P', $l);
+      $line=$c->{'line'} if (! defined($line) || ($c->{'line'} > $line));
+    }
+    my @tmpln=($_[1]->[$line], $_[0]);
+    splice(@{$_[1]}, $line, 1, @tmpln);
+    return 1;
+  } else {
+    my $cdels=&find_arg_struct('-X', $_[2]);
+    if (scalar(@{$cdels})) {
+      # OK, at least we found some -X
+      foreach $l (@{$cdels}) {
+        $c=&find_arg('-X', $l);
+        $line=$c->{'line'} if (! defined($line) || ($c->{'line'} < $line));
+      }
+      my @tmpln=($_[1]->[$line], "\n", $_[0]);
+      splice(@{$_[1]}, $line, 1, @tmpln);
+      return 1;
+    }
+  }
+
+return 0;
+}
+
+
 sub parse_line {
-  local($line, @parsedparams, $p, $tmpstr, $n);
+  local($line, @parsedparams, $p, $tmpstr, $n, $rawline);
 
   $tmpstr=$_[0];
   $n=$_[1];
 
   chomp($tmpstr);
+  $rawline=$tmpstr;
   $tmpstr =~ s/\t/ /g;       # Convert tabs to spaces
   $tmpstr =~ s/[ ]{2,}/ /g;  # Convert multi-spaces to singel-spaces
 
   @params=split(/ /, $tmpstr);
 
-  for ($i=0; $i<@aw0; $i++) {
-   $line=&find_param_0($aw0[$i], \@params, $n);
-   if ($line->{'name'}) {
-    push(@parsedparams, $line);
-   }
-  }
-  for ($i=0; $i<@aw1; $i++) {
-   $line=&find_param_1($aw1[$i], \@params, $n);
-   if ($line->{'name'}) {
-    push(@parsedparams, $line);
-   }
-  }
-  for ($i=0; $i<@aw2; $i++) {
-   $line=&find_param_2($aw2[$i], \@params, $n);
-   if ($line->{'name'}) {
-    push(@parsedparams, $line);
-   }
+  if ($params[0] eq $ipchains) {
+    # we have a rule
+
+    for ($i=0; $i<@aw0; $i++) {
+     $line=&find_param_0($aw0[$i], \@params, $n);
+     if ($line->{'name'}) {
+      push(@parsedparams, $line);
+     }
+    }
+    for ($i=0; $i<@aw1; $i++) {
+     $line=&find_param_1($aw1[$i], \@params, $n);
+     if ($line->{'name'}) {
+      push(@parsedparams, $line);
+     }
+    }
+    for ($i=0; $i<@aw2; $i++) {
+     $line=&find_param_2($aw2[$i], \@params, $n);
+     if ($line->{'name'}) {
+      push(@parsedparams, $line);
+     }
+    }
+
+  } elsif ($rawline =~ /^#/) {
+    # We have a comment
+    my %tmp=( 'name' => "Comment",
+              'type' => "C",
+              'line' => $n,
+              'cont' => $rawline );
+    push(@parsedparams, \%tmp);
+  } else {
+    # Not a rule, we do not know what it is
+    my %tmp=( 'name' => "Unknown",
+              'type' => "U",
+              'line' => $n,
+              'cont' => $rawline );
+    push(@parsedparams, \%tmp);
   }
 
 return \@parsedparams;
@@ -245,7 +356,6 @@ sub parse_script {
  
  for (my $n=0; $n<@lines; $n++) {
   $tmpstr=@lines[$n];
-  next if ($tmpstr =~ /^#/);
   push(@rv, &parse_line($tmpstr, $n));
  }
 
@@ -617,6 +727,14 @@ local $form = @_ > 1 ? $_[1] : 0;
 return "<input type=button onClick='ifield = document.forms[$form].$_[0]; chooser = window.open(\"/ipchains/host_chooser.cgi\", \"chooser\", \"toolbar=no,menubar=no,scrollbars=yes,width=500,height=300\"); chooser.ifield = ifield' value=\"...\">\n";
 }
 
+# get_services()
+# This function returns an array of hashes containing the information about the services
+# keys            meaning
+#------------------------------------------------------------------------
+# name            Service Name
+# port            Port assigned to this service
+# comment         Comments stored in the services file for this service
+# proto           Protocol used, either TCP oder UDP
 sub get_services {
  local(@rv, @lines, $l);
 
@@ -643,6 +761,8 @@ sub get_services {
 return @rv;
 }
 
+# get_services_list()
+# This function returns an arraw containing all known service names
 sub get_services_list {
  local(@rv, @lines, $l);
 
@@ -672,6 +792,186 @@ sub service_chooser_button
 {
 local $form = @_ > 1 ? $_[1] : 0;
 return "<input type=button onClick='ifield = document.forms[$form].$_[0]; chooser = window.open(\"/ipchains/service_chooser.cgi\", \"chooser\", \"toolbar=no,menubar=no,scrollbars=yes,width=500,height=300\"); chooser.ifield = ifield' value=\"...\">\n";
+}
+
+
+
+# fill_tokens(line1, [line2, [line3, [...]]])
+# Replace tokens in templates
+sub fill_tokens
+{
+  my @lines = @_;
+  if (! (defined($intiface) && defined($extiface)))  {
+    # something like a cache, it is a little bit two slow to do that for
+    # all 12312 lines again...
+    &foreign_check('net') || &error($text{'lib_err_netmod'});
+    &foreign_require('net', 'net-lib.pl');
+    my @act = &foreign_call('net', 'active_interfaces');
+    @act = sort { "$a->{'name'}:$a->{'virtual'}" cmp
+                  "$b->{'name'}:$b->{'virtual'}" } @act;
+    my $a;
+    foreach $a (@act) {
+      $intiface = $a if ($a->{'name'} eq $config{'intdev'});
+      $extiface = $a if ($a->{'name'} eq $config{'extdev'});
+    }
+  }
+  &error($text{'lib_err_noint'}) if (! defined($intiface));
+  &error($text{'lib_err_noint'}) if (! defined($extiface));
+
+  my $intnet=&network($intiface->{'address'}, $intiface->{'netmask'}) .
+             "/$intiface->{'netmask'}";
+  my $extnet=&network($extiface->{'address'}, $extiface->{'netmask'}) .
+             "/$extiface->{'netmask'}";
+  my $intbc=&broadcast($intiface->{'address'}, $intiface->{'netmask'});
+  my $extbc=&broadcast($extiface->{'address'}, $extiface->{'netmask'});
+
+  foreach (@lines) {
+    s/\@IPCHAINS\@/$ipchains/g;
+    s/\@INTDEV\@/$config{'intdev'}/g;
+    s/\@EXTDEV\@/$config{'extdev'}/g;
+    s/\@INTIP\@/$intiface->{'address'}/g;
+    s/\@INTNM\@/$intiface->{'netmask'}/g;
+    s/\@INTBC\@/$intbc/g;
+    s/\@EXTIP\@/$extiface->{'address'}/g if (! $extdhcp);
+    s/\@EXTIP\@/\$EXTIP/g if ($extdhcp);
+    s/\@EXTNM\@/$extiface->{'netmask'}/g if (! $extdhcp);
+    s/\@EXTNM\@/\$EXTNM/g if ($extdhcp);
+    s/\@EXTBC\@/$extbc/g if (! $extdhcp);
+    s/\@EXTBC\@/\$EXTBC/g if ($extdhcp);
+    s/\@WEBMINPORT\@/$ENV{'SERVER_PORT'}/g;
+    s/\@INTNET\@/$intnet/g;
+    s/\@EXTNET\@/$extnet/g if (! $config{'internet'} && ! $extdhcp);
+    s/\@EXTNET\@/\$EXTNW\/\$EXTNM/g if (! $config{'internet'} && $extdhcp);
+    s/\@EXTNET\@/! $intiface->{'address'}/g if ($config{'internet'});
+    s/##MASQ: //g if (! $DESC && $MASQ);
+    s/##NOMASQ: //g if (! $DESC && ! $MASQ);
+  }
+return (wantarray) ? @lines : $lines[0];
+}
+
+
+# create_basic_script(filename)
+# Creates a script file with basic calls to delete all existing rules and chains
+sub create_basic_script
+{
+
+  my $si = ($config{'scriptinterpreter'}) ? $config{'scriptinterpreter'} : "/bin/sh";
+
+  open(FILE, ">$_[0]") || return 0;
+   print FILE "#!$si\n",
+              "# IPchains Firewalling Script File\n",
+              "# Generated by IPchains Firewalling Webmin Module\n",
+              "# Copyright (C) 1999-2000 by Tim Niemueller, GPL\n",
+              "# http://www.niemueller.de/webmin/modules/ipchains/\n",
+              "# Created on ", &make_date(time), "\n",
+              "\n$ipchains -F\n$ipchains -X\n\n";
+  close(FILE);
+
+return 1;
+}
+
+# write_basics(filename, externalname, external-ip)
+# Writes basic stuff like spoof protection for private ranges, acceptance
+# for loopback traffic etc.
+sub write_basics {
+
+  open(SCRIPT, ">>$_[0]") || return 0;
+
+   if ($extdhcp) {
+     # Oh sh..oot, work to do, he wants dhcp on the outside iface :)
+     print SCRIPT "\n# Dynamic IP Hack for outside interface\n",
+                  "EXTIP=`ifconfig $config{'extdev'} | grep 'inet addr' | awk -F: '{ print \$2 } ' | awk '{ print \$1 }'`\n",
+                  "EXTNM=`ifconfig $config{'extdev'} | grep 'inet addr' | awk -F: '{ print \$4 } ' | awk '{ print \$1 }'`\n",
+                  "EXTBC=`ifconfig $config{'extdev'} | grep 'inet addr' | awk -F: '{ print \$3 } ' | awk '{ print \$1 }'`\n",
+                  "EXTNW=`ipcalc --network $EXTIP $EXTNM | awk -F= '{ print \$2 }'`\n";
+     $_[2]='$EXTIP';
+   }
+
+   print SCRIPT "\n$ipchains -A input -i lo -j ACCEPT\n",
+                "$ipchains -A output -i lo -j ACCEPT\n\n",
+                "\n#Do not accept packets from private class A on ext NIC\n",
+                "$ipchains -A input -i $_[1] -s 10.0.0.0/8 -j DENY\n",
+                "$ipchains -A input -i $_[1] -d 10.0.0.0/8 -j DENY\n",
+                "$ipchains -A output -i $_[1] -s 10.0.0.0/8 -j DENY\n",
+                "$ipchains -A output -i $_[1] -d 10.0.0.0/8 -j DENY\n",
+                "\n#Do not accept packets from private class B on ext NIC\n",
+                "$ipchains -A input -i $_[1] -s 172.16.0.0/12 -j DENY\n",
+                "$ipchains -A input -i $_[1] -d 172.16.0.0/12 -j DENY\n",
+                "$ipchains -A output -i $_[1] -s 172.16.0.0/12 -j DENY\n",
+                "$ipchains -A output -i $_[1] -d 172.16.0.0/12 -j DENY\n",
+                "\n#Do not accept packets from private class C on ext NIC\n",
+                "$ipchains -A input -i $_[1] -s 192.168.0.0/16 -j DENY\n",
+                "$ipchains -A input -i $_[1] -d 192.168.0.0/16 -j DENY\n",
+                "$ipchains -A output -i $_[1] -s 192.168.0.0/16 -j DENY\n",
+                "$ipchains -A output -i $_[1] -d 192.168.0.0/16 -j DENY\n",
+                "\n# Loopback packets should not be handled from ext NIC\n",
+                "$ipchains -A input -i $_[1] -s 127.0.0.0/8 -j DENY\n",
+                "$ipchains -A output -i $_[1] -s 127.0.0.0/8 -j DENY\n",
+                "\n#Refuse Bogus Broadcasts\n",
+                "$ipchains -A input -i $_[1] -s 255.255.255.255 -j DENY\n",
+                "$ipchains -A input -i $_[1] -d 0.0.0.0 -j DENY\n",
+                "\n# Refuse Requests from reserved IANA/ICANN adresses\n",
+                "$ipchains -A input -i $_[1] -s 1.0.0.0/8 -j DENY\n",
+                "$ipchains -A input -i $_[1] -s 2.0.0.0/8 -j DENY\n",
+                "$ipchains -A input -i $_[1] -s 5.0.0.0/8 -j DENY\n",
+                "$ipchains -A input -i $_[1] -s 7.0.0.0/8 -j DENY\n",
+                "# They have the Illuminati number of course :)\n",
+                "$ipchains -A input -i $_[1] -s 23.0.0.0/8 -j DENY\n";
+   my $num;
+   foreach $num (27, 31, 37, 39, 41, 42, 58, 60, 65, 66, 67, 68, 69, 70,
+                 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 96, 112, 113,
+                 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124,
+                 125, 126, 217, 218, 219, 220) {
+
+     print SCRIPT "\n$ipchains -A input -i $_[1] -s ${num}.0.0.0/8 -j DENY\n",
+   }
+
+   print SCRIPT "\n# Basic ICMP packages are needed for running a network\n",
+                "$ipchains -A input -i $_[1] -p icmp --icmp-type source-quench -d $_[2] -j ACCEPT\n",
+                "$ipchains -A output -i $_[1] -p icmp --icmp-type source-quench -d 0.0.0.0/0 -j ACCEPT\n",
+                "$ipchains -A input -i $_[1] -p icmp --icmp-type parameter-problem -d $_[2] -j ACCEPT\n",
+                "$ipchains -A output -i $_[1] -p icmp --icmp-type parameter-problem -d 0.0.0.0/0 -j ACCEPT\n",
+                "$ipchains -A input -i $_[1] -p icmp --icmp-type destination-unreachable -d $_[2] -j ACCEPT\n",
+                "$ipchains -A output -i $_[1] -p icmp --icmp-type destination-unreachable -d 0.0.0.0/0 -j ACCEPT\n",
+                "$ipchains -A input -i $_[1] -p icmp --icmp-type time-exceeded -d $_[2] -j ACCEPT\n",
+                "$ipchains -A output -i $_[1] -p icmp --icmp-type time-exceeded -d 0.0.0.0/0 -j ACCEPT\n\n";
+
+  close(SCRIPT);
+
+}
+
+
+
+
+
+sub broadcast {
+
+ my $ipnum = &numberize($_[0]);
+ my $nmnum = &numberize($_[1]);
+ my $broadcast = &denumberize($ipnum | ~ $nmnum);
+
+return $broadcast;
+}
+
+sub network {
+
+ my $ipnum = &numberize($_[0]);
+ my $nmnum = &numberize($_[1]);
+ my $network = &denumberize($ipnum & $nmnum);
+
+return $network;
+}
+
+sub numberize {
+ (my $a, my $b, my $c, my $d) = split(/\./, $_[0]);
+ return (($a << 24) | ($b << 16) | ($c << 8) | $d);
+}
+
+sub denumberize {
+ return join('.', ($_[0] & 0xff000000) >> 24,
+                  ($_[0] & 0x00ff0000) >> 16,
+                  ($_[0] & 0x0000ff00) >> 8,
+                  ($_[0] & 0x000000ff) );
 }
 
 

@@ -17,15 +17,47 @@ index_standpol=Standard Policy
 index_userdef=User-defined Chains
 index_noudef=No user defined chains found
 index_chaincreate=Create a new Chain
-index_name=Name
-index_createbut=Create
 index_list=List Hosts/Nets
-index_listbut=  List  
-index_scripts=Scripts
-index_scriptsman=Manage
-index_settings=Settings
-index_import=Import
+index_scriptman=Manage Script
+index_import=Import current Setup
 index_return=webmin index
+index_templname=Name
+index_infw=Inside -> FW
+index_inout=Inside -> Outside
+index_outfw=Outside -> FW
+index_outin=Outside -> Inside
+index_fwin=FW -> Inside
+index_fwout=FW -> Outside
+index_desconly=Embedded
+index_desc=Desc
+index_activate=Actv
+index_templ_save=Save and Apply
+index_devnotdef=Network Devices not defined
+index_desc_devdef=You have not defined, which of your network interfaces (Network Interface Card, ISDN Card, DSL, Modem) should be considered to be the internal interface (connected to your Local Area Network) and which to be the external interface (interface connected to the outer network, for example the Internet). Just select one of the network devices from the list. They have been found on your system.
+index_intdev=Internal Device
+index_extdev=External Device
+index_saveifaces=Save Interfaces
+index_bootnotdef=Init directory not defined
+index_desc_bootdef=The module cannot determine in which directory your init script reside. So please set the directory appropriate to your distribution. This is needed to find the best position for the firewall script and to make this script ran at bootup.
+index_dir=Directory
+index_saveinitdir=Save Init Directory
+index_sfnotdef=Script File not defined
+index_desc_sfdef=You have not yet set the location of the script file. This script file will contain all calls for ipchains. Do NOT give the location of ipchains. Give the name of an non-existent file. The module will make a suggestion depending on the location of the directory for init scripts on your system. Usually it is a sufficient guess.
+index_scriptfile=Script File
+index_savesf=Save Script File Location
+index_customize=Customize...
+index_customlevel=You are running a customized Firewall
+index_default=Switch to a default level...
+index_tmpl_masq=Enable Masquerading support
+index_chkbx_desc=Enable the templates by marking the checkbox in the appropriate columns.<BR>(Actv = Active/Enabled, Desc = Description)
+index_router=Router Firewall
+index_personal=Personal Firewall
+index_dhcpnotdev=Does your external interface get information via DHCP?
+index_desc_dhcpdef=The module could not find out if your external interface gets its information via DHCP. This is important for the firewall rules. If you say "Yes" (the external interface gets information like IP address and netmask from a DHCP server, common when using an ISP for dialup) the firewall script will determine the outside IP address. This takes longer on activating the rules. You will have to configure you system to execute the script every time a new address is assigned! If you say "No" (the external interface does not use DHCP) the module will save the IP address the assigned to the external interface when creating the rules.
+index_rawedit=Edit file manually
+index_exec=Execute Script
+
+sfile_err=Failed to save file
 
 lib_err_nosupport=Either the proc filesystem or IPchains is not supported by your kernel.
 lib_err_ipchains=File $1 does not exist or is not executable. $2
@@ -33,13 +65,20 @@ lib_err_sfcm=You have not entered a script file. It is needed because all rules 
 lib_err_sfmiss=The script file $1 you entered in the <A HREF=../config.cgi?ipchains>module configuration</A> does not exist. Use the <A HREF="script_manager.cgi">Script Manager</A> to create a plain script. After you created it come back and all works properly. This is a normal configuration step and not an real error, but one step ahead to a working IPchains Module installation!
 lib_icmptsel=ICMP-Type Selection
 lib_err_protomis=Cannot find protocol file. $1
-lib_err_netmod=You have choosen to use the Network Configuration Module to get all you network interfaces. But this module is not available on your system. Either it is not installed or your system is not supported. So just enter all interfaces in the <A HREF=/config.cgi?ipchains>module configuration</A> as a comma-separated list (for example "eth0, eth1, ippp0, lo").
+lib_err_netmod=You have choosen or it is set by default to use the Network Configuration Module to get all you network interfaces. But this module is not available on your system. Either it is not installed or your system is not supported. So just enter all interfaces in the <A HREF=/config.cgi?ipchains>module configuration</A> as a comma-separated list (for example "eth0, eth1, ippp0, lo").
 lib_err_syn=Syntax error (Type $1) in line $2
 lib_err_host=Host file $1 does not exist
 lib_err_create=Cannot create file $1
+lib_noinit=Could not find your init directory. You have to set it manually. $1.
+lib_err_noint=Could not determine the internal interface. There seems to be a problem with the network configuration module.
+lib_err_noext=Could not determine the external interface. There seems to be a problem with the network configuration module.
 
 editrule_title_edit=Edit Rule
-editrule_title_create=Create Rule
+editrule_title_create=Append Rule
+editrule_title_insert=Insert Rule
+editrule_desc_edit=Edit rule at line $1
+editrule_desc_create=Append new rule to file
+editrule_desc_insert=Insert rule after line $1
 editrule_source=Source
 editrule_dest=Destination
 editrule_proto=Protocol
@@ -70,8 +109,13 @@ changepol_return=edit chain <I>'$1'</I>
 savepol_err_nochain=No chain to edit!
 savepol_err_masq=MASQ-policy can only be set for forward-chain
 
-createchain_err_nochain=No chain to create!
-createchain_err_acl=You are not allowed to create chains.
+chain_title=Create Chain
+cchain_err_nochain=No chain to create!
+cchain_err_acl=You are not allowed to create chains.
+cchain_name=Name
+cchain_createbut=Create
+cchain_heading=Create new chain
+cchain_return=module index
 
 sman_title=Script Manager
 sman_header=Manage your Script
@@ -112,6 +156,10 @@ sman_exec_err=It seems that there occured an error:
 sman_exec_ok=Script executed successfully.
 sman_err_procneeded=This feature needs the "Running Processes" Module. Check if it is installed and your OS supported.
 
+exscript_err=Execution of script failed
+exscript_err_procneeded=The proc module is needed!
+exscript_failed=Error message: $1
+
 echain_title=Edit Chain
 echain_err_acl=You are not allowed to edit chains.
 echain_err_line=Cannot determine the line number of this rule. It seems that this rule is invalid.
@@ -137,6 +185,7 @@ echain_norules=No rules found for this chain.
 echain_edit=Edit
 echain_delete=Delete
 echain_clone=Clone
+echain_insert=Insert rule after current
 echain_up=Up
 echain_down=Down
 echain_delchain=Delete Chain
@@ -200,6 +249,7 @@ srule_err_masqjump=The chain you want to jump to has a MASQ-Policy in (at least)
 srule_err_red=REDIRECT-(Port)-policy can only be set for input-chain
 srule_err_acl=You are not allowed to create rules.
 srule_err_acl2=You are not allowed to edit rules.
+srule_nomode=Internal error due to misuse.
 
 schooser_title=Select Service..
 
@@ -223,6 +273,49 @@ import_chains=<B>Importing chains and standard policies..</B>
 import_rules=<B>Importing rules..</B>
 import_done=<B>Done</B>
 import_return=module index
+
+desc_title=Description
+desc_err_notfound=No description for the given ruleset.
+desc_heading=Description
+desc_rules=Rules
+desc_close=Close
+
+templsave_title=Save
+templsave_wrongmode=The current firewall file has been created using another mode (Newbie or Expert) or another program. Saving it in this mode will discard all changes and make the template configuration active. This is irreversible!
+templsave_overwrite=Save and overwrite current file
+templsave_return=template matrix
+templsave_err_write=Failed to create script file!
+templsave_exfail=Execution of the firewall script file failed
+
+changelev_title=Security Level
+changelev_err_wrong=The security level you selected is not available.
+changelev_desc_low=This will change your security level to <FONT COLOR=#FF0000>low</FONT>.
+changelev_desc_medium=This will change your security level to <FONT COLOR=#FFD700>medium</FONT>.
+changelev_desc_high=This will change your security level to <FONT COLOR=#00FF00>high</FONT>.
+changelev_desc_disabled=This will <FONT COLOR=#FF0000>disable</FONT> your firewall. You will no longer be secured. Any passing packets will be accepted. If forwarding is enabled all packets get forwared without filtering.
+changelev_desc_full=Your system will <FONT COLOR=#00FF00>batten down the hatches</FONT>. All traffic coming to your this systems or trying to pass your system will be unanswered dropped. Maybe useful if there is a known security problem on the net and you want to protect your systems.
+changelev_return=level selection
+changelev_change=Yes, change security level
+changelev_heading=Change Security Level for <I>$1</I>
+changelev_err_write=Failed to create script file!
+changelev_err_nofile=Sorry, there is no definition file for this security level.
+changelev_prot=Protocol
+changelev_dirs=Allowed Directions
+changelev_disabled_masq=Masquerading support is not available in DISABLED level
+changelev_low_masq=<INPUT TYPE=checkbox NAME=masq VALUE=1 CHECKED> Enable Masquerading support from inside to outside network
+changelev_medium_masq=<INPUT TYPE=checkbox NAME=masq VALUE=1> Enable Masquerading support from inside to outside network
+changelev_high_masq=<INPUT TYPE=checkbox NAME=masq VALUE=1> Enable Masquerading support from inside to outside network
+changelev_full_masq=Masquerading support is not available in FULL security level
+changelev_nocons=No connections are allowed in this security level (Loopback traffic will work anyway).
+
+saveinitdir_notexist=The directory you specified does not exist.
+
+rawedit_title=Edit Raw File
+rawedit_err=Raw edit failed
+rawedit_index=Edit raw file
+rawedit_undo=Undo Changes
+rawedit_desc=Use the text box below to manually edit the script file.
+rawedit_return=module index
 
 acl_cchains=User allowed to create chains?
 acl_echains=User allowed to edit chains?

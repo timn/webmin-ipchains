@@ -1,5 +1,12 @@
+mode=1
+fwtype=router
 scriptfile=
-bootloc=/etc/rc.d/init.d
+intdev=
+extdev=
+policy=DENY
+internet=1
+extdhcp=1
+bootloc=
 scriptinterpreter=
 ipchains_path=
 proto_file=

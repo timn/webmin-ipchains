@@ -1,0 +1,11 @@
+##-> Allows the firewall host to open connections to FTP servers on the 
+##-> internal network.
+##-> This template allows PASSIVE transfers. To allow passive transfers is 
+##-> very risky as it allows to open connections to all unprivileged ports on
+##-> the inside network. If it is not absolutely needed you should not enable 
+##-> this template. Use Active FTP instead. But some FTP clients (as for 
+##-> example the ones built into webbrowser) do not support active FTP.
+##-> Keep in mind that FTP passwords are transferred as clear text!
+##-> These rules maybe useful for a personal firewall.
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 1024:65535 -d @INTNET@ 1024:65535 -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ 1024:65535 ! -y -p tcp -j ACCEPT

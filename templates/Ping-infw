@@ -1,0 +1,5 @@
+##-> Allows host on the inside network to ping the firewall host. Usually you 
+##-> want that to check the connection between computers and the firewall or 
+##-> if the firewall host is up.
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ -d @INTIP@ -p icmp --icmp-type echo-request -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ -d @INTNET@ -p icmp --icmp-type echo-reply -j ACCEPT

@@ -1,0 +1,4 @@
+##-> Allows clients on the internal network to access a POP3 server running 
+##-> on the firewall host
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ 110 -p tcp -j ACCEPT
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 110 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
