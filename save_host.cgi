@@ -23,9 +23,9 @@
 require "./ipchains-lib.pl";
 
 if ($in{'host'}) {
- if (! $access{'ehosts'}) { &error('shost_err_acl'}) }
+ if (! $access{'ehosts'}) { &error($text{'shost_err_acl'}) }
 } else {
- if (! $access{'chosts'}) { &error('shost_err_acl2'}) }
+ if (! $access{'chosts'}) { &error($text{'shost_err_acl2'}) }
 }
 
 if ((!$in{'ip'}) && (!&check_ipaddress($in{'ip'}))) { &error($text{'shost_err_invip'}) }

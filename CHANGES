@@ -63,6 +63,16 @@
  13.03.2000  - Fixed bug in change_policy.cgi
  (0.78.2)    - Fixed bug in ipchains-lib.pl (missing $cl in error message for
                missing script file)
+ 14.03.2000  - Fix of some bugs
+ (0.78.3)
+ 
+ 20.03.2000  - Fix of some bugs more (often said chain instead of chains in
+ (0.78.4)      ACL checks
+             - Fixed bug when saving a rule with only dest or source, not both.
+               Before the save_rule set the -s AND -d option, although if one
+               was empty...
+ 22.03.2000  - Fixed a bug in save_host.cgi, again a problem with the ACL code,
+ (0.78.5)      I shouldn't do such things after a gaming session...
 
 
  To do

@@ -159,11 +159,12 @@ print <<EOM;
    </FORM>
 
   </TD>
+
  </TR>
 </TABLE>
 
 </TD>
-<TD VALIGN=top ALIGN=right><FONT FACE="Arial,helvetica" COLOR="#505050">[ IPchains Firewalling $version ] </FONT></TD>
+<TD VALIGN=top ALIGN=right><FONT FACE="Arial,helvetica" COLOR="#505050">[ $version ] </FONT></TD>
 </TR></TABLE>
 
 EOM
