@@ -1,3 +1,2 @@
-##-> Allows the firewall to ping hosts on the inside network.
 @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ -d @INTNET@ -p icmp --icmp-type echo-request -j ACCEPT
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ -d @INTIP@ -p icmp --icmp-type echo-reply -j ACCEPT

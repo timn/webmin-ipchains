@@ -1,0 +1,6 @@
+##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1024:65535 -d @INTNET@ 119 -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @INTNET@ 119 -d @EXTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 119 -d @EXTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 1024:65535 -d @INTNET@ 119 -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @INTDEV@ -s @EXTNET@ 1024:65535 -d @INTNET@ 119 -p tcp -j ACCEPT
+##NOMASQ: @IPCHAINS@ -A forward -i @EXTDEV@ -s @INTNET@ 119 -d @EXTNET@ 1024:65535 ! -y -p tcp -j ACCEPT

@@ -1,0 +1,3 @@
+##-> Pozwala hostom z sieci wewnêtrznej pingowaæ firewall. Zazwyczaj robi siê
+##-> to, aby sprawdziæ po³±czenie pomiêdzy komputerami a firewallem lub
+##-> aby sprawdziæ czy host z firewallem funkcjonuje.

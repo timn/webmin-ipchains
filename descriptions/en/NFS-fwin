@@ -1,0 +1,4 @@
+##-> Allows your firewall to connect to NFS servers on the inside network. 
+##-> NFS is a very insecure method of sharing files. Use it only when you 
+##-> exactly know about the risks. This template only allows the UDP variant 
+##-> of NFS.

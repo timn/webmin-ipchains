@@ -1,0 +1,5 @@
+##-> Masquerading, this will make traffic originating from your 
+##-> inside network look like traffic from the firewall host. This 
+##-> is useful if you have only a limited space of official IP addresses 
+##-> (or only one from your provider) and want to connect the whole 
+##-> inside network (with an inofficial address space).

@@ -1,0 +1,3 @@
+##-> Allows clients on the internal network to access external FTP servers 
+##-> via active FTP. This is more secure than passive FTP but is still a risk 
+##-> because FTP passwords are transferred as clear text!

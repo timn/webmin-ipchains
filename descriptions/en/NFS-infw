@@ -1,0 +1,3 @@
+##-> Allows clients on the internal network to access a NFS server running
+##-> on the firewall host. NFS is very unsecure and is NOT recommended to run 
+##-> this service on the firewall machine!

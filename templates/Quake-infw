@@ -1,5 +1,3 @@
-##-> Allows all the Stefs on the inside network to connect to a Quake server
-##-> on the firewall (this template supports Quake I, II, III and QuakeWorld).
 # Quake I:
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ 26000 -p udp -j ACCEPT
 @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 26000 -d @INTNET@ 1024:65535 -p udp -j ACCEPT

@@ -1,7 +1,2 @@
-##-> This will allow you to access the Webmin on the firewall host from your  
-##-> inside network. You should to that in order to be able to use this  
-##-> ipchains module to configure the firewall... You may want to disable 
-##-> this if your are an external consultant or sitting right next to the
-##-> firewall with a monitor attached running Netscape with Webmin on localhost.
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ @WEBMINPORT@ -p tcp -j ACCEPT
 @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ @WEBMINPORT@ -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT

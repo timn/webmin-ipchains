@@ -1,5 +1,2 @@
-##-> Allows clients on the internal network to chat by using the firewall host 
-##-> as the IRC server (IRC server must run of course). It is assumed that 
-##-> the IRC server listens on the often used default port 6667.
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ 6667 -p tcp -j ACCEPT
 @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 6667 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT

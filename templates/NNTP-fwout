@@ -1,0 +1,2 @@
+@IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 119 -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 119 -d @EXTIP@ 1024:65535 ! -y -p tcp -j ACCEPT

@@ -1,0 +1,2 @@
+##-> Allows a management station on the internal network to access a SNMP
+##-> daemon running on the firewall host.

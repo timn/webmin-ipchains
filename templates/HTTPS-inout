@@ -1,5 +1,3 @@
-##-> Allows clients on the internal network to surf to websites secured 
-##-> by SSL on standard port.
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 443 -p tcp -j ACCEPT
 @IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 443 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
 ##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 443 -d @INTNET@ 1024:65535 -p tcp -j ACCEPT

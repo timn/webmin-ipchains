@@ -186,6 +186,32 @@
              - Changed clone_rule.cgi, the cloned rule is now inserted right
                after the original rule. This makes more sense
              - Some smaller re-arrangements to met the new requirements
+ 09.10.2000  - It took a long time but I had to start a job and my civil
+               service and I am back home in Germany...
+             - Fixed a bug in lib, it was confused when searching for the
+               internal or external interface when one of these interfaces
+               had aliases (like eth0 and eth0:1)
+             - Fixed bug in SSH-fwin and fwout, multiple -p flags
+             - Fixed bug in FTP.Active-inout, insmod expects -p and not -q, I
+               think I was a little bit tired... ;)
+             - Fixed Typo in SMTP-fwout
+             - Corrected and restructured the spoof protection addresses in
+               lib in write_basics(). Used bigger subnets to reduce rule number
+               and removed 66, 67 and 217 which are for assigned IPs. Oops.
+             - Fixed bug that caused error messages when network configuration
+               module not available (and the user already defined the available
+               interfaces in the module configuration).
+ 18.10.2000  - Finnally working on finishing the big fix release 0.81.1.
+             - Fixed the bug that the ICMP type was not displayed in Expert
+               mode
+             - New templates for BigBrother and IDENT (thanks to Chris Dos)
+             - Some fixes and polish translation (thanks to Andrzej M.
+               Krzysztofowicz)
+ 22.10.2000  - Applied parts of the patch from Andrzej M.Krzysztofowicz
+               This fixes some "Schludrigkeiten" (whoever wants to know what
+               that means has either to learn German or to find a good
+               vocabulary ;) in the internationalization stuff
+             - New templates for NNTP and Proxy
 
  
  To do

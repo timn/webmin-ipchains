@@ -1,0 +1,10 @@
+##-> Pozwala klientom z sieci wewnêtrznej na dostêp do serwera FTP
+##-> dzia³aj±cego na firewallu.
+##-> Wzorzec ten pozwala na transmisjê PASYWN¡. Umo¿liwienie transmisji
+##-> pasywnej jest bardzo ryzykowne, gdy¿ wymaga zezwolenia na otwieranie
+##-> po³±czeñ na wszystkie nieuprzywilejowane porty firewalla z hostów sieci
+##-> wewnêtrznej. Je¶li nie jest to absolutnie konieczne, nie powiniene¶
+##-> w³±czaæ tego wzorca. Korzystaj zamiast tego z aktywnego FTP. Jednak¿e
+##-> niektórzy klienci FTP (na przyk³ad wbudowani w przegl±darki) nie
+##-> obs³uguj± aktywnego FTP. Miej na uwadze, ¿e przy po³±czeniach FTP has³a
+##-> s± przesy³ane otwartym tekstem!

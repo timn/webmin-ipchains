@@ -1,0 +1,4 @@
+##-> Allows the firewall host to open chat conntections to server on the 
+##-> outside network. It is assumed that the IRC server listens
+##-> on the often used default port 6667.
+##-> These rules maybe useful for a personal firewall.

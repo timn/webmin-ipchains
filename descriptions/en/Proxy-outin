@@ -1,0 +1,3 @@
+##-> Allows clients on the external network to access proxy servers on the
+##-> inside network. These rules are only enabled if Masquerading is disabled.
+##-> It is assmued that the proxy server listens on port 8080.

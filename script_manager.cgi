@@ -82,7 +82,7 @@ EOM
 
 print "<BR><HR>\n";
 
-&footer("./", "module index");
+&footer("./", $text{'sman_return'});
 
 }
 

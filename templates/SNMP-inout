@@ -1,6 +1,3 @@
-##-> Allows management stations on the inside network to control 
-##-> SNMP server on the outside network. Traps can pass the firewall from 
-##-> outside to inside.
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 161 -p udp -j ACCEPT
 @IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 161 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 162 -d @EXTNET@ 1024:65535 -p udp -j ACCEPT

@@ -1,0 +1,3 @@
+##-> Allows clients on the internal network to access a proxy server
+##-> on the outside network.
+##-> It is assmued that the proxy server listens on port 8080.

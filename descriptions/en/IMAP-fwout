@@ -1,0 +1,2 @@
+##-> Allows IMAP connections from the firewall to the outside network.
+##-> These rules can be useful for a personal firewall.

@@ -1,0 +1,5 @@
+##-> Pozwala klientom z sieci zewnêtrznej na dostêp do serwerów FTP w sieci
+##-> wewnêtrznej wykorzystuj±c aktywny FTP. Jest to bezpieczniejsze ni¿
+##-> pasywny FTP ale wci±¿ ryzykowne, gdy¿ przy po³±czeniach FTP has³a s±
+##-> przesy³ane otwartym tekstem! Regu³y te mog± byæ w³±czone jedynie, gdy
+##-> wy³±czone jest maskowanie adresów.

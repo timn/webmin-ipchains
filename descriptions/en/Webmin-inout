@@ -1,0 +1,3 @@
+##-> Allows clients on the internal network to access Webmin host on the
+##-> outside port. It allows access only to the same port, this Webmin is 
+##-> running on, assuming that the numbers are the same.

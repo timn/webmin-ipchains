@@ -1,0 +1,4 @@
+##-> Pozwala klientom z sieci zewnêtrznej na dostêp do serwera FTP
+##-> dzia³aj±cego na firewallu. B±d¼ ostro¿ny, gdy¿ przy po³±czeniach FTP
+##-> has³a s± przesy³ane otwartym tekstem. Jest to szczególnie niebezpieczne,
+##-> na przyk³ad, przy po³±czeniach poprzez Internet do hosta z firewallem.

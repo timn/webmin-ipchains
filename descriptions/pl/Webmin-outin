@@ -1,0 +1,3 @@
+##-> Pozwala klientom z sieci zewnêtrznej na dostêp do hosta z Webminem
+##-> w sieci wewnêtrznej. Umo¿liwia dostêp jedynie do tego samego portu,
+##-> na którym pracuje ten Webmin.

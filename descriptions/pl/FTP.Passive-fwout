@@ -1,0 +1,10 @@
+##-> Pozwala klientom z firewalla otwieraæ po³±czenia do serwerów FTP w
+##-> sieci zewnêtrznej. Wzorzec ten pozwala na transmisjê PASYWN¡.
+##-> Umo¿liwienie transmisji pasywnej jest bardzo ryzykowne, gdy¿ wymaga
+##-> zezwolenia na otwieranie po³±czeñ na wszystkie nieuprzywilejowane porty
+##-> hostów w sieci zewnêtrznej. Je¶li nie jest to absolutnie konieczne, nie
+##-> powiniene¶ w³±czaæ tego wzorca. Korzystaj zamiast tego z aktywnego FTP.
+##-> Jednak¿e niektórzy klienci FTP (na przyk³ad wbudowani w przegl±darki)
+##-> nie obs³uguj± aktywnego FTP. Miej na uwadze, ¿e przy po³±czeniach FTP
+##-> has³a s± przesy³ane otwartym tekstem! Te regu³y mog± byæ przydatne w
+##-> przypadku firewalla osobistego.

@@ -1,0 +1,3 @@
+##-> Pozwala klientom na dostêp z firewalla do serwerów Webmina w sieci
+##-> zewnêtrznej. Zak³ada siê, ¿e serwery Webmina w sieci zewnêtrznej
+##-> pracuj± na tym samym porcie, co Webmin na firewallu.

@@ -1,0 +1,5 @@
+##-> Pozwala klientom z firewalla na dostêp do serwerów FTP w sieci
+##-> wewnêtrznej. B±d¼ ostro¿ny, gdy¿ przy po³±czeniach FTP has³a s±
+##-> przesy³ane otwartym tekstem. Czyni to szczególnie niebezpiecznymi
+##-> po³±czenia do firewalla w du¿ej sieci korporacyjnej! Regu³y te mog±
+##-> byæ u¿yteczne w przypadku firewalla osobistego.

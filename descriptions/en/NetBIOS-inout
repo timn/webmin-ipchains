@@ -1,0 +1,7 @@
+##-> Allows clients on the internal network to speak to NetBIOS servers 
+##-> on the outside network. Outside computers will also be able to reach 
+##-> your servers on the internal network.
+##-> Keep in mind that Broadcast packets do NOT pass the firewall. So machines 
+##-> on the inside cannot find servers on the outside without using a WINS 
+##-> server (which can be done with Samba).
+##-> This connection type is NOT supported when using Masquerading!

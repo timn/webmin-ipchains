@@ -1,5 +1,2 @@
-##-> Allows traffic to Webmin from the outside network. You should enable 
-##-> this template, if you want to be able to change the configuration of
-##-> Firewall from the outside network.
 @IPCHAINS@ -A input -i @EXTDEV@ -d @EXTIP@ @WEBMINPORT@ -s @EXTNET@ 1024:65535 -p tcp -j ACCEPT
 @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ @WEBMINPORT@ -d @EXTNET@ 1024:65535 -p tcp -j ACCEPT

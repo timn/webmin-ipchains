@@ -1,5 +1,3 @@
-##-> Allows clients on the internal network to connect to secure shell
-##-> servers on the outside network.
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 22 -p tcp -j ACCEPT
 @IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 22 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 513:1023 -d @EXTNET@ 22 -p tcp -j ACCEPT

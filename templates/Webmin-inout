@@ -1,6 +1,3 @@
-##-> Allows clients on the internal network to access Webmin host on the
-##-> outside port. It allows access only to the same port, this Webmin is 
-##-> running on, assuming that the numbers are the same.
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ @WEBMINPORT@ -p tcp -j ACCEPT
 @IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ @WEBMINPORT@ -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
 ##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ @WEBMINPORT@ -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT

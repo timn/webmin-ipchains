@@ -1,0 +1,5 @@
+##-> Pozwala na nawi±zywanie po³±czeñ z firewalla do serwerów SMB (lub CIFS)
+##-> (np. komputery z Samb± lub Windows) w sieci zewnêtrznej. Stosuj to ze
+##-> szczególn± ostro¿no¶ci±. Ze wzglêdu na fakt, ¿e protokó³ SMB nie
+##-> zapewnia dobrych zabezpieczeñ, zazwyczaj ryzykownie jest udostêpniaæ go
+##-> w sieci zewnêtrznej.

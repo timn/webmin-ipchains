@@ -34,9 +34,19 @@ print "<HR><BR>\n";
 
 print "<H3>$text{'desc_heading'}</H3>\n";
 
+
+$lang = $gconfig{"lang_$u"} ? $gconfig{"lang_$u"} :
+	$gconfig{"lang"} ? $gconfig{"lang"} : "en";
+
+if (-e "$miniserv{'root'}/$module_name/descriptions/$lang/$in{'ruleset'}") {
+  $file = "$miniserv{'root'}/$module_name/descriptions/$lang/$in{'ruleset'}";
+} else {
+  $file = "$miniserv{'root'}/$module_name/descriptions/en/$in{'ruleset'}";
+}
+
 my @rules = ();
-open(RULESET, "$miniserv{'root'}/$module_name/templates/$in{'ruleset'}");
-  while (<RULESET>)
+open(DESC, $file);
+  while (<DESC>)
   {
     chomp;
     if (/^##-> (.+)+/) {
@@ -44,6 +54,14 @@ open(RULESET, "$miniserv{'root'}/$module_name/templates/$in{'ruleset'}");
     } else {
       push(@rules, &fill_tokens($_));
     }
+  }
+close(DESC);
+
+open(RULESET, "$miniserv{'root'}/$module_name/templates/$in{'ruleset'}");
+  while (<RULESET>)
+  {
+    chomp;
+    push(@rules, &fill_tokens($_));
   }
 close(RULESET);
 

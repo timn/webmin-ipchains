@@ -1,0 +1,3 @@
+##-> Allows clients on the internal network to access a FTP server running
+##-> on the firewall host. Be careful with this especially in corporate
+##-> networks since passwords are transmitted as clear text.

@@ -52,7 +52,7 @@ require "./ipchains-lib.pl";
     }
     print "<INPUT TYPE=submit NAME=confirm VALUE=\"$text{'templsave_overwrite'}\"></FORM><HR>";
     
-    &footer("", $text{'templsave_return'});
+    &footer("?mode=template", $text{'templsave_return'});
 
     exit 0;
 

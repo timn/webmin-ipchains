@@ -1,3 +1,2 @@
-##-> Allows the firewall host to connect to SMTP servers on the inside.
 @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 1024:65535 -d @INTNET@ 25 -p tcp -j ACCEPT
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 25 -d @INTIP@ 1024:65535 ! -y -p tcp -j ACCEPT

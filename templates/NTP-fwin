@@ -1,4 +1,2 @@
-##-> Allows the firewall host to open connections to NTP time servers on the 
-##-> inside network.
 @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 1024:65535 -d @INTNET@ 123 -p tcp -j ACCEPT
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 123 -d @INTIP@ 1024:65535 ! -y -p tcp -j ACCEPT

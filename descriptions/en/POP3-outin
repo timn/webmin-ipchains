@@ -1,0 +1,3 @@
+##-> Allows clients on the external network to fetch emails from POP3 
+##-> mail servers on the internal network. These rules are only enabled if
+##-> Masquerading is disabled.

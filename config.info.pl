@@ -1,0 +1,14 @@
+mode=Tryb pracy,1,1-Nowicjusz,2-Ze wzorców,3-Ekspert
+fwtype=Rodzaj firewalla,1,router-Router,personal-Osobisty
+scriptfile=¦cie¿ka do skryptu,0
+intdev=Interfejs sieci wewnêtrznej we wzorcach,0
+extdev=Interfejs sieci zewnêtrznej we wzorcach,0
+policy=Domy¶ln± taktyk± w&nbsp;trybie wzorca jest,1,DENY-Zablokuj,REJECT-Odrzuæ
+internet=Zewnêtrzn± sieci± jest,1,1-Internet (0.0.0.0/0),0-Inna sieæ o&nbsp;ograniczonym dostêpie (zale¿y od ustawieñ interfejsu zewnêtrznego)
+extdhcp=Interfejs zewnêtrzny pobiera adres z&nbsp;DHCP,1,1-Wykryj (niezbêdny modu³ &quot;Konfiguracja sieci&quot;),2-Tak,3-Nie
+bootloc=Lokalizacja skryptów startowego i&nbsp;wy³±czaj±cego,3,Z&nbsp;modu³u &quot;Start i&nbsp;zamykanie systemu&quot;
+scriptinterpreter=Interpreter skryptu,3,Domy¶lny (/bin/sh)
+ipchains_path=¦cie¿ka do ipchains,3,Domy¶lna (/sbin/ipchains)
+proto_file=¦cie¿ka do pliku protoko³ów,3,Domy¶lna (/etc/protocols)
+hostsfile=¦cie¿ka do pliku hosts,3,Domy¶lna (/etc/hosts)
+netifaces=Interfejsy sieciowe (lista rozdzielona przecinkami),3,U¿yj modu³u &quot;Konfiguracja sieci&quot; do detekcji

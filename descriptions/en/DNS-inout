@@ -1,0 +1,2 @@
+##-> This allows host in the internal network to lookup hostnames by 
+##-> querying nameservers in the outside network.

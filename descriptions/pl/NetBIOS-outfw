@@ -1,0 +1,4 @@
+##-> Pozwala komputerom pracuj±cym pod Windows w sieci zewnêtrznej na dostêp
+##-> do serwera Samby dzia³aj±cego na firewallu. Stosuj to ze szczególn±
+##-> ostro¿no¶ci±. W przypadku ¼le skonfigurowanej Samby, mo¿e to byæ
+##-> przyczyn± dostêpu do twojego serwera Samby z ca³ego Internetu.

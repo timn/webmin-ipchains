@@ -1,6 +1,3 @@
-##-> Allows all the Stefs on the outside network to connect to Quake servers
-##-> on the inside (this template supports Quake I, II, III and QuakeWorld).
-##-> These rules are only enabled if Masquerading is disabled.
 ##NOMASQ: # Quake I:
 ##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1024:65535 -d @INTNET@ 26000 -p udp -j ACCEPT
 ##NOMASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @INTNET@ 26000 -d @EXTNET@ 1024:65535 -p udp -j ACCEPT

@@ -1,0 +1,4 @@
+##-> Pozwala klientom z sieci wewnêtrznej na dostêp do zewnêtrznych serwerów
+##-> FTP wykorzystuj±c aktywny FTP. Jest to bezpieczniejsze ni¿ pasywny FTP
+##-> ale wci±¿ ryzykowne, gdy¿ przy po³±czeniach FTP has³a s± przesy³ane
+##-> otwartym tekstem!

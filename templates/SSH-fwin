@@ -1,5 +1,4 @@
-##-> Allows SSH conntections from the firewall host to the inside network.
 @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 1024:65535 -d @INTNET@ 22 -p tcp -j ACCEPT
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 22 -d @INTIP@ 1024:65535 ! -y -p tcp -j ACCEPT
 @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 513:1023 -d @INTNET@ 22 -p tcp -j ACCEPT
-@IPCHAINS@ -A input -i @INTDEV@ -p tcp -s @INTNET@ 22 -d @INTIP@ 513:1023 ! -y -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 22 -d @INTIP@ 513:1023 ! -y -p tcp -j ACCEPT

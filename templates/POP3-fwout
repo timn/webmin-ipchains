@@ -1,4 +1,2 @@
-##-> Allows the firewall host to fetch emails via POP3 from host on the 
-##-> outside network.
 @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 110 -p tcp -j ACCEPT
 @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 110 -d @EXTIP@ 1024:65535 ! -y -p tcp -j ACCEPT

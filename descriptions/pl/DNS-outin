@@ -1,0 +1,4 @@
+##-> Pozwala hostom z sieci zewnêtrznej na rozwi±zywanie nazw hostów poprzez
+##-> odpytywanie serwerów DNS w sieci wewnêtrznej. Wewnêtrzna sieæ musi
+##-> korzystaæ z adresów routowalnych z zewnatrz, aby to dzia³a³o. Regu³y te
+##-> mo¿na w³±czyæ jedynie, gdy wy³±czone jest maskowanie adresów.

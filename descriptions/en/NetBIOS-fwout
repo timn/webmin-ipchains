@@ -1,0 +1,4 @@
+##-> Allows to open connections from the firewall to SMB (or CIFS) servers 
+##-> (like Samba or an Windows machine) on the outside network.
+##-> Use this with extreme caution. Since SMB offers not very good security
+##-> it is usually a risk to run this on the outside network.

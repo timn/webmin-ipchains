@@ -1,8 +1,3 @@
-##-> Allows connections from the firewall to FTP servers on the inside 
-##-> network. Be careful with this since passwords are 
-##-> transmitted as clear text. This makes it especially dangerous for example 
-##-> when connecting in a corporate network to the firewall host!
-##-> These rules maybe useful for a personal firewall.
 @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 1024:65535 -d @INTNET@ 21 -p tcp -j ACCEPT
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 21 -d @INTIP@ 1024:65535 ! -y -p tcp -j ACCEPT
 @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 1024:65535 -d @INTNET@ 20 -p tcp -j ACCEPT

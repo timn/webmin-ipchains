@@ -1,0 +1,3 @@
+##-> Pozwala klientom z sieci zewnêtrznej na wysy³anie wiadomo¶ci poprzez
+##-> serwer SMTP w sieci wewnêtrznej. Regu³y te mo¿na w³±czyæ jedynie
+##-> gdy wy³±czone jest maskowanie adresów.

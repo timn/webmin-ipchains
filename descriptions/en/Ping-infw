@@ -1,0 +1,3 @@
+##-> Allows host on the inside network to ping the firewall host. Usually you 
+##-> want that to check the connection between computers and the firewall or 
+##-> if the firewall host is up.

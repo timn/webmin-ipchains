@@ -1,4 +1,2 @@
-##-> Allows clients on the inside network to access a DNS server on the 
-##-> firewall.
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ 53 -p udp -j ACCEPT
 @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 53 -d @INTNET@ 1024:65535 -p udp -j ACCEPT

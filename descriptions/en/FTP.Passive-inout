@@ -1,0 +1,7 @@
+##-> Allows clients on the internal network to access external FTP servers. 
+##-> This template allows PASSIVE transfers. To allow passive transfers is 
+##-> very risky as it allows to open connections to all unpfivileged ports on
+##-> the outside network. If it is not absolutely needed you should not enable 
+##-> this template. Use Active FTP instead. But some FTP clients (as for 
+##-> example the ones built into webbrowser) do no support active FTP.
+##-> Keep in mind that FTP passwords are transferred as clear text!

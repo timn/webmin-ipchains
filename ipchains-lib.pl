@@ -20,7 +20,7 @@ $|=1;
 &init_config();
 %access=&get_module_acl();
 $cl=$text{'config_link'};
-$version="0.80.5";
+$version="0.82.1";
 $intiface=undef;
 $extiface=undef;
 $bootdir=undef;
@@ -89,11 +89,11 @@ if ($config{'extdhcp'} == 1) {
 @aw1=("-N", "-X", "-F", "-j", "-m", "-p", "-i", "-A", "-I", "--icmp-type");
 @aw2=("-D", "-R", "-P", "-d", "-s", "-t");
 
-%tos=("0x00" => "Not Set",
-      "0x10" => "Minimum Delay",
-      "0x08" => "Minimum Throughput",
-      "0x04" => "Maximum Reliability",
-      "0x02" => "Minimum Cost");
+%tos=("0x00" => $text{'lib_tosnotset'},
+      "0x10" => $text{'lib_tosmindel'},
+      "0x08" => $text{'lib_tosmaxthr'},
+      "0x04" => $text{'lib_tosmaxrel'},
+      "0x02" => $text{'lib_tosmincost'});
 
 @basechains=("input", "output", "forward");
 @policies=("ACCEPT", "DENY", "MASQ", "REJECT", "RETURN");
@@ -190,7 +190,7 @@ sub proto_select {
  $sel=$_[0];
 
  $rv="<SELECT NAME=\"proto\">\n";
- $rv.="<OPTION VALUE=0>Any\n";
+ $rv.="<OPTION VALUE=0>$text{'lib_any'}\n";
  @proto=&get_proto_list();
  foreach $p (@proto) {
   $rv.= "<OPTION VALUE=\"$p\"";
@@ -210,15 +210,14 @@ sub get_iface_select {
  my $selname = ($_[1]) ? $_[1] : "dev";
 
  my $rv = "<SELECT NAME=\"$selname\">\n";
- $rv .= "<OPTION VALUE=\"\">Any Device\n";
+ $rv .= "<OPTION VALUE=\"\">$text{'lib_anydev'}\n";
 
 
 
- if (!$config{'netifaces'}) {
+ if (&foreign_check('net')) {
   # we use the network configuration module for getting
   # all interfaces
 
-  &foreign_check('net') || &error($text{'lib_err_netmod'});
   &foreign_require('net', 'net-lib.pl');
   my @act = &foreign_call('net', 'active_interfaces');
   @act = sort { "$a->{'name'}:$a->{'virtual'}" cmp
@@ -232,6 +231,7 @@ sub get_iface_select {
   }
  } else {
   # we parse the interfaces from the entered list
+  defined($config{'netifaces'}) || &error($text{'lib_err_netmod'});
   my $a=$config{'netifaces'};
   $a=~tr/\s+//;
   my @act=split(/,/, $a);
@@ -804,17 +804,28 @@ sub fill_tokens
   if (! (defined($intiface) && defined($extiface)))  {
     # something like a cache, it is a little bit two slow to do that for
     # all 12312 lines again...
-    &foreign_check('net') || &error($text{'lib_err_netmod'});
-    &foreign_require('net', 'net-lib.pl');
-    my @act = &foreign_call('net', 'active_interfaces');
-    @act = sort { "$a->{'name'}:$a->{'virtual'}" cmp
-                  "$b->{'name'}:$b->{'virtual'}" } @act;
-    my $a;
-    foreach $a (@act) {
-      $intiface = $a if ($a->{'name'} eq $config{'intdev'});
-      $extiface = $a if ($a->{'name'} eq $config{'extdev'});
-    }
+    if (&foreign_check('net')) {
+      &foreign_require('net', 'net-lib.pl');
+      my @act = &foreign_call('net', 'active_interfaces');
+      @act = sort { "$a->{'name'}:$a->{'virtual'}" cmp
+                    "$b->{'name'}:$b->{'virtual'}" } @act;
+      my $a;
+      foreach $a (@act) {
+        $intiface = $a if ($a->{'fullname'} eq $config{'intdev'});
+        $extiface = $a if ($a->{'fullname'} eq $config{'extdev'});
+      }
+    } else {
+      $intiface->{'address'} = `ifconfig $config{'intdev'} | grep 'inet addr' | awk -F: '{ print \$2 } ' | awk '{ print \$1 }'`;
+      $extiface->{'address'} = `ifconfig $config{'extdev'} | grep 'inet addr' | awk -F: '{ print \$2 } ' | awk '{ print \$1 }'`;
+      $intiface->{'netmask'} = `ifconfig $config{'intdev'} | grep 'inet addr' | awk -F: '{ print \$4 } ' | awk '{ print \$1 }'`;
+      $extiface->{'netmask'} = `ifconfig $config{'extdev'} | grep 'inet addr' | awk -F: '{ print \$4 } ' | awk '{ print \$1 }'`;
+      chomp $intiface->{'address'};
+      chomp $extiface->{'address'};
+      chomp $intiface->{'netmask'};
+      chomp $extiface->{'netmask'};
+    } # END if net module available
   }
+
   &error($text{'lib_err_noint'}) if (! defined($intiface));
   &error($text{'lib_err_noint'}) if (! defined($extiface));
 
@@ -883,7 +894,7 @@ sub write_basics {
                   "EXTIP=`ifconfig $config{'extdev'} | grep 'inet addr' | awk -F: '{ print \$2 } ' | awk '{ print \$1 }'`\n",
                   "EXTNM=`ifconfig $config{'extdev'} | grep 'inet addr' | awk -F: '{ print \$4 } ' | awk '{ print \$1 }'`\n",
                   "EXTBC=`ifconfig $config{'extdev'} | grep 'inet addr' | awk -F: '{ print \$3 } ' | awk '{ print \$1 }'`\n",
-                  "EXTNW=`ipcalc --network $EXTIP $EXTNM | awk -F= '{ print \$2 }'`\n";
+                  "EXTNW=`ipcalc --network \$EXTIP \$EXTNM | awk -F= '{ print \$2 }'`\n";
      $_[2]='$EXTIP';
    }
 
@@ -918,15 +929,16 @@ sub write_basics {
                 "# They have the Illuminati number of course :)\n",
                 "$ipchains -A input -i $_[1] -s 23.0.0.0/8 -j DENY\n";
    my $num;
-   foreach $num (27, 31, 37, 39, 41, 42, 58, 60, 65, 66, 67, 68, 69, 70,
-                 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 96, 112, 113,
-                 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124,
-                 125, 126, 217, 218, 219, 220) {
-
-     print SCRIPT "\n$ipchains -A input -i $_[1] -s ${num}.0.0.0/8 -j DENY\n",
+   foreach $num (27, 31, 36, 37, 39, 41, 42, 58, 59, 60, 67, 218, 219) {
+     print SCRIPT "$ipchains -A input -i $_[1] -s ${num}.0.0.0/8 -j DENY\n";
    }
 
-   print SCRIPT "\n# Basic ICMP packages are needed for running a network\n",
+   print SCRIPT "$ipchains -A input -i $_[1] -s 68.0.0.0/6 -j DENY\n",
+                "$ipchains -A input -i $_[1] -s 72.0.0.0/5 -j DENY\n",
+                "$ipchains -A input -i $_[1] -s 80.0.0.0/3 -j DENY\n",
+                "$ipchains -A input -i $_[1] -s 112.0.0.0/4 -j DENY\n",
+                "$ipchains -A input -i $_[1] -s 220.0.0.0/6 -j DENY\n",
+                "\n# Basic ICMP packages are needed for running a network\n",
                 "$ipchains -A input -i $_[1] -p icmp --icmp-type source-quench -d $_[2] -j ACCEPT\n",
                 "$ipchains -A output -i $_[1] -p icmp --icmp-type source-quench -d 0.0.0.0/0 -j ACCEPT\n",
                 "$ipchains -A input -i $_[1] -p icmp --icmp-type parameter-problem -d $_[2] -j ACCEPT\n",

@@ -37,7 +37,18 @@ if ($in{'chain'} eq "input" || $in{'chain'} eq "output" || $in{'chain'} eq "forw
 $chains=&find_arg_struct('-N', \@ps);
 $chainrules=&find_chain_struct($in{'chain'}, \@ps);
 
-
+$chainname=$in{'chain'};
+if ($chainname eq "output") {
+ $chainname=$text{'output'};
+} else {
+ if ($chainname eq "input") {
+  $chainname=$text{'input'};
+ } else {
+  if ($chainname eq "forward") {
+   $chainname=$text{'forward'};
+  }
+ }
+}
 
 
 &header($text{'echain_title'}, undef, "echain", undef, undef, undef,
@@ -46,7 +57,7 @@ $chainrules=&find_chain_struct($in{'chain'}, \@ps);
 print "<BR><HR>";
 
 print "<TABLE BORDER=2 CELLPADDING=2 CELLSPACING=0 $cb WIDTH=100%>\n<TR>",
-      "<TD COLSPAN=12 $tb WIDTH=100%><B>$in{'chain'}</B></TD></TR>\n";
+      "<TD COLSPAN=12 $tb WIDTH=100%><B>$chainname</B></TD></TR>\n";
 if ($sc) {
  print "<TR><TD COLSPAN=12 $cb><B>$text{'echain_standpol'}: </B>$policy (",
        "<A HREF=\"change_policy.cgi?chain=$in{'chain'}&policy=$policy\">$text{'echain_spchange'}</A>)</TD></TR>\n\n";
@@ -90,7 +101,7 @@ for ( my $i=0; $i<@{$chainrules}; $i++) {
  $dport=($tmp->{'value2'}) ? ($tmp->{'neg2'}) ? "<B>!</B> $tmp->{'value2'}" : $tmp->{'value2'} : "&nbsp;";
  $tmp=&find_arg('-p', $l);
 
- $proto=($tmp->{'name'}) ? ($tmp->{'neg'}) ? "<B>!</B> $tmp->{'value'}" : $tmp->{'value'} : "Any";
+ $proto=($tmp->{'name'}) ? ($tmp->{'neg'}) ? "<B>!</B> $tmp->{'value'}" : $tmp->{'value'} : "<i>$text{'echain_any'}</i>";
 
  $protoplain=$tmp->{'value'};
  if ($protoplain eq "icmp") {

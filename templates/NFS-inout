@@ -1,5 +1,3 @@
-##-> Allows clients on the internal network to mount directories from 
-##-> NFS servers on the outside.
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 111 -p udp -j ACCEPT
 @IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 111 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1:1023 -d @EXTNET@ 2049 -p udp -j ACCEPT

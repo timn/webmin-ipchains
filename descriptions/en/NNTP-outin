@@ -1,0 +1,2 @@
+##-> Allows clients on the external network to access News Server in the
+##-> inside network. These rules are only enabled if Masquerading is disabled.

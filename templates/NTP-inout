@@ -1,5 +1,3 @@
-##-> Allows clients on the internal network to synchronize the time with a 
-##-> timeserver on the outside.
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 123 -p udp -j ACCEPT
 @IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 123 -d @INTNET@ 1024:65535 -p udp -j ACCEPT
 ##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 123 -d @INTNET@ 1024:65535 -p udp -j ACCEPT

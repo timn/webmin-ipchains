@@ -1,4 +1,2 @@
-##-> Allows clients on the internal network to access a webserver running on 
-##-> the firewall host
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ 80 -p tcp -j ACCEPT
 @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 80 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT

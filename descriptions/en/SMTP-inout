@@ -1,0 +1,2 @@
+##-> Allows clients on the internal network to send emails through a SMTP 
+##-> server on the external network.

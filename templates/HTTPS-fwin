@@ -1,4 +1,2 @@
-##-> Allows SSL secured HTTP connections from the firewall to the inside
-##-> network.
 @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 1024:65535 -d @INTNET@ 443 -p tcp -j ACCEPT
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 443 -d @INTIP@ 1024:65535 ! -y -p tcp -j ACCEPT

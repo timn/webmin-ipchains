@@ -1,0 +1,3 @@
+##-> Allows connections from the firewall to a proxy server
+##-> on the inside network.
+##-> It is assmued that the proxy server listens on port 8080.

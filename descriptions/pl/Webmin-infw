@@ -1,0 +1,6 @@
+##-> Pozwala na dostêp do Webmina na firewallu z sieci wewnêtrznej.
+##-> Powiniene¶ na to pozwoliæ, aby mieæ mo¿liwo¶æ u¿ywania niniejszego
+##-> modu³u Firewalla IPchains do konfigurowania firewalla... Mo¿esz jednak
+##-> chcieæ to zablokowaæ, je¶li jeste¶ zewnêtrznym konsultantem lub je¶li
+##-> w³a¶nie siedzisz przy firewallu z pod³±czonym monitorem i uruchomionym
+##-> Netscapem który ³±czy siê z Webminem przez localhost.

@@ -1,0 +1,4 @@
+##-> Pozwala klientom z sieci zewnêtrznej gawêdziæ poprzez serwery IRC w sieci
+##-> wewnêtrznej. Zak³ada siê, ¿e wykorzystywany jest port 6667 (który jest
+##-> standardowym dla wiêkszo¶ci serwerów IRC). Te regu³y s± w³±czane
+##-> jedynie, gdy wy³±czone jest maskowanie adresów.

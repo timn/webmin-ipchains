@@ -21,6 +21,7 @@ index_list=List Hosts/Nets
 index_scriptman=Manage Script
 index_import=Import current Setup
 index_return=webmin index
+index_nbreturn=level selection
 index_templname=Name
 index_infw=Inside -> FW
 index_inout=Inside -> Outside
@@ -52,6 +53,8 @@ index_tmpl_masq=Enable Masquerading support
 index_chkbx_desc=Enable the templates by marking the checkbox in the appropriate columns.<BR>(Actv = Active/Enabled, Desc = Description)
 index_router=Router Firewall
 index_personal=Personal Firewall
+index_routerfor=Router Firewall
+index_personalfor=Personal Firewall
 index_dhcpnotdev=Does your external interface get information via DHCP?
 index_desc_dhcpdef=The module could not find out if your external interface gets its information via DHCP. This is important for the firewall rules. If you say "Yes" (the external interface gets information like IP address and netmask from a DHCP server, common when using an ISP for dialup) the firewall script will determine the outside IP address. This takes longer on activating the rules. You will have to configure you system to execute the script every time a new address is assigned! If you say "No" (the external interface does not use DHCP) the module will save the IP address the assigned to the external interface when creating the rules.
 index_rawedit=Edit file manually
@@ -63,6 +66,11 @@ lib_err_nosupport=Either the proc filesystem or IPchains is not supported by you
 lib_err_ipchains=File $1 does not exist or is not executable. $2
 lib_err_sfcm=You have not entered a script file. It is needed because all rules will be written with the appropriate directives into this script file. $1
 lib_err_sfmiss=The script file $1 you entered in the <A HREF=../config.cgi?ipchains>module configuration</A> does not exist. Use the <A HREF="script_manager.cgi">Script Manager</A> to create a plain script. After you created it come back and all works properly. This is a normal configuration step and not an real error, but one step ahead to a working IPchains Module installation!
+lib_tosnotset=Not Set
+lib_tosmindel=Minimum Delay
+lib_tosmaxthr=Maximum Throughput
+lib_tosmaxrel=Maximum Reliability
+lib_tosmincost=Minimum Cost
 lib_icmptsel=ICMP-Type Selection
 lib_err_protomis=Cannot find protocol file. $1
 lib_err_netmod=You have choosen or it is set by default to use the Network Configuration Module to get all you network interfaces. But this module is not available on your system. Either it is not installed or your system is not supported. So just enter all interfaces in the <A HREF=/config.cgi?ipchains>module configuration</A> as a comma-separated list (for example "eth0, eth1, ippp0, lo").
@@ -72,6 +80,8 @@ lib_err_create=Cannot create file $1
 lib_noinit=Could not find your init directory. You have to set it manually. $1.
 lib_err_noint=Could not determine the internal interface. There seems to be a problem with the network configuration module.
 lib_err_noext=Could not determine the external interface. There seems to be a problem with the network configuration module.
+lib_any=Any
+lib_anydev=Any Device
 
 editrule_title_edit=Edit Rule
 editrule_title_create=Append Rule
@@ -85,6 +95,7 @@ editrule_proto=Protocol
 editrule_iface=Interface
 editrule_hostnet=Host/Net
 editrule_target=Target
+editrule_nojump=No jump
 editrule_port=Port
 editrule_flags=Flags
 editrule_icmptype=ICMP Type (ignored if not icmp above)
@@ -107,7 +118,7 @@ changepol_save=Save Policy
 changepol_return=edit chain <I>'$1'</I>
 
 savepol_err_nochain=No chain to edit!
-savepol_err_masq=MASQ-policy can only be set for forward-chain
+savepol_err_masq=MASQ-policy can only be set for forward-chain.
 
 chain_title=Create Chain
 cchain_err_nochain=No chain to create!
@@ -136,6 +147,7 @@ sman_err_what=What should I do?
 sman_err_exists=The script file already exists. Do you really want to rewrite it? This will erase the complete configuration set up in this file!
 sman_rewrite=Yes, rewrite script file
 sman_smanret=Script Manager
+sman_return=module index
 sman_err_write=Failed to write script file!
 sman_err_nofile=There is no file named $1
 sman_err_unkcom=Unknown command
@@ -154,10 +166,10 @@ sman_err_acl_delete=You are not allowed to delete the script file.
 sman_err_acl_bootup=You are not allowed to edit bootup settings.
 sman_exec_err=It seems that there occured an error:
 sman_exec_ok=Script executed successfully.
-sman_err_procneeded=This feature needs the "Running Processes" Module. Check if it is installed and your OS supported.
+sman_err_procneeded=This feature needs the "Running Processes" module. Check if it is installed and your OS supported.
 
 exscript_err=Execution of script failed
-exscript_err_procneeded=The proc module is needed!
+exscript_err_procneeded=The "Running Processes" module is needed!
 exscript_failed=Error message: $1
 
 echain_title=Edit Chain
@@ -182,6 +194,7 @@ echain_type=T
 echain_target=Target
 echain_action=Action
 echain_norules=No rules found for this chain.
+echain_any=Any
 echain_edit=Edit
 echain_delete=Delete
 echain_clone=Clone
@@ -293,7 +306,7 @@ changelev_desc_low=This will change your security level to <FONT COLOR=#FF0000>l
 changelev_desc_medium=This will change your security level to <FONT COLOR=#FFD700>medium</FONT>.
 changelev_desc_high=This will change your security level to <FONT COLOR=#00FF00>high</FONT>.
 changelev_desc_disabled=This will <FONT COLOR=#FF0000>disable</FONT> your firewall. You will no longer be secured. Any passing packets will be accepted. If forwarding is enabled all packets get forwared without filtering.
-changelev_desc_full=Your system will <FONT COLOR=#00FF00>batten down the hatches</FONT>. All traffic coming to your this systems or trying to pass your system will be unanswered dropped. Maybe useful if there is a known security problem on the net and you want to protect your systems.
+changelev_desc_full=Your system will <FONT COLOR=#00FF00>batten down the hatches</FONT>. All traffic coming to your system or trying to pass your system will be unanswered dropped. Maybe useful if there is a known security problem on the net and you want to protect your systems.
 changelev_return=level selection
 changelev_change=Yes, change security level
 changelev_heading=Change Security Level for <I>$1</I>

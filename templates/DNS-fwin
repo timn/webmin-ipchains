@@ -1,4 +1,2 @@
-##-> Allows the firewall host to use DNS server on the inside network to 
-##-> resolve names and adresses. 
 @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 1024:65535 -d @INTNET@ 53 -p udp -j ACCEPT
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 53 -d @INTIP@ 1024:65535 -p udp -j ACCEPT

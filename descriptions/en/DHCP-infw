@@ -1,0 +1,3 @@
+##-> Allows DHCP clients in your inside network to retrieve DHCP information 
+##-> from an DHCP server running on your firewall. Relay agents are not
+##-> allowed.

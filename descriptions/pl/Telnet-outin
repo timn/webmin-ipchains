@@ -1,0 +1,4 @@
+##-> Pozwala klientom z zewnêtrznej sieci na dostêp do serwerów telnetu w
+##-> sieci wewnêtrznej. Miej na uwadze, ¿e telnet jest bardzo niebezpieczny.
+##-> Has³a s± transmitowane otwartym tekstem i istnieje kilka sposobów na
+##-> przechwycenie lub po prostu pods³uchanie po³±czenia.

@@ -1,0 +1,3 @@
+##-> Pozwala klientom DHCP w sieci zewnêtrznej otrzymywaæ informacje od serwera
+##-> DHCP dzia³aj±cego na tym firewallu. Po¶redniczenie w przekazywaniu
+##-> informacji DHCP poprzez firewall bêdzie zablokowane.

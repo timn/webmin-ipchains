@@ -1,7 +1,3 @@
-##-> Allows clients on the internal network to connect to outside servers. 
-##-> Keep in mind that telnet is very unsecure. Passwords are transmitted 
-##-> as clear text and there are several ways to attack telnet connection 
-##-> or just to "listen" to it.
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 23 -p tcp -j ACCEPT
 @IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 23 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
 ##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 23 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT

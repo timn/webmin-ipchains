@@ -1,5 +1,2 @@
-##-> Allows the firewall host to connect to Webmin Servers on the inside 
-##-> network. It is assumed that Webmin Servers on the inside network run on 
-##-> the same port as the Webmin on the firewall host.
 @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 1024:65535 -d @INTNET@ @WEBMINPORT@ -p tcp -j ACCEPT
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ @WEBMINPORT@ -d @INTIP@ 1024:65535 ! -y -p tcp -j ACCEPT

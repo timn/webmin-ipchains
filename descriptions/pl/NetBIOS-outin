@@ -1,0 +1,8 @@
+##-> Pozwala klientom z sieci zewnêtrznej porozumiewaæ siê z serwerami
+##-> NetBIOSu w sieci wewnêtrznej. Równie¿ komputery w sieci wewnêtrznej
+##-> bêd± mog³y ³±czyæ siê z serwerami w sieci zewnêtrznej.
+##-> Miej na uwadze, ¿e pakiety rozg³oszeniowe NIE przechodz± przez
+##-> firewall. Zatem maszyny z sieci zewnêtrznej nie mog± znale¼æ serwerów
+##-> w sieci wewnêtrznej o ile nie korzystaj± z serwera WINS (do czego mo¿na
+##-> wykorzystaæ Sambê). Ten rodzaj po³±czeñ NIE jest obs³ugiwany przez
+##-> maskowanie adresów!

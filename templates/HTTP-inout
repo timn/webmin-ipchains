@@ -1,4 +1,3 @@
-##-> Allows clients on the internal network to surf the web.
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @EXTNET@ 80 -p tcp -j ACCEPT
 @IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ 80 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
 ##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 80 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT

@@ -1,0 +1,538 @@
+diff -uNr w/ipchains/change_level.cgi w2/ipchains/change_level.cgi
+--- w/ipchains/change_level.cgi	Mon Sep 18 03:55:33 2000
++++ w2/ipchains/change_level.cgi	Mon Oct  2 00:37:52 2000
+@@ -113,7 +113,7 @@
+           "<BR><A HREF=http://www.niemueller.de>Home://page</A>");
+ 
+   print "<HR><BR>\n<H3>",
+-        &text('changelev_heading', $text{"index_$config{'fwtype'}"}),
++        &text('changelev_heading', $text{"index_$config{'fwtype'}for"}),
+         "</H3>\n",
+         $text{"changelev_desc_$in{'level'}"},
+         "<BR><BR><BR>";
+@@ -138,7 +138,9 @@
+     print "</TABLE>\n";
+ 
+   } else {
+-    print "<TR><TD COLSPAN=3><B>$text{'changelev_nocons'}</B></TD></TR>\n";
++    if ($in{'level'} eq 'full') {
++      print "<TR><TD COLSPAN=3><B>$text{'changelev_nocons'}</B></TD></TR>\n";
++    }
+   }
+ 
+   print "<BR><BR><BR><FORM ACTION=\"$ENV{'SCRIPT_NAME'}\" METHOD=post>",
+diff -uNr w/ipchains/edit_chain.cgi w2/ipchains/edit_chain.cgi
+--- w/ipchains/edit_chain.cgi	Mon Sep 18 03:55:33 2000
++++ w2/ipchains/edit_chain.cgi	Mon Oct  2 00:37:52 2000
+@@ -37,7 +37,18 @@
+ $chains=&find_arg_struct('-N', \@ps);
+ $chainrules=&find_chain_struct($in{'chain'}, \@ps);
+ 
+-
++$chainname=$in{'chain'};
++if ($chainname eq "output") {
++ $chainname=$text{'output'};
++} else {
++ if ($chainname eq "input") {
++  $chainname=$text{'input'};
++ } else {
++  if ($chainname eq "forward") {
++   $chainname=$text{'forward'};
++  }
++ }
++}
+ 
+ 
+ &header($text{'echain_title'}, undef, "echain", undef, undef, undef,
+@@ -46,7 +57,7 @@
+ print "<BR><HR>";
+ 
+ print "<TABLE BORDER=2 CELLPADDING=2 CELLSPACING=0 $cb WIDTH=100%>\n<TR>",
+-      "<TD COLSPAN=12 $tb WIDTH=100%><B>$in{'chain'}</B></TD></TR>\n";
++      "<TD COLSPAN=12 $tb WIDTH=100%><B>$chainname</B></TD></TR>\n";
+ if ($sc) {
+  print "<TR><TD COLSPAN=12 $cb><B>$text{'echain_standpol'}: </B>$policy (",
+        "<A HREF=\"change_policy.cgi?chain=$in{'chain'}&policy=$policy\">$text{'echain_spchange'}</A>)</TD></TR>\n\n";
+@@ -90,7 +101,7 @@
+  $dport=($tmp->{'value2'}) ? ($tmp->{'neg2'}) ? "<B>!</B> $tmp->{'value2'}" : $tmp->{'value2'} : "&nbsp;";
+  $tmp=&find_arg('-p', $l);
+ 
+- $proto=($tmp->{'name'}) ? ($tmp->{'neg'}) ? "<B>!</B> $tmp->{'value'}" : $tmp->{'value'} : "Any";
++ $proto=($tmp->{'name'}) ? ($tmp->{'neg'}) ? "<B>!</B> $tmp->{'value'}" : $tmp->{'value'} : "<i>$text{'echain_any'}</i>";
+ 
+  $protoplain=$tmp->{'value'};
+  if ($protoplain eq "icmp") {
+diff -uNr w/ipchains/edit_rule.cgi w2/ipchains/edit_rule.cgi
+--- w/ipchains/edit_rule.cgi	Mon Sep 18 03:55:33 2000
++++ w2/ipchains/edit_rule.cgi	Mon Oct  2 00:37:52 2000
+@@ -164,8 +164,8 @@
+   $redport=$target;
+  }
+ 
+- print "<OPTION VALUE=\"\"", ($target eq "&nbsp;") ? " selected" : "", ">No jump\n";
+- print "<OPTION VALUE=\"port\"", ($redport) ? " selected" : "", ">Port:\n";
++ print "<OPTION VALUE=\"\"", ($target eq "&nbsp;") ? " selected" : "", ">$text{'editrule_nojump'}\n";
++ print "<OPTION VALUE=\"port\"", ($redport) ? " selected" : "", ">$text{'editrule_port'}:\n";
+  print "<OPTION VALUE=\"ACCEPT\"", ($target eq "ACCEPT") ? " selected" : "", ">ACCEPT\n";
+  print "<OPTION VALUE=\"DENY\"", ($target eq "DENY") ? " selected" : "", ">DENY\n";
+  print "<OPTION VALUE=\"MASQ\"", ($target eq "MASQ") ? " selected" : "", ">MASQ\n";
+diff -uNr w/ipchains/help/edit_chain.html w2/ipchains/help/edit_chain.html
+--- w/ipchains/help/edit_chain.html	Fri Sep  1 18:07:54 2000
++++ w2/ipchains/help/edit_chain.html	Mon Oct  2 00:37:52 2000
+@@ -1,6 +1,6 @@
+ <header>IPchains Firewalling - Editing a Chain</header>
+ 
+-This file describes the editing of chains in this module<P>
++This file describes the editing of chains in this module.<P>
+ 
+ First, you surely want to know, what all those columns in the
+ table are good for, so here you are:<BR><BR>
+@@ -36,7 +36,7 @@
+ a ! and if it may be set there is nothing.
+ 
+ <BR><BR><U>F (Fragment)</U><BR>
+-Matches the secont through the last fragment of a fragmented packet.
++Matches the second through the last fragment of a fragmented packet.
+ No ports may be specified.
+ If it must be set there is a X, if it must not be set there is
+ a ! and if it may be set there is nothing.
+diff -uNr w/ipchains/help/edit_chain.pl.html w2/ipchains/help/edit_chain.pl.html
+--- w/ipchains/help/edit_chain.pl.html	Thu Jan  1 01:00:00 1970
++++ w2/ipchains/help/edit_chain.pl.html	Mon Oct  2 00:37:52 2000
+@@ -0,0 +1,51 @@
++<header>Firewall ³añcuchów IP - zmiany ³añcucha</header>
++
++Plik ten opisuje zmiany ³añcuchów dokonywane w&nbsp;module. <P>
++
++Po pierwsze, na pewno chcesz wiedzieæ, do czego s³u¿± poszczególne kolumny
++w&nbsp;tabeli, tak wiêc:<BR><BR>
++
++<U>¬ród³o</U><BR>
++Jak zapewne zgadujesz, ta kolumna zawiera adres ¿ród³owy, z&nbspktórego
++pakiet przybywa. S±siednia kolumna &quot;Port&quot; zawiera ¼ród³owy port.
++
++<BR><BR><U>Przeznaczenie</U><BR>
++Przeznaczenie pakietu. Na przyk³ad, chcesz, aby pakiety http przechodzi³y
++ale ftp by³y blokowane. Wszystkie te serwery warezów...
++
++<BR><BR><U>Protokó³</U><BR>
++Jest to protokó³, po którym pakiet jest wysy³any. Zazwyczaj bywa to TCP lub
++UDP, czasami równie¿ ICMP dla pingów, traceroute'a i&nbsp;paru obserwatorów
++sieci sprawdzaj±cych dostêpno¶æ Twoich serwerów. Mo¿esz chcieæ przepu¶ciæ
++niektóre pakiety, a&nbsp;innych nie. Zauwa¿, ¿e &quot;Protokó³&quot; nie
++oznacza protoko³ów wysokiego poziomu, jak na przyk³ad http czy ftp, ale
++protoko³y niskiego poziomu warstwy sieciowej.
++
++<BR><BR><U>Interfejs</U><BR>
++Okre¶la interfejs, którego dana regu³a dotyczy. Dla pakietów przychodz±cych
++jest to interfejs, którym wchodz±, dla przekazywanych i&nbsp;wychodz±cych
++jest to interfejs, którym wychodz±. Zapewne masz jaki¶ &quot;zaufany&quot;
++interfejs, który mo¿e przesy³aæ dowolne pakiety, ale inny (byæ mo¿e
++pod³±czony do Internetu) powinien przesy³aæ tylko niektóre pakiety...
++
++<BR><BR><U>S (flaga SYN)</U><BR>
++Wskazuje, czy flaga SYN w&nbsp;pakietach musi byæ ustawiona, nie mo¿e byæ
++ustawiona, czy mo¿e byæ ustawiona. Flaga SYN jest ustawiona dla pakietów
++nawi±zuj±cych po³±czenie TCP. <BR>
++Je¶li musi byæ ustawiona - jest X, je¶li musi byæ nieustawiona - jest !,
++a&nbsp;je¶li mo¿e byæ ustawiona - nie ma nic.
++
++<BR><BR><U>F (flaga fragmentacji)</U><BR>
++Jest ustawiona we fragmentach od drugiego do ostatniego pakietu, który
++uleg³ fragmentacji. Nie wolno podawaæ portu.<BR>
++Je¶li musi byæ ustawiona - jest X, je¶li musi byæ nieustawiona - jest !,
++a&nbsp;je¶li mo¿e byæ ustawiona - nie ma nic.
++
++<BR><BR><U>L (logowanie)</U><BR>
++Je¶li w³±czone (X), pakiet jest logowany.
++
++<BR><BR><U>TOS (rodzaj us³ugi)</U><BR>
++ipchains mo¿e zmieniaæ flagi TOS pakietu. Maj± one kilka mo¿liwych warto¶ci.
++Pokazano je w&nbsp;tej kolumnie.
++
++<hr>
+diff -uNr w/ipchains/help/expert.html w2/ipchains/help/expert.html
+--- w/ipchains/help/expert.html	Sun Sep 17 17:56:07 2000
++++ w2/ipchains/help/expert.html	Mon Oct  2 00:37:52 2000
+@@ -1,7 +1,7 @@
+ <header>IPchains Firewalling - Expert Mode</header>
+ 
+ The IPchains Firewalling module allows to create and modify a shell
+-script containing all calls for ipchains<P>
++script containing all calls for <tt>ipchains</tt>.<P>
+ 
+ You may create various chains containing special rules. The module
+ the immediately creates the appropriate entry in the script file.
+diff -uNr w/ipchains/help/intro.html w2/ipchains/help/intro.html
+--- w/ipchains/help/intro.html	Fri Sep  1 18:07:54 2000
++++ w2/ipchains/help/intro.html	Mon Oct  2 00:37:52 2000
+@@ -1,10 +1,10 @@
+ <header>Introduction to IPchains Firewalling</header>
+ 
+ The IPchains Firewalling module allows to create and modify a shell
+-script containing all calls for ipchains<P>
++script containing all calls for <tt>ipchains</tt>.<P>
+ 
+ You may create various chains containing special rules. The module
+-the immediately creates the appropriate entry in the script file.
++immediately creates the appropriate entry in the script file.
+ Same for cretation, modification and deletion of rules in chains.
+ 
+ <hr>
+diff -uNr w/ipchains/help/template.html w2/ipchains/help/template.html
+--- w/ipchains/help/template.html	Sun Sep 17 17:55:31 2000
++++ w2/ipchains/help/template.html	Mon Oct  2 00:37:52 2000
+@@ -1,6 +1,6 @@
+ <header>IPchains Firewalling - Template Mode</header>
+ 
+-In template mode you can chosse the services and directions which should be
++In Template mode you can chosse the services and directions which should be
+ <I>allowed</I> to go through the firewall.
+ 
+ <hr>
+diff -uNr w/ipchains/index.cgi w2/ipchains/index.cgi
+--- w/ipchains/index.cgi	Mon Sep 18 03:55:33 2000
++++ w2/ipchains/index.cgi	Mon Oct  2 00:37:52 2000
+@@ -271,9 +271,12 @@
+         "<DIV ALIGN=right><FONT FACE=\"Arial,helvetica\" COLOR=\"#505050\">",
+         "[ $version ] </FONT></DIV>\n",
+         "<HR>\n";
+-  &footer("/", $text{'index_return'});
+-
+-
++  if ($config{'mode'} == 1) {
++    # called from newbie mode, so return there
++    &footer("", $text{'index_nbreturn'});
++  } else {
++    &footer("/", $text{'index_return'});
++  }
+ 
+ } else {
+   # Expert Mode
+diff -uNr w/ipchains/ipchains-lib.pl w2/ipchains/ipchains-lib.pl
+--- w/ipchains/ipchains-lib.pl	Mon Sep 18 04:52:12 2000
++++ w2/ipchains/ipchains-lib.pl	Mon Oct  2 00:37:52 2000
+@@ -89,11 +89,11 @@
+ @aw1=("-N", "-X", "-F", "-j", "-m", "-p", "-i", "-A", "-I", "--icmp-type");
+ @aw2=("-D", "-R", "-P", "-d", "-s", "-t");
+ 
+-%tos=("0x00" => "Not Set",
+-      "0x10" => "Minimum Delay",
+-      "0x08" => "Minimum Throughput",
+-      "0x04" => "Maximum Reliability",
+-      "0x02" => "Minimum Cost");
++%tos=("0x00" => $text{'lib_tosnotset'},
++      "0x10" => $text{'lib_tosmindel'},
++      "0x08" => $text{'lib_tosmaxthr'},
++      "0x04" => $text{'lib_tosmaxrel'},
++      "0x02" => $text{'lib_tosmincost'});
+ 
+ @basechains=("input", "output", "forward");
+ @policies=("ACCEPT", "DENY", "MASQ", "REJECT", "RETURN");
+@@ -190,7 +190,7 @@
+  $sel=$_[0];
+ 
+  $rv="<SELECT NAME=\"proto\">\n";
+- $rv.="<OPTION VALUE=0>Any\n";
++ $rv.="<OPTION VALUE=0>$text{'lib_any'}\n";
+  @proto=&get_proto_list();
+  foreach $p (@proto) {
+   $rv.= "<OPTION VALUE=\"$p\"";
+@@ -210,7 +210,7 @@
+  my $selname = ($_[1]) ? $_[1] : "dev";
+ 
+  my $rv = "<SELECT NAME=\"$selname\">\n";
+- $rv .= "<OPTION VALUE=\"\">Any Device\n";
++ $rv .= "<OPTION VALUE=\"\">$text{'lib_anydev'}\n";
+ 
+ 
+ 
+diff -uNr w/ipchains/lang/en w2/ipchains/lang/en
+--- w/ipchains/lang/en	Sun Sep 17 17:38:52 2000
++++ w2/ipchains/lang/en	Mon Oct  2 00:37:52 2000
+@@ -21,6 +21,7 @@
+ index_scriptman=Manage Script
+ index_import=Import current Setup
+ index_return=webmin index
++index_nbreturn=level selection
+ index_templname=Name
+ index_infw=Inside -> FW
+ index_inout=Inside -> Outside
+@@ -52,6 +53,8 @@
+ index_chkbx_desc=Enable the templates by marking the checkbox in the appropriate columns.<BR>(Actv = Active/Enabled, Desc = Description)
+ index_router=Router Firewall
+ index_personal=Personal Firewall
++index_routerfor=Router Firewall
++index_personalfor=Personal Firewall
+ index_dhcpnotdev=Does your external interface get information via DHCP?
+ index_desc_dhcpdef=The module could not find out if your external interface gets its information via DHCP. This is important for the firewall rules. If you say "Yes" (the external interface gets information like IP address and netmask from a DHCP server, common when using an ISP for dialup) the firewall script will determine the outside IP address. This takes longer on activating the rules. You will have to configure you system to execute the script every time a new address is assigned! If you say "No" (the external interface does not use DHCP) the module will save the IP address the assigned to the external interface when creating the rules.
+ index_rawedit=Edit file manually
+@@ -63,6 +66,11 @@
+ lib_err_ipchains=File $1 does not exist or is not executable. $2
+ lib_err_sfcm=You have not entered a script file. It is needed because all rules will be written with the appropriate directives into this script file. $1
+ lib_err_sfmiss=The script file $1 you entered in the <A HREF=../config.cgi?ipchains>module configuration</A> does not exist. Use the <A HREF="script_manager.cgi">Script Manager</A> to create a plain script. After you created it come back and all works properly. This is a normal configuration step and not an real error, but one step ahead to a working IPchains Module installation!
++lib_tosnotset=Not Set
++lib_tosmindel=Minimum Delay
++lib_tosmaxthr=Maximum Throughput
++lib_tosmaxrel=Maximum Reliability
++lib_tosmincost=Minimum Cost
+ lib_icmptsel=ICMP-Type Selection
+ lib_err_protomis=Cannot find protocol file. $1
+ lib_err_netmod=You have choosen or it is set by default to use the Network Configuration Module to get all you network interfaces. But this module is not available on your system. Either it is not installed or your system is not supported. So just enter all interfaces in the <A HREF=/config.cgi?ipchains>module configuration</A> as a comma-separated list (for example "eth0, eth1, ippp0, lo").
+@@ -72,6 +80,8 @@
+ lib_noinit=Could not find your init directory. You have to set it manually. $1.
+ lib_err_noint=Could not determine the internal interface. There seems to be a problem with the network configuration module.
+ lib_err_noext=Could not determine the external interface. There seems to be a problem with the network configuration module.
++lib_any=Any
++lib_anydev=Any Device
+ 
+ editrule_title_edit=Edit Rule
+ editrule_title_create=Append Rule
+@@ -85,6 +95,7 @@
+ editrule_iface=Interface
+ editrule_hostnet=Host/Net
+ editrule_target=Target
++editrule_nojump=No jump
+ editrule_port=Port
+ editrule_flags=Flags
+ editrule_icmptype=ICMP Type (ignored if not icmp above)
+@@ -107,7 +118,7 @@
+ changepol_return=edit chain <I>'$1'</I>
+ 
+ savepol_err_nochain=No chain to edit!
+-savepol_err_masq=MASQ-policy can only be set for forward-chain
++savepol_err_masq=MASQ-policy can only be set for forward-chain.
+ 
+ chain_title=Create Chain
+ cchain_err_nochain=No chain to create!
+@@ -136,6 +147,7 @@
+ sman_err_exists=The script file already exists. Do you really want to rewrite it? This will erase the complete configuration set up in this file!
+ sman_rewrite=Yes, rewrite script file
+ sman_smanret=Script Manager
++sman_return=module index
+ sman_err_write=Failed to write script file!
+ sman_err_nofile=There is no file named $1
+ sman_err_unkcom=Unknown command
+@@ -154,10 +166,10 @@
+ sman_err_acl_bootup=You are not allowed to edit bootup settings.
+ sman_exec_err=It seems that there occured an error:
+ sman_exec_ok=Script executed successfully.
+-sman_err_procneeded=This feature needs the "Running Processes" Module. Check if it is installed and your OS supported.
++sman_err_procneeded=This feature needs the "Running Processes" module. Check if it is installed and your OS supported.
+ 
+ exscript_err=Execution of script failed
+-exscript_err_procneeded=The proc module is needed!
++exscript_err_procneeded=The "Running Processes" module is needed!
+ exscript_failed=Error message: $1
+ 
+ echain_title=Edit Chain
+@@ -182,6 +194,7 @@
+ echain_target=Target
+ echain_action=Action
+ echain_norules=No rules found for this chain.
++echain_any=Any
+ echain_edit=Edit
+ echain_delete=Delete
+ echain_clone=Clone
+@@ -293,7 +306,7 @@
+ changelev_desc_medium=This will change your security level to <FONT COLOR=#FFD700>medium</FONT>.
+ changelev_desc_high=This will change your security level to <FONT COLOR=#00FF00>high</FONT>.
+ changelev_desc_disabled=This will <FONT COLOR=#FF0000>disable</FONT> your firewall. You will no longer be secured. Any passing packets will be accepted. If forwarding is enabled all packets get forwared without filtering.
+-changelev_desc_full=Your system will <FONT COLOR=#00FF00>batten down the hatches</FONT>. All traffic coming to your this systems or trying to pass your system will be unanswered dropped. Maybe useful if there is a known security problem on the net and you want to protect your systems.
++changelev_desc_full=Your system will <FONT COLOR=#00FF00>batten down the hatches</FONT>. All traffic coming to your system or trying to pass your system will be unanswered dropped. Maybe useful if there is a known security problem on the net and you want to protect your systems.
+ changelev_return=level selection
+ changelev_change=Yes, change security level
+ changelev_heading=Change Security Level for <I>$1</I>
+diff -uNr w/ipchains/script_manager.cgi w2/ipchains/script_manager.cgi
+--- w/ipchains/script_manager.cgi	Mon Sep 18 03:55:33 2000
++++ w2/ipchains/script_manager.cgi	Mon Oct  2 00:37:52 2000
+@@ -82,7 +82,7 @@
+ 
+ print "<BR><HR>\n";
+ 
+-&footer("./", "module index");
++&footer("./", $text{'sman_return'});
+ 
+ }
+ 
+diff -uNr w/ipchains/template_save.cgi w2/ipchains/template_save.cgi
+--- w/ipchains/template_save.cgi	Mon Sep 18 03:55:33 2000
++++ w2/ipchains/template_save.cgi	Mon Oct  2 00:37:52 2000
+@@ -52,7 +52,7 @@
+     }
+     print "<INPUT TYPE=submit NAME=confirm VALUE=\"$text{'templsave_overwrite'}\"></FORM><HR>";
+     
+-    &footer("", $text{'templsave_return'});
++    &footer("?mode=template", $text{'templsave_return'});
+ 
+     exit 0;
+ 
+diff -uNr w/ipchains/templates/FTP.Passive-infw w2/ipchains/templates/FTP.Passive-infw
+--- w/ipchains/templates/FTP.Passive-infw	Fri Sep  8 02:30:59 2000
++++ w2/ipchains/templates/FTP.Passive-infw	Mon Oct  2 00:38:17 2000
+@@ -1,8 +1,8 @@
+ ##-> Allows clients on the internal network to access a FTP servers running 
+ ##-> on the firewall host.
+ ##-> This template allows PASSIVE transfers. To allow passive transfers is 
+-##-> very risky as it allows to open connections to all unpfivileged ports on
+-##-> the outside network. If it is not absolutely needed you should not enable 
++##-> very risky as it allows to open connections to all unprivileged ports on
++##-> the firewall host. If it is not absolutely needed you should not enable 
+ ##-> this template. Use Active FTP instead. But some FTP clients (as for 
+ ##-> example the ones built into webbrowser) do not support active FTP.
+ ##-> Keep in mind that FTP passwords are transferred as clear text!
+diff -uNr w/ipchains/templates/FTP.Passive-inout w2/ipchains/templates/FTP.Passive-inout
+--- w/ipchains/templates/FTP.Passive-inout	Thu Sep  7 19:50:01 2000
++++ w2/ipchains/templates/FTP.Passive-inout	Mon Oct  2 00:38:17 2000
+@@ -1,6 +1,6 @@
+ ##-> Allows clients on the internal network to access external FTP servers. 
+ ##-> This template allows PASSIVE transfers. To allow passive transfers is 
+-##-> very risky as it allows to open connections to all unpfivileged ports on
++##-> very risky as it allows to open connections to all unprivileged ports on
+ ##-> the outside network. If it is not absolutely needed you should not enable 
+ ##-> this template. Use Active FTP instead. But some FTP clients (as for 
+ ##-> example the ones built into webbrowser) do no support active FTP.
+diff -uNr w/ipchains/templates/FTP.Passive-outfw w2/ipchains/templates/FTP.Passive-outfw
+--- w/ipchains/templates/FTP.Passive-outfw	Fri Sep  8 03:02:51 2000
++++ w2/ipchains/templates/FTP.Passive-outfw	Mon Oct  2 00:38:17 2000
+@@ -2,7 +2,7 @@
+ ##-> on the firewall host.
+ ##-> This template allows PASSIVE transfers. To allow passive transfers is 
+ ##-> very risky as it allows to open connections to all unprivileged ports on
+-##-> the outside network. If it is not absolutely needed you should not enable 
++##-> the firewall host. If it is not absolutely needed you should not enable 
+ ##-> this template. Use Active FTP instead. But some FTP clients (as for 
+ ##-> example the ones built into webbrowser) do not support active FTP.
+ ##-> Keep in mind that FTP passwords are transferred as clear text!
+diff -uNr w/ipchains/templates/FTP.Passive-outin w2/ipchains/templates/FTP.Passive-outin
+--- w/ipchains/templates/FTP.Passive-outin	Fri Sep  8 05:23:30 2000
++++ w2/ipchains/templates/FTP.Passive-outin	Mon Oct  2 00:38:17 2000
+@@ -1,7 +1,7 @@
+ ##-> Allows clients on the external network to access internal FTP servers. 
+ ##-> This template allows PASSIVE transfers. To allow passive transfers is 
+-##-> very risky as it allows to open connections to all unpfivileged ports on
+-##-> the outside network. If it is not absolutely needed you should not enable 
++##-> very risky as it allows to open connections to all unprivileged ports on
++##-> the inside network. If it is not absolutely needed you should not enable 
+ ##-> this template. Use Active FTP instead. But some FTP clients (as for 
+ ##-> example the ones built into webbrowser) do no support active FTP.
+ ##-> Keep in mind that FTP passwords are transferred as clear text!
+diff -uNr w/ipchains/templates/HTTP-infw w2/ipchains/templates/HTTP-infw
+--- w/ipchains/templates/HTTP-infw	Fri Sep  8 01:00:21 2000
++++ w2/ipchains/templates/HTTP-infw	Mon Oct  2 00:38:24 2000
+@@ -1,4 +1,4 @@
+ ##-> Allows clients on the internal network to access a webserver running on 
+-##-> the firewall host
++##-> the firewall host.
+ @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ 80 -p tcp -j ACCEPT
+ @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 80 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+diff -uNr w/ipchains/templates/HTTP-outfw w2/ipchains/templates/HTTP-outfw
+--- w/ipchains/templates/HTTP-outfw	Fri Sep  8 03:04:47 2000
++++ w2/ipchains/templates/HTTP-outfw	Mon Oct  2 00:38:24 2000
+@@ -1,4 +1,4 @@
+ ##-> Allows clients on the external network to access a webserver running on 
+-##-> the firewall host
++##-> the firewall host.
+ @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1024:65535 -d @EXTIP@ 80 -p tcp -j ACCEPT
+ @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 80 -d @EXTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+diff -uNr w/ipchains/templates/HTTPS-infw w2/ipchains/templates/HTTPS-infw
+--- w/ipchains/templates/HTTPS-infw	Fri Sep  8 01:04:07 2000
++++ w2/ipchains/templates/HTTPS-infw	Mon Oct  2 00:38:24 2000
+@@ -1,4 +1,4 @@
+ ##-> Allows clients on the internal network to access a SSL secured webserver 
+-##-> on the firewall host
++##-> on the firewall host.
+ @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ 443 -p tcp -j ACCEPT
+ @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 443 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+diff -uNr w/ipchains/templates/HTTPS-outfw w2/ipchains/templates/HTTPS-outfw
+--- w/ipchains/templates/HTTPS-outfw	Fri Sep  8 03:05:24 2000
++++ w2/ipchains/templates/HTTPS-outfw	Mon Oct  2 00:38:24 2000
+@@ -1,4 +1,4 @@
+ ##-> Allows clients on the external network to access a SSL secured webserver 
+-##-> on the firewall host
++##-> on the firewall host.
+ @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1024:65535 -d @EXTIP@ 443 -p tcp -j ACCEPT
+ @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 443 -d @EXTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+diff -uNr w/ipchains/templates/IMAP-infw w2/ipchains/templates/IMAP-infw
+--- w/ipchains/templates/IMAP-infw	Fri Sep  8 01:07:21 2000
++++ w2/ipchains/templates/IMAP-infw	Mon Oct  2 00:38:24 2000
+@@ -1,4 +1,4 @@
+ ##-> Allows clients on the internal network to access an IMAP server running 
+-##-> on the firewall host
++##-> on the firewall host.
+ @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ 143 -p tcp -j ACCEPT
+ @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 143 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+diff -uNr w/ipchains/templates/IMAP-outfw w2/ipchains/templates/IMAP-outfw
+--- w/ipchains/templates/IMAP-outfw	Fri Sep  8 03:08:14 2000
++++ w2/ipchains/templates/IMAP-outfw	Mon Oct  2 00:38:24 2000
+@@ -1,4 +1,4 @@
+ ##-> Allows clients on the external network to access an IMAP server running 
+-##-> on the firewall host
++##-> on the firewall host.
+ @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1024:65535 -d @EXTIP@ 143 -p tcp -j ACCEPT
+ @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 143 -d @EXTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+diff -uNr w/ipchains/templates/NTP-infw w2/ipchains/templates/NTP-infw
+--- w/ipchains/templates/NTP-infw	Fri Sep  8 02:27:13 2000
++++ w2/ipchains/templates/NTP-infw	Mon Oct  2 00:38:28 2000
+@@ -1,4 +1,4 @@
+ ##-> Allows clients on the internal network to access a NTP timeserver running 
+-##-> on the firewall host
++##-> on the firewall host.
+ @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ 123 -p tcp -j ACCEPT
+ @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 123 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+diff -uNr w/ipchains/templates/NTP-outfw w2/ipchains/templates/NTP-outfw
+--- w/ipchains/templates/NTP-outfw	Fri Sep  8 03:11:29 2000
++++ w2/ipchains/templates/NTP-outfw	Mon Oct  2 00:38:28 2000
+@@ -1,4 +1,4 @@
+ ##-> Allows clients on the external network to access a NTP timeserver running 
+-##-> on the firewall host
++##-> on the firewall host.
+ @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1024:65535 -d @EXTIP@ 123 -p tcp -j ACCEPT
+ @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 123 -d @EXTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+diff -uNr w/ipchains/templates/Ping-inout w2/ipchains/templates/Ping-inout
+--- w/ipchains/templates/Ping-inout	Thu Sep  7 18:04:17 2000
++++ w2/ipchains/templates/Ping-inout	Mon Oct  2 00:37:52 2000
+@@ -1,5 +1,5 @@
+ ##-> Allows clients on the internal network to ping other machines on the 
+-##-> on the external network.
++##-> external network.
+ @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ -d @EXTNET@ -p icmp --icmp-type echo-request -j ACCEPT
+ @IPCHAINS@ -A output -i @INTDEV@ -s @EXTNET@ -d @INTNET@ -p icmp --icmp-type echo-reply -j ACCEPT
+ ##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ -d @INTNET@ -p icmp --icmp-type echo-reply -j ACCEPT
+diff -uNr w/ipchains/templates/Ping-outin w2/ipchains/templates/Ping-outin
+--- w/ipchains/templates/Ping-outin	Fri Sep  8 05:49:02 2000
++++ w2/ipchains/templates/Ping-outin	Mon Oct  2 00:37:52 2000
+@@ -1,5 +1,5 @@
+ ##-> Allows clients on the external network to ping other machines on the 
+-##-> on the internal network.
++##-> internal network.
+ ##NOMASQ: @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ -d @INTNET@ -p icmp --icmp-type echo-request -j ACCEPT
+ ##NOMASQ: @IPCHAINS@ -A output -i @EXTDEV@ -s @INTNET@ -d @EXTNET@ -p icmp --icmp-type echo-reply -j ACCEPT
+ ##NOMASQ: @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ -d @EXTNET@ -p icmp --icmp-type echo-reply -j ACCEPT
+diff -uNr w/ipchains/templates/SMTP-fwout w2/ipchains/templates/SMTP-fwout
+--- w/ipchains/templates/SMTP-fwout	Fri Sep  8 17:27:55 2000
++++ w2/ipchains/templates/SMTP-fwout	Mon Oct  2 00:37:52 2000
+@@ -1,4 +1,4 @@
+-##-> Allows the firewall host to connect to SMTO servers on the outside.
++##-> Allows the firewall host to connect to SMTP servers on the outside.
+ ##-> These rules may be useful on a personal firewall.
+ @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 1024:65535 -d @EXTNET@ 25 -p tcp -j ACCEPT
+ @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 25 -d @EXTIP@ 1024:65535 ! -y -p tcp -j ACCEPT
+diff -uNr w/ipchains/templates/SMTP-infw w2/ipchains/templates/SMTP-infw
+--- w/ipchains/templates/SMTP-infw	Fri Sep  8 01:20:01 2000
++++ w2/ipchains/templates/SMTP-infw	Mon Oct  2 00:37:52 2000
+@@ -1,4 +1,4 @@
+ ##-> Allows clients on the internal network to access a SMTP server (for 
+-##-> outgoing mail) on the firewall host
++##-> outgoing mail) on the firewall host.
+ @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 1024:65535 -d @INTIP@ 25 -p tcp -j ACCEPT
+ @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 25 -d @INTNET@ 1024:65535 ! -y -p tcp -j ACCEPT
+diff -uNr w/ipchains/templates/SMTP-outfw w2/ipchains/templates/SMTP-outfw
+--- w/ipchains/templates/SMTP-outfw	Fri Sep  8 03:17:43 2000
++++ w2/ipchains/templates/SMTP-outfw	Mon Oct  2 00:37:52 2000
+@@ -1,4 +1,4 @@
+ ##-> Allows clients on the external network to access a SMTP server (for 
+-##-> outgoing mail) on the firewall host
++##-> outgoing mail) on the firewall host.
+ @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ 1024:65535 -d @EXTIP@ 25 -p tcp -j ACCEPT
+ @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ 25 -d @EXTNET@ 1024:65535 ! -y -p tcp -j ACCEPT

@@ -1,0 +1,3 @@
+##-> Pozwala klientom z sieci zewnêtrznej na dostêp do serwera NFS
+##-> dzia³aj±cego na firewallu. NFS jest bardzo niebezpieczny i jest NIE
+##-> zalecane, aby uruchamiaæ tê us³uge na firewallu!

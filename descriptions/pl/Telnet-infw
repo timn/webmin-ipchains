@@ -1,0 +1,3 @@
+##-> Pozwala klientom z wewnêtrznej sieci na dostêp do serwera telnetu
+##-> na firewallu. Telnet jest bardzo niebezpieczny. Nie powiniene¶ pod
+##-> ¿adnym pozorem uruchamiaæ go na firewallu. U¿ywaj zamiast niego SSH.

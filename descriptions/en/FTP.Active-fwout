@@ -1,0 +1,5 @@
+##-> Allows connections from the firewall to FTP servers on the outside 
+##-> network. Be careful with this since passwords are 
+##-> transmitted as clear text. This makes it especially dangerous for example 
+##-> when connecting over the internet to the firewall host!
+##-> These rules maybe useful for a personal firewall.

@@ -78,7 +78,7 @@ if (($in{'rule'} ne "") && ($in{'mode'} ne 'insert')) {
  $tmp=&find_arg('-j', $l);
  $target=($tmp->{'name'}) ? "$tmp->{'value'}" : "&nbsp;";
 
- $tmp=&find_arg('--icmptype', $l);
+ $tmp=&find_arg('--icmp-type', $l);
  if ($tmp->{'neg'}) { $icmptypeneg=" checked" }
  $icmptype=$tmp->{'value'};
 
@@ -164,8 +164,8 @@ EOM
   $redport=$target;
  }
 
- print "<OPTION VALUE=\"\"", ($target eq "&nbsp;") ? " selected" : "", ">No jump\n";
- print "<OPTION VALUE=\"port\"", ($redport) ? " selected" : "", ">Port:\n";
+ print "<OPTION VALUE=\"\"", ($target eq "&nbsp;") ? " selected" : "", ">$text{'editrule_nojump'}\n";
+ print "<OPTION VALUE=\"port\"", ($redport) ? " selected" : "", ">$text{'editrule_port'}:\n";
  print "<OPTION VALUE=\"ACCEPT\"", ($target eq "ACCEPT") ? " selected" : "", ">ACCEPT\n";
  print "<OPTION VALUE=\"DENY\"", ($target eq "DENY") ? " selected" : "", ">DENY\n";
  print "<OPTION VALUE=\"MASQ\"", ($target eq "MASQ") ? " selected" : "", ">MASQ\n";

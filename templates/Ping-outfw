@@ -1,4 +1,2 @@
-##-> Allows host on the outside network to ping the firewall host. It is more 
-##-> secure to turn this off. But is is not harmful to enable the ping.
 @IPCHAINS@ -A input -i @EXTDEV@ -s @EXTNET@ -d @EXTIP@ -p icmp --icmp-type echo-request -j ACCEPT
 @IPCHAINS@ -A output -i @EXTDEV@ -s @EXTIP@ -d @EXTNET@ -p icmp --icmp-type echo-reply -j ACCEPT

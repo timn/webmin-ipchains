@@ -1,0 +1,3 @@
+##-> Allows your firewall to connect to NFS servers on the outside network. 
+##-> NFS is a very insecure method of sharing files. Use it only when you 
+##-> exactly know about the risks.

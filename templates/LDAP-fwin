@@ -1,4 +1,2 @@
-##-> Allows connections from the firewall to LDAP servers on the inside 
-##-> network.
 @IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 1024:65535 -d @INTNET@ 389 -p tcp -j ACCEPT
 @IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 389 -d @INTIP@ 1024:65535 ! -y -p tcp -j ACCEPT

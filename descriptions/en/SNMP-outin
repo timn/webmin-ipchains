@@ -1,0 +1,4 @@
+##-> Allows management stations on the outside network to control 
+##-> SNMP server on the inside network. Traps can pass the firewall from 
+##-> inside to outside. These rules are only enabled if Masquerading is 
+##-> disabled.

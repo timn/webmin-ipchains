@@ -1,0 +1,3 @@
+##-> Pozwala klientom z sieci zewnêtrznej gawêdziæ wykorzystuj±c firewall
+##-> jako serwer IRC (oczywi¶cie serwer IRC musi byæ uruchomiony). Zak³ada
+##-> siê, ¿e serwer IRC nas³uchuje na czêsto u¿ywanym domy¶lnym porcie 6667.

@@ -1,0 +1,3 @@
+##-> Allows traffic to Webmin from the outside network. You should enable 
+##-> this template, if you want to be able to change the configuration of
+##-> Firewall from the outside network.

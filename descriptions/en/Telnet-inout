@@ -1,0 +1,4 @@
+##-> Allows clients on the internal network to connect to outside servers. 
+##-> Keep in mind that telnet is very unsecure. Passwords are transmitted 
+##-> as clear text and there are several ways to attack telnet connection 
+##-> or just to "listen" to it.

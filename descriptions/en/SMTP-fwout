@@ -1,0 +1,2 @@
+##-> Allows the firewall host to connect to SMTP servers on the outside.
+##-> These rules may be useful on a personal firewall.

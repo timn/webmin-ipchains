@@ -1,0 +1,3 @@
+##-> Pozwala klientom z sieci zewnêtrznej korzystaæ z us³ug katalogowych
+##-> LDAP na serwerach w sieci wewnêtrznej. Te regu³y s± w³±czane jedynie,
+##-> gdy wy³±czone jest maskowanie adresów.

@@ -1,0 +1,4 @@
+##-> This allows host in the external network to lookup hostnames by 
+##-> querying nameservers in the inside network. The inside network will
+##-> need adresses that can be routed from outside to do that.
+##-> These rules are only enabled if Masquerading is disabled.

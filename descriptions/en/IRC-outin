@@ -1,0 +1,4 @@
+##-> Allows clients on the external network to chat through servers on the  
+##-> inside network. It is assumed that port 6667 is used (which is the
+##-> standard on most IRC servers). These rules are only enabled if 
+##-> Masquerading is disabled.

@@ -1,0 +1,2 @@
+##-> Allows host on the outside network to ping the firewall host. It is more 
+##-> secure to turn this off. But is is not harmful to enable the ping.

@@ -1,0 +1,4 @@
+##-> Pozwala na po³±czenia z tego firewalla do serwerów NFS w sieci
+##-> wewnêtrznej. NFS jest bardzo niebezpiecznym sposobem wspó³dzielenia
+##-> plików. Korzystaj z niego tylko gdy dok³adnie zdajesz sobie sprawê
+##-> z ryzyka. Ten wzorzec pozwala jedynie na NFS po UDP.

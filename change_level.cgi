@@ -73,9 +73,28 @@ if ($in{'confirm'}) {
       my $t;
       foreach $t (@dirs) {
         if (-e "$miniserv{'root'}/$module_name/templates/$name-$t") {
+          print SCRIPT "\n\n##=> $name-$t\n";
+          $ln += 3;
+
+ 
+          $lang = $gconfig{"lang_$u"} ? $gconfig{"lang_$u"} :
+                  $gconfig{"lang"} ? $gconfig{"lang"} : "en";
+
+          if (-e "$miniserv{'root'}/$module_name/descriptions/$lang/$name-$t") {
+            $descfile = "$miniserv{'root'}/$module_name/descriptions/$lang/$name-$t";
+          } else {
+            $descfile = "$miniserv{'root'}/$module_name/descriptions/en/$name-$t";
+          }
+
+          open(DESC, $descfile);
+            while (<DESC>) {
+              chomp;
+              $ln++;
+              print SCRIPT "$_\n";
+            }
+          close(DESC);
+
           open(TEMPL, "$miniserv{'root'}/$module_name/templates/$name-$t");
-            print SCRIPT "\n\n##=> $name-$t\n";
-            $ln += 3;
             while (<TEMPL>) {
               chomp;
               $ln++;
@@ -113,7 +132,7 @@ if ($in{'confirm'}) {
           "<BR><A HREF=http://www.niemueller.de>Home://page</A>");
 
   print "<HR><BR>\n<H3>",
-        &text('changelev_heading', $text{"index_$config{'fwtype'}"}),
+        &text('changelev_heading', $text{"index_$config{'fwtype'}for"}),
         "</H3>\n",
         $text{"changelev_desc_$in{'level'}"},
         "<BR><BR><BR>";
@@ -138,7 +157,9 @@ if ($in{'confirm'}) {
     print "</TABLE>\n";
 
   } else {
-    print "<TR><TD COLSPAN=3><B>$text{'changelev_nocons'}</B></TD></TR>\n";
+    if ($in{'level'} eq 'full') {
+      print "<TR><TD COLSPAN=3><B>$text{'changelev_nocons'}</B></TD></TR>\n";
+    }
   }
 
   print "<BR><BR><BR><FORM ACTION=\"$ENV{'SCRIPT_NAME'}\" METHOD=post>",

@@ -131,10 +131,11 @@ if (! $bootdir) {
     &header($text{'index_title'}, undef, "newbie", 1, 1, undef,
            "Written by<BR><A HREF=mailto:tim\@niemueller.de>Tim Niemueller</A>".
            "<BR><A HREF=http://www.niemueller.de>Home://page</A>");
+    &fill_tokens();
     print "<CENTER>\n<FONT SIZE=+2>",
           ($config{'fwtype'} eq 'router') ? $text{'index_router'} : '',
           ($config{'fwtype'} eq 'personal') ? $text{'index_personal'} : '',
-          "</FONT>\n<BR><HR><BR>\n";
+          "</FONT>\n<BR><HR>\n";
 
     my %set=();
     my $mode=undef;
@@ -271,9 +272,12 @@ if (! $bootdir) {
         "<DIV ALIGN=right><FONT FACE=\"Arial,helvetica\" COLOR=\"#505050\">",
         "[ $version ] </FONT></DIV>\n",
         "<HR>\n";
-  &footer("/", $text{'index_return'});
-
-
+  if ($config{'mode'} == 1) {
+    # called from newbie mode, so return there
+    &footer("", $text{'index_nbreturn'});
+  } else {
+    &footer("/", $text{'index_return'});
+  }
 
 } else {
   # Expert Mode

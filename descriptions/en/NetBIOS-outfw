@@ -1,0 +1,4 @@
+##-> Allows Windows machines on the inside network to access a Samba Server 
+##-> running on the firewall. Use this with extreme caution. On a bad 
+##-> configured Samba this could cause access to your Samba from the whole 
+##-> internet.

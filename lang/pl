@@ -1,0 +1,340 @@
+written_by=Napisa³
+home_page=Strona://domowa
+
+config_link=Sprawd¼ <A HREF=/config.cgi?ipchains>konfiguracjê modu³u</A>
+
+input=Wej¶ciowy
+output=Wyj¶ciowy
+forward=Przekazywania
+
+index_title=Firewall IPchains
+index_standard=Filtry predefiniowane
+index_standpol=Domy¶lna taktyka
+index_userdef=Filtry u¿ytkownika
+index_noudef=Brak filtrów u¿ytkownika
+index_chaincreate=Utwórz nowy filtr
+index_list=Lista hostów/sieci
+index_scriptman=Zarz±dzaj skryptem
+index_import=Importuj bie¿±ce ustawienia
+index_return=indeksu
+index_nbreturn=wyboru poziomów
+index_templname=Nazwa
+index_infw=Wewnêtrzne -> Firewall
+index_inout=Wewnêtrzne -> Zewnêtrzne
+index_outfw=Zewnêtrzne -> Firewall
+index_outin=Zewnêtrzne -> Wewnêtrzne
+index_fwin=Firewall -> Wewnêtrzne
+index_fwout=Firewall -> Zewnêtrzne
+index_desconly=Wbudowany
+index_desc=Opis
+index_activate=Akt
+index_templ_save=Zachowaj i zastosuj
+index_devnotdef=Nie zdefiniowano interfejsów siecioeych
+index_desc_devdef=Nie okre¶li³e¶, które interfejsy sieciowe (karty sieciowe, karty ISDN, DSL, Modemy) powinny byæ traktowane jako interfejsy wewnêtrzne (pod³±czone do Twojej sieci lokalnej), a&nbsp;które jako interfejsy zewnêtrzne (pod³±czone do sieci zewnêtrznej, na przyk³ad Internetu). Po prostu wybierz jeden z&nbsp;interfejsów sieciowych z&nbsp;listy. Na li¶cie znajduj± sie te, które znaleziono w&nbsp;systemie.
+index_intdev=Interfejs wewnêtrzny
+index_extdev=Interfejs zewnêtrzny
+index_saveifaces=Zachowaj interfejsy
+index_bootnotdef=Init directory not defined
+index_desc_bootdef=Modu³ nie jest w&nbsp;stanie okre¶liæ, w&nbsp;jakim katalogu znajduje siê Twój skrypt startowy. Zatem, podaj katalog w³a¶ciwy dla Twojej dystrybucji. Jest to niezbêdne aby okre¶liæ najlepsz± lokalizacjê skryptu firewalla oraz spowodowaæ uruchamianie tego skryptu przy starcie systemu.
+index_dir=Katalog
+index_saveinitdir=Zachowaj katalog startowy
+index_sfnotdef=Nie okre¶lono skryptu
+index_desc_sfdef=Nie poda³e¶ jeszcze lokalizacji skryptu. Skrypt ten bêdzie zawiera³ wszystkie wywo³ania <tt>ipchains</tt>. NIE podawaj lokalizacji programu <tt>ipchains</tt>. Podaj nazwê nieistniej±cego pliku. Modu³ zasugeruje po³o¿enie zwi±zane z&nbsp;lokalizacj± katalogu skryptów startowych Twojego systemu. Zazwyczaj jest ono zadowalaj±ce.
+index_scriptfile=Plik skryptu
+index_savesf=Zachowaj lokalizacjê skryptu
+index_customize=Indywidualny...
+index_customlevel=Twój firewall ma indywidualne ustawienia
+index_default=Wybierz jeden z&nbsp;poziomów domy¶lnych...
+index_tmpl_masq=W³±cz maskowanie
+index_chkbx_desc=W³±cz wzorcowe regu³y poprzez zaznaczenie pól wyboru w&nbsp;odpowiednich kolumnach.<BR>(Akt = Aktywny)
+index_router=Firewall routera
+index_personal=Firewall osobisty
+index_routerfor=Firewalla routera
+index_personalfor=Firewalla osobistego
+index_dhcpnotdev=Czy Twój interfejs zewnêtrzny otrzymuje informacje poprzez DHCP?
+index_desc_dhcpdef=Modu³ nie potrafi okre¶liæ, czy Twój interfejs zewnêtrzny otrzymuje informacje poprzez DHCP. Jest to istotne dla regu³ firewalla. Je¶li odpowiesz "Tak" (interfejs zewnêtrzny otrzymuje informacje takie jak adres IP czy maska sieci z&nbsp;serwera DHCP, powszechne w&nbsp;przypadku korzystania z&nbsp;dostêpu dodzwanianego do ISP) zewnêtrzny adres IP zostanie okre¶lony przez skrypt firewalla. Przed³u¿y to czas aktywacji firewalla. Bêdziesz te¿ musia³ skonfigurowaæ swój system tak, aby uruchamia³ ten skrypt za ka¿dym razem, gdy zostanie przydzielony nowy adres IP! Je¶li odpowiesz "Nie" (interfejs zewnêtrzny nie korzysta z&nbsp;DHCP), modu³ zachowa adres IP przypisany do interfejsu zawnêtrznego podczas Tworzenia regu³.
+index_rawedit=Edytuj plik rêcznie
+index_exec=Uruchom skrypt
+
+sfile_err=Nie uda³o siê zachowaæ pliku
+
+lib_err_nosupport=Twój kernel nie obs³uguje albo systemu plików /proc albo firewalla IPchains.
+lib_err_ipchains=Plik $1 nie istnieje lub nie jest uruchamialny. $2
+lib_err_sfcm=Nie wprowadzono nazwy skryptu. Jest on niezbêdny, gdy¿ wszystkie regu³y musz± byæ do niego zapisane. $1
+lib_err_sfmiss=Skrypt $1, którego nazwê wprowadzi³e¶ w&nbsp;<A HREF=../config.cgi?ipchains>konfiguracji modu³u</A> nie istnieje. Utwórz pusty przy pomocy <A HREF="script_manager.cgi">Zarz±dcy skryptów</A>. Gdy wrócisz po jego utworzeniu, wszystko powinno dzia³aæ poprawnie. Jest to normalny etap konfiguracji a&nbsp;nie b³±d, po prostu krok naprzód ku dzia³±j±cej instalacji modu³u IPchains!
+lib_tosnotset=Nie ustawiony
+lib_tosmindel=Minimalne opó¼nienie
+lib_tosmaxthr=Maksymalna przepustowo¶æ
+lib_tosmaxrel=Maksymalna niezawodno¶æ
+lib_tosmincost=Minimalny koszt
+lib_icmptsel=Wybór typu pakietu ICMP
+lib_err_protomis=Nie mo¿na znale¼æ pliku protoko³ów. $1
+lib_err_netmod=Wybrano (lub jest to ustawione jako domy¶lne) pobranie listy interfejsów z&nbsp;modu³u &quot;Konfiguracja sieci&quot;. Jednak¿e ten modu³ jest niedostêpny w&nbsp;Twoim systemie. Albo nie zosta³ zainstalowany albo nie obs³uguje on Twojego systemu. Musisz po prostu podaæ interfejsy w&nbsp;<A HREF=/config.cgi?ipchains>konfiguracji modu³u</A> jako rozdzielon± przecinkami listê (na przyk³ad &quot;eth0, eth1, ippp0, lo&quot;).
+lib_err_syn=B³±d sk³adni (typ $1) w&nbsp;linii $2
+lib_err_host=Plik $1 nie istnieje
+lib_err_create=Nie mo¿na utworzyæ pliku $1
+lib_noinit=Nie znaleziono katalogu skryptów startowych. Musisz okre¶liæ go rêcznie. $1.
+lib_err_noint=Nie mo¿na okre¶liæ interfejsu wewnêtrznego. Prawdopodobnie jest to problem z&nbsp;modu³em &quot;Konfiguracja sieci&quot;.
+lib_err_noext=Nie mo¿na okre¶liæ interfejsu zewnêtrznego. Prawdopodobnie jest to problem z&nbsp;modu³em &quot;Konfiguracja sieci&quot;.
+lib_any=Dowolny
+lib_anydev=Dowolny
+
+editrule_title_edit=Zmieñ regu³ê
+editrule_title_create=Dodaj regu³ê
+editrule_title_insert=Wstaw regu³ê
+editrule_desc_edit=Edit rule at line $1
+editrule_desc_create=Append new rule to file
+editrule_desc_insert=Insert rule after line $1
+editrule_source=¬ród³o
+editrule_dest=Przeznaczenie
+editrule_proto=Protokó³
+editrule_iface=Interfejs
+editrule_hostnet=Host/Sieæ
+editrule_target=Akcja
+editrule_nojump=Nic nie rób
+editrule_port=Port
+editrule_flags=Flagi
+editrule_icmptype=Typ ICMP (je¶li ICMP)
+editrule_tos=TOS
+editrule_syn=SYN ustawiona
+editrule_insyn=SYN nie ustawiona
+editrule_frag=Dalsze fragmenty
+editrule_infrag=Pierwszy fragment
+editrule_log=Logowaæ pakiet
+editrule_reset=Wyczy¶æ
+editrule_save=Zachowaj regu³ê
+editrule_insert=Wstaw regu³ê
+editrule_append=Dopisz regu³ê
+editrule_return=zmiany filtru <I>'$1'</I>
+
+changepol_title=Zmieñ taktykê
+changepol_err_builtin=Domy¶ln± taktykê mo¿na zmieniæ tylko dla filtrów wbudowanych
+changepol_pol=Domy¶lna taktyka dla filtru <I>'$1'</I>
+changepol_save=Zachowaj taktykê
+changepol_return=zmiany filtru <I>'$1'</I>
+
+savepol_err_nochain=Brak filtrów do zmiany!
+savepol_err_masq=Taktyka MASQ mo¿e byæ zastosowana tylko do filtru przekazywania.
+
+chain_title=Utwórz filtr
+cchain_err_nochain=Brak filtru do utworzenia!
+cchain_err_acl=Nie masz uprawnieñ do tworzenia filtrów.
+cchain_name=Nazwa
+cchain_createbut=Utwórz
+cchain_heading=Utwórz nowy filtr
+cchain_return=indeksu modu³u
+
+sman_title=Zarz±dca skryptów
+sman_header=Zarz±dzaj skryptem
+sman_confpath=W&nbsp;konfiguracji modu³u podano ¶cie¿kê 
+sman_create=Utwórz skrypt
+sman_createdesc=Wybierz tê opcjê, aby utworzyæ pusty plik skryptu. Je¶li skrypt o&nbsp;zadanej nazwie ju¿ istnieje, zostanie on nadpisany bez jakiegokolwiek potwierdzenia.
+sman_exist=Ten skrypt ju¿ <I>istnieje</I>
+sman_notexist=Ten skrypt <I>nie istnieje</I>
+sman_execute=Uruchom skrypt
+sman_executedesc=Uruchomi to Twój skrypt w&nbsp;tej chwili. Pamiêtaj: je¶li zablokowa³e¶ port u¿ywany przez Webmina lub Twój IP (klienta) nie bêdziesz móg³ uzyskaæ dostêpu do serwera Webmina po wykonaniu niniejszej operacji. Upewnij siê, ¿e nie pope³ni³e¶ b³êdu albo bêdziesz musia³ uzyskaæ bezpo¶redni dostêp do firewalla.
+sman_bootup=Utwórz wpis startowy
+sman_bootupdesc=Utworzy to wpis wywo³uj±cy Twój skrypt w&nbsp;plikach startowych. Spowoduje to uruchomienie skryptu podczas ka¿dego startu systemu na poziomach  2, 3 i&nbsp;5. Zatem skrypt musi siê znajdowaæ w <I>$1</I>. Je¶li nie, nie uda siê utworzyæ wpisu uruchamiaj±cego go przy starcie lecz bêdzie trzeba za ka¿dym razem uruchamiaæ go rêcznie.
+sman_rembootup=Usuñ wpis startowy
+sman_rembootupdesc=Spowoduje to, ¿e skrypt nie bêdzie uruchamiany ani przy starcie, ani przy zamykaniu systemu
+sman_delete=Usuñ skrypt
+sman_deletedesc=Naci¶nij na to przekierowanie, je¶li chcesz usun±æ plik zawieraj±cy wszystkie wywo³ania ipchains. Pliku nie da siê odtworzyæ! Usuniêcie jest definitywne!
+sman_err_what=Co powinienem zrobiæ?
+sman_err_exists=Ten plik ju¿ istnieje. Czy na pewno chcesz go nadpisaæ? Spowoduje to usuniêcie ca³ej zawartej w&nbsp;tym pliku konfiguracji!
+sman_rewrite=Tak, nadpisz skrypt
+sman_smanret=zarz±dcy skryptów
+sman_return=indeksu modu³u
+sman_err_write=Nie uda³o siê zapisaæ skryptu!
+sman_err_nofile=Brak pliku o&nbsp;nazwie $1
+sman_err_unkcom=Nieznane polecenie
+sman_err_init=Do tego jest potrzebny modu³ init-a.
+sman_err_bootloc=Aby uczyniæ skrypt uruchamialnym, musi siê on znajdowaæ w&nbsp;$1.
+sman_err_init1=Wpis startowy ju¿ istnieje.
+sman_err_init2=Nie znaleziono wpisu startowego dla tego skryptu.
+sman_createsucc=Skrypt zosta³ pomy¶lnie utworzony.
+sman_bootupsucc=Wpis startowy zosta³ pomy¶lnie utworzony.
+sman_rembootupsucc=Wpis startowy zosta³ pomy¶lnie usuniêty.
+sman_deletesucc=Skrypt zosta³ pomy¶lnie usuniêty.
+sman_msg_exec=Plik skryptu nie jest uruchamialny.. Zmieniam. Teraz ju¿ jest.
+sman_msg_rem=Wpis startowy istnieje.. Usuniety.
+sman_err_acl_rewrite=Skrypt ju¿ istnieje, a&nbsp;ty nie masz uprawnieñ do nadpisania go.
+sman_err_acl_delete=Nie masz uprawnieñ do usuniêcia skryptu.
+sman_err_acl_bootup=Nie masz uprawnieñ do zmiany ustawieñ startowych.
+sman_exec_err=Wygl±da na to, ¿e wyst±pi³ b³±d:
+sman_exec_ok=Skrypt wykonany pomy¶lnie.
+sman_err_procneeded=Wymaga to modu³u &quot;Dzia³aj±ce procesy&quot;. Sprawd¼, czy jest on zainstalowany i&nbsp;czy obs³uguje Twój system operacyjny.
+
+exscript_err=Nie uda³o siê uruchomiæ skryptu
+exscript_err_procneeded=Potrzebny jest modu³ &quot;Dzia³aj±ce procesy&quot;!
+exscript_failed=Komunikat b³êdu: $1
+
+echain_title=Zmieñ filtr
+echain_err_acl=Nie masz prawa zmieniaæ filtrów.
+echain_err_line=Nie mo¿na okre¶liæ numeru liniii dla tej regu³y. Wygl±da na to, ¿e regu³a jest niepoprawna.
+echain_standpol=Domy¶lna taktyka
+echain_spchange=Zmieñ
+echain_source=¬ród³o
+echain_port=Port
+echain_dest=Przeznaczenie
+echain_proto=Protokó³
+echain_iface=Interfejs
+echain_syn=S
+echain_synbitdesc=ustawiona flaga SYN
+echain_frag=F
+echain_fragdesc=flaga fragmentacji
+echain_log=L
+echain_logdesc=logowanie
+echain_tos=TOS
+echain_tosdesc=rodzaj us³ugi
+echain_type=T
+echain_target=Akcja
+echain_action=Operacja
+echain_norules=Brak regu³ w&nbsp;tym filtrze.
+echain_any=dowolny
+echain_edit=Zmieñ
+echain_delete=Usuñ
+echain_clone=Kopiuj
+echain_insert=Wstaw regu³ê po bie¿±cej
+echain_up=Wy¿ej
+echain_down=Ni¿ej
+echain_delchain=Usuñ filtr
+echain_crule=Utwórz now± regu³ê
+echain_return=indeksu modu³u
+
+delchain_err_nochain=Brak filtru do usuniêcia!
+delchain_err_notfound=Nie znaleziono filtru '$1'
+delchain_err_acl=Nie masz uprawnieñ do usuwania filtrów.
+
+delhost_err_nohost=Brak hosta do usuniêcia!
+delhost_err_acl=Nie masz uprawnieñ do usuwania hostów.
+
+delrule_err_norule=Brak regu³y do usuniêcia!
+delrule_err_nochain=Brak filtru do zmiany!
+
+ehost_err_nohost=Nie podano hosta do zmiany
+ehost_err_nodb=Nie znaleziono bazy danych hostów.
+ehost_err_notfound=Nie znaleziono hosta '$1'.
+ehost_err_acl=Nie masz uprawnieñ do zmiany hostów.
+ehost_title=Zmieñ host
+ehost_header=Zmieñ host/sieæ
+ehost_names=Nazwy
+ehost_ip=IP
+ehost_save=Zachowaj
+ehost_return=listy hostów
+
+selhost_title=Wybierz host..
+
+lhosts_title=Lista hostów
+lhosts_etc=Hosty z&nbsp;/etc/hosts
+lhosts_names=Nazwa(-y)
+lhosts_edit=Zmieñ
+lhosts_delete=Usuñ
+lhosts_nud=Nie zdefiniowano hostów
+lhosts_add=Dodaj nowy host/sieæ
+lhosts_ip=IP
+lhosts_names2=Nazwy
+lhosts_but_create=Utwórz
+lhosts_usrdef=Zdefiniowane hosty/sieci
+lhosts_return=indeksu modu³u
+
+shost_err_invip=Niepoprawny IP
+shost_err_invnetmask=Niepoprawna maska sieci
+shost_err_invname=Niepoprawna nazwa
+shost_err_nohost=Brak takiego hosta
+shost_err_acl=Nie masz uprawnieñ do zmiany hostów.
+shost_err_acl2=Nie masz uprawnieñ do tworzenia hostów.
+
+srule_err_nochain=Brak filtru do zmiany!
+srule_err_servport=Je¶li poda³e¶ port, musisz wybraæ protokó³ TCP lub UDP!
+srule_err_syn=Mo¿esz wybraæ flagê SYN ustawion± albo nie ustawion±, ale nie obie opcje jednocze¶nie!
+srule_err_synfrag=Flaga SYN nie jest dozwolona dla dalszych fragmentów!
+srule_err_fragport=Porty nie s± dozwolone dla dalszych fragmentów!
+srule_err_frag=Mo¿esz wybraæ pierszy albo dalsze fragmenty, ale nie obie opcje jednocze¶nie!
+srule_err_port=Wybra³e¶ port ale go nie poda³e¶
+srule_err_selfjump=Z&nbsp;wnêtrza filtru nie mo¿na wywo³aæ jego samego
+srule_err_masqfw=Taktyka MASQ mo¿e byæ ustawiona tylko dla filtru przekazywania. Twój filtr jest wywo³ywany z&nbsp;(co najmniej) jednego filtru nie bêd±cego filtrem przekazywania.
+srule_err_masqinout=Taktyka MASQ nie jest dozwolona w&nbsp;predefiniowanych filtrach wej¶ciowym i&nbsp;wyj¶ciowym.
+srule_err_masqjump=Filtr, którego wywo³anie chcesz ustawiæ, ma ustawion± taktykê MASQ w&nbsp;(co najmniej) jednej regule. Jedynie filtr przekazywania mo¿e zawieraæ wywo³anie MASQ lub filtru zawieraj±cego MASQ. Tej regu³y nie mo¿na zapamiêtaæ
+srule_err_red=Taktyka REDIRECT-(port) mo¿e byæ ustawiona jedynie dla filtru przekazywania.
+srule_err_acl=Nie masz uprawnieñ do tworzenia regu³.
+srule_err_acl2=Nie masz uprawnieñ do zmiany regu³.
+srule_nomode=B³±d wewnêtrzny spowoduwany niew³a¶ciwym u¿yciem.
+
+schooser_title=Wybierz us³ugê..
+
+delrule_err_norule=Brak regu³y do usuniêcia!
+delrule_err_nochain=Brak filtru do zmiany!
+delrule_err_acl=Nie masz uprawnieñ do usuwania regu³.
+
+mrule_err_norule=Brak regu³y do skasowania!
+mrule_err_nochain=Brak filtru do zmiany!
+mrule_err_acl=Nie masz uprawnieñ do przesuwania regu³.
+mrule_err_invdir=Nieokre¶lony lub niepoprawny kierunek (musi byæ do góry lub w&nbsp;dó³).
+mrule_err_top=Nie mo¿na przesun±æ tej regu³y <I>wy¿ej</I>, gdy¿ jest to obecnie pierwsza regu³a filtru.
+mrule_err_last=Nie mo¿na przesun±æ tej regu³y <I>ni¿ej</I>, gdy¿ jest to obecnie ostatnia regu³a filtru.
+mrule_err_line=Nie mo¿na okre¶liæ numeru liniii dla tej regu³y. Wygl±da na to, ¿e regu³a jest niepoprawna (kod b³êdu $1).
+
+import_title=Odczytaj ustawienia
+import_desc=Ten skrypt pozwoli Ci odczytaæ bie¿±ce ustawienia systemu. Je¶li naci¶niesz przycisk, skrypt odczyta informacje dotycz±ce filtrów i&nbsp;regu³ bezpo¶rednio z&nbsp;systemu (systemu plików /proc) oraz &quot;przetworzy&quot; je na skrypt, który mo¿esz zmieniaæ za pomoc± tego modu³u. Uczyni to ³atwym przej¶cie z&nbsp;innych narzêdzi konfiguracyjnych oraz wykorzystanie skryptów znalezionych w&nbsp;Internecie. Po prostu ¶ci±gnij skrypty i&nbsp;odczytaj ustawienia.
+import_button=Odczytaj bie¿±ce ustawienia systemu
+import_exist=<I>Skrypt firewalla ju¿ istnieje.</I> Plik zostanie usuniêty i&nbsp;zast±piony nowym. Lepiej zrób kopiê pliku aby mieæ skrypt ratunkowy w&nbsp;razie, gdyby odczyt zawiód³.
+import_chains=<B>Importowanie filtrów i&nbsp;domy¶lnych taktyk..</B>
+import_rules=<B>Importowanie regu³..</B>
+import_done=<B>Zakoñczono</B>
+import_return=indeksu modu³u
+
+desc_title=Opis
+desc_err_notfound=Brak opisu dla tego zbioru regu³
+desc_heading=Opis
+desc_rules=Regu³y
+desc_close=Zamknij
+
+templsave_title=Zachowaj
+templsave_wrongmode=Bie¿±ce ustawienia firewalla zosta³y utworzone w&nbsp;innym trybie (Nowicjusza lub Eksperta) albo przez inny program. Zachowuj±c je w&nbsp;tym trybie odrzucisz wszelkie zmiany i&nbsp;uczynisz konfiguracjê utworzon± na podstawie wzorców aktywn±. Jest to nieodwracalne!
+templsave_overwrite=Zachowaj i nadpisz bie¿±cy plik
+templsave_return=tabeli wzorców
+templsave_err_write=Nie uda³o siê utworzyæ skryptu!
+templsave_exfail=Nie uda³o siê uruchomic skryptu firewalla
+
+changelev_title=Poziom bezpieczeñstwa
+changelev_err_wrong=Wybrany przez Ciebie poziom bezpieczeñstwa jest niedostêpny.
+changelev_desc_low=Zmieni to Twój poziom bezpieczeñstwa na <FONT COLOR=#FF0000>niski</FONT>.
+changelev_desc_medium=Zmieni to Twój poziom bezpieczeñstwa na <FONT COLOR=#FFD700>¶redni</FONT>.
+changelev_desc_high=Zmieni to Twój poziom bezpieczeñstwa na <FONT COLOR=#00FF00>wysoki</FONT>.
+changelev_desc_disabled=Spowoduje to <FONT COLOR=#FF0000>wy³±czenie</FONT> firewalla. Nie bedziesz w&nbsp;ogóle chroniony. Wszystkie przelatuj±ce pakiety zostan± zaakceptowane. Je¶li w³±czono przekazywanie pakietów, wszystkie pakiety zostan± przekazane bez jakiejkolwiek kontroli.
+changelev_desc_full=Twój system <FONT COLOR=#00FF00>uszczelni luki</FONT>. Ca³y ruch przychodz±cy do Twojego systemu lub próbuj±cy przej¶æ przez Twój system zostanie porzucony bez odpowiedzi. Mo¿e byæ to u¿yteczne gdy wyst±pi znany problem bezpieczeñstwa sieciowego, a&nbsp;Ty chcesz zabezpieczyæ swoje systemy.
+changelev_return=wyboru poziomów
+changelev_change=Tak, zmieñ poziom bezpieczeñstwa
+changelev_heading=Zmieñ poziom bezpieczeñstwa dla <I>$1</I>
+changelev_err_write=Nie uda³o siê utworzyæ skryptu!
+changelev_err_nofile=Przykro mi, brak pliku definiuj±cego ten poziom bezpieczeñstwa.
+changelev_prot=Protokó³
+changelev_dirs=Dozwolone kierunki
+changelev_disabled_masq=Na poziomie WY£¡CZENIA maskowanie jest niedostêpne
+changelev_low_masq=<INPUT TYPE=checkbox NAME=masq VALUE=1 CHECKED> W³±czyæ maskowanie sieci wewnêtrznej na zewn±trz
+changelev_medium_masq=<INPUT TYPE=checkbox NAME=masq VALUE=1> W³±czyæ maskowanie sieci wewnêtrznej na zewn±trz
+changelev_high_masq=<INPUT TYPE=checkbox NAME=masq VALUE=1> W³±czyæ maskowanie sieci wewnêtrznej na zewn±trz
+changelev_full_masq=Na poziomie PE£NEGO bezpieczeñstwa maskowanie jest niedostêpne
+changelev_nocons=Na tym poziomie bezpieczeñstwa nie s± dozwolone ¿adne po³±czenia (nie dotyczy to interfejsu <tt>lo</tt>).
+
+saveinitdir_notexist=Podany katalog nie istnieje.
+
+rawedit_title=Edytuj plik rêcznie
+rawedit_err=Rêczna edycja siê nie powiod³a
+rawedit_index=Rêczna edycja pliku
+rawedit_undo=Cofnij zmiany
+rawedit_desc=U¿yj poni¿szego okienka tekstowego do rêcznej edycji skryptu.
+rawedit_return=indeksu modu³u
+
+acl_cchains=U¿ytkownik uprawniony do tworzenia filtrów?
+acl_echains=U¿ytkownik uprawniony do zmiany filtrów?
+acl_dchains=U¿ytkownik uprawniony do usuwania filtrów?
+acl_crules=U¿ytkownik uprawniony do tworzenia regu³?
+acl_erules=U¿ytkownik uprawniony do zmiany regu³?
+acl_drules=U¿ytkownik uprawniony do usuwania regu³?
+acl_chosts=U¿ytkownik uprawniony do tworzenia hostów?
+acl_ehosts=U¿ytkownik uprawniony do zmiany hostów?
+acl_dhosts=U¿ytkownik uprawniony do usuwania hostów?
+acl_bootup=U¿ytkownik uprawniony do uczynienia skryptu startowym (i&nbsp;usuniêcia go z&nbsp;procedur startowych)?
+acl_rewrite=U¿ytkownik uprawniony do wyczyszczenia skryptu?
+acl_delete=U¿ytkownik uprawniony do usuniêcia skryptu?

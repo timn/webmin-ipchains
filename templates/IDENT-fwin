@@ -1,0 +1,2 @@
+@IPCHAINS@ -A output -i @INTDEV@ -s @INTIP@ 1024:65535 -d @INTNET@ 113 -p tcp -j ACCEPT
+@IPCHAINS@ -A input -i @INTDEV@ -s @INTNET@ 113 -d @INTIP@ 1024:65535 ! -y -p tcp -j ACCEPT

@@ -1,0 +1,4 @@
+##-> Pozwala na otwieranie po³±czeñ dla pogawêdki do serwerów IRC w sieci
+##-> zewnêtrznej z firewalla. Zak³ada siê, ¿e serwer IRC nas³uchuje na
+##-> czêsto u¿ywanym domy¶lnym porcie 6667. Te regu³y mog± byæ u¿yteczne
+##-> w przypadku firewalla osobistego.

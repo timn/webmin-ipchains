@@ -1,0 +1,3 @@
+##-> Allows clients on the internal network to chat through servers on the  
+##-> outside network. This rules do NOT cover DDC. Additionally it is assumed 
+##-> that port 6667 is used (which is the standard on most IRC servers).

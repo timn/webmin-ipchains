@@ -1,0 +1,4 @@
+##-> Pozwala stacjom zarz±dzaj±cym w sieci zewnêtrznej kontrolowaæ serwer
+##-> SNMP w sieci wewnêtrznej. Pu³apki mog± przej¶æ przez firewall z sieci
+##-> wewnêtrznej na zewn±trz. Te regu³y s± w³±czane jedynie gdy wy³±czone
+##-> jest maskowanie adresów.

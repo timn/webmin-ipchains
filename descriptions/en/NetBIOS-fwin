@@ -1,0 +1,2 @@
+##-> Allows to open connections from the firewall to SMB (or CIFS) servers 
+##-> (like Samba or an Windows machine) on the inside network.
